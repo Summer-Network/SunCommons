@@ -4,9 +4,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.vulcanth.ojvzinn.commons</groupId>
+    <groupId>com.vulcanth.commons</groupId>
     <artifactId>VulcanthCommons</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
     <name>VulcanthCommons</name>
     <description>About Plugin API dos demais plugins da VulcanthNetwork, sendo o manager dos demais</description>
 
@@ -25,8 +25,8 @@
 
         <!--Repositório BungeeCord-->
         <repository>
-            <url>https://jitpack.io</url>
-            <id>jitpack.io</id>
+            <id>bungeecord-repo</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
         </repository>
     </repositories>
 
@@ -40,17 +40,26 @@
         <dependency>
             <groupId>net.md-5</groupId>
             <artifactId>bungeecord-api</artifactId>
-            <version>1.8-SNAPSHOT</version>
+            <version>1.19-R0.1-SNAPSHOT</version>
         </dependency>
     </dependencies>
 
     <build>
+        <finalName>VulcanthCommons</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <!-- versions after this appear to be broken -->
                 <version>3.1</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.2.0</version>
+                <configuration>
+                    <encoding>UTF-8</encoding>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
