@@ -7,11 +7,83 @@
     <groupId>com.vulcanth.ojvzinn.commons</groupId>
     <artifactId>VulcanthCommons</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <name>VulcanthCommons</name>
+    <description>About Plugin API dos demais plugins da VulcanthNetwork, sendo o manager dos demais</description>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+
+    <repositories>
+        <!--Repositório Spigot-->
+        <repository>
+            <url>https://repo.codemc.org/repository/nms/</url>
+            <id>spigot</id>
+        </repository>
+
+        <!--Repositório BungeeCord-->
+        <repository>
+            <url>https://jitpack.io</url>
+            <id>jitpack.io</id>
+        </repository>
+    </repositories>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot</artifactId>
+            <version>1.8.8-R0.1-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>net.md-5</groupId>
+            <artifactId>bungeecord-api</artifactId>
+            <version>1.8-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <!-- versions after this appear to be broken -->
+                <version>3.1</version>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>animal-sniffer-maven-plugin</artifactId>
+                <version>1.13</version>
+                <configuration>
+                    <signature>
+                        <groupId>org.codehaus.mojo.signature</groupId>
+                        <artifactId>java16</artifactId>
+                        <version>1.1</version>
+                    </signature>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>2.3</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <!-- utterly useless artifact from shade 2.x -->
+                    <createDependencyReducedPom>false</createDependencyReducedPom>
+                    <!-- when downloading via Maven we can pull depends individually -->
+                    <shadedArtifactAttached>true</shadedArtifactAttached>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
