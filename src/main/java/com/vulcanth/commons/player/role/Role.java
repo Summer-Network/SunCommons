@@ -5,6 +5,6 @@ import org.bukkit.entity.Player;
 public class Role {
 
     public static RoleEnum findRole(Player player) {
-
+        return null;
     }
 }
