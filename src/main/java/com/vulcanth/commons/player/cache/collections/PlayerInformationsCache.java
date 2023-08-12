@@ -3,8 +3,6 @@ package com.vulcanth.commons.player.cache.collections;
 import com.vulcanth.commons.player.cache.CacheAbstract;
 import simple.JSONObject;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,7 +14,7 @@ public class PlayerInformationsCache extends CacheAbstract {
         if (this.getAsString().equals("{}")) {
             buildDefaultJSON();
         } else {
-
+            checkIfHasNew();
         }
     }
 
