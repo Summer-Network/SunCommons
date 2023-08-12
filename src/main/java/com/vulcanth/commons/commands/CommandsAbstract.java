@@ -1,6 +1,7 @@
 package com.vulcanth.commons.commands;
 
 import com.vulcanth.commons.Main;
+import com.vulcanth.commons.listeners.ListenersAbstract;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -11,7 +12,15 @@ import java.util.Arrays;
 
 public abstract class CommandsAbstract extends Command {
 
-    public static void setupCommands() {
+    @SuppressWarnings("unchecked")
+    public static void setupComands(Class<? extends CommandsAbstract>... commandsClasses) {
+        for (Class<? extends CommandsAbstract> clazz : commandsClasses) {
+            try {
+                clazz.newInstance();
+            } catch (InstantiationException | IllegalAccessException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 
     private final boolean onlyPlayer;

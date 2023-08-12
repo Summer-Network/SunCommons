@@ -27,7 +27,7 @@ public class ConfigObject {
     @Deprecated
     private void checkIfHasNewPatch(VulcanthConfig vulcanthConfig) {
         Set<String> patch = this.yamlConfig.getKeys(false);
-        YamlConfiguration tempConfig = YamlConfiguration.loadConfiguration(Objects.requireNonNull(vulcanthConfig.getClass().getResourceAsStream("/" + file.getName() + ".yml")));
+        YamlConfiguration tempConfig = YamlConfiguration.loadConfiguration(Objects.requireNonNull(vulcanthConfig.getClass().getResourceAsStream("/" + file.getName())));
         boolean save = tempConfig.getKeys(false).stream().noneMatch(patch::contains);
         for (String patchAdd : tempConfig.getKeys(false).stream().filter(s -> !patch.contains(s)).collect(Collectors.toList())) {
             Object value = tempConfig.get(patchAdd);
@@ -70,5 +70,13 @@ public class ConfigObject {
 
     protected void reload() {
         this.yamlConfig = YamlConfiguration.loadConfiguration(this.file);
+    }
+
+    public void save() {
+        try {
+            this.yamlConfig.save(this.file);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

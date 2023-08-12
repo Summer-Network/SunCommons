@@ -40,7 +40,7 @@ public enum RoleEnum {
         return this.alwaysVisible;
     }
 
-    public boolean isCanFly() {
+    public boolean canFly() {
         return this.canFly;
     }
 

@@ -1,20 +1,30 @@
 package com.vulcanth.commons;
 
+import com.vulcanth.commons.commands.CommandsAbstract;
+import com.vulcanth.commons.commands.collections.SpawnCommands;
+import com.vulcanth.commons.commands.collections.VoarCommands;
 import com.vulcanth.commons.listeners.ListenersAbstract;
+import com.vulcanth.commons.listeners.collections.PlayerInteractEvents;
 import com.vulcanth.commons.listeners.collections.PlayerJoinEvents;
 import com.vulcanth.commons.listeners.collections.PlayerQuitEvents;
+import com.vulcanth.commons.lobby.SpawnManager;
 import com.vulcanth.commons.player.Profile;
 import com.vulcanth.commons.plugin.VulcanthPlugins;
 
 public class Main extends VulcanthPlugins {
 
     @Override
-    public void loadPlugin() {}
+    public void loadPlugin() {
+        getVulcanthConfig().setupConfigs("config.yml");
+    }
 
     @SuppressWarnings("unchecked")
     @Override
     public void enablePlugin() {
-        ListenersAbstract.setupListeners(PlayerJoinEvents.class, PlayerQuitEvents.class); //Um simples sistema para registrar as classes de eventos sem precisar repitir o código diversas vezes
+        CommandsAbstract.setupComands(SpawnCommands.class, VoarCommands.class);
+        ListenersAbstract.setupListeners(PlayerJoinEvents.class, PlayerQuitEvents.class, PlayerInteractEvents.class); //Um simples sistema para registrar as classes de eventos sem precisar repitir o código diversas vezes
+
+        SpawnManager.setupLocation();
         this.sendMessage("O plugin iniciou com sucesso!");
     }
 

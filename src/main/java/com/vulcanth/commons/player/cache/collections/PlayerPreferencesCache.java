@@ -1,15 +1,16 @@
 package com.vulcanth.commons.player.cache.collections;
 
 import com.vulcanth.commons.player.cache.CacheAbstract;
+import com.vulcanth.commons.player.preferences.PreferencesEnum;
 import simple.JSONObject;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @SuppressWarnings("unchecked")
-public class PlayerInformationsCache extends CacheAbstract {
+public class PlayerPreferencesCache extends CacheAbstract {
 
-    public PlayerInformationsCache() {
+    public PlayerPreferencesCache() {
         super("", "", "{}");
         if (this.getAsString().equals("{}")) {
             buildDefaultJSON();
@@ -44,11 +45,9 @@ public class PlayerInformationsCache extends CacheAbstract {
 
     private JSONObject getDefaultJSON() {
         JSONObject json = new JSONObject();
-        json.put("firstLogin", "");
-        json.put("lastLogin", "");
-        json.put("email", "");
-        json.put("discord", "");
-        json.put("role", "");
+        for (PreferencesEnum preference : PreferencesEnum.values()) {
+            json.put(String.valueOf(preference.getId()), Boolean.TRUE.toString());
+        }
 
         return json;
     }
