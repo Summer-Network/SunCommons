@@ -34,6 +34,7 @@ public class ConfigObject {
             this.yamlConfig.set(patchAdd, value);
         }
 
+        // comentario brabo
         if (save) {
             try {
                 this.yamlConfig.save(this.file);
