@@ -1,6 +1,7 @@
 package com.vulcanth.commons;
 
 import com.vulcanth.commons.commands.CommandsAbstract;
+import com.vulcanth.commons.commands.collections.FireworkCommand;
 import com.vulcanth.commons.commands.collections.SpawnCommands;
 import com.vulcanth.commons.commands.collections.VoarCommands;
 import com.vulcanth.commons.listeners.ListenersAbstract;
@@ -21,7 +22,7 @@ public class Main extends VulcanthPlugins {
     @SuppressWarnings("unchecked")
     @Override
     public void enablePlugin() {
-        CommandsAbstract.setupComands(SpawnCommands.class, VoarCommands.class);
+        CommandsAbstract.setupComands(SpawnCommands.class, VoarCommands.class, FireworkCommand.class);
         ListenersAbstract.setupListeners(PlayerJoinEvents.class, PlayerQuitEvents.class, PlayerInteractEvents.class); //Um simples sistema para registrar as classes de eventos sem precisar repitir o código diversas vezes
 
         SpawnManager.setupLocation();
