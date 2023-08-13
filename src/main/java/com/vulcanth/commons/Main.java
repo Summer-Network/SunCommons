@@ -31,6 +31,7 @@ public class Main extends VulcanthPlugins {
     @Override
     public void disablePlugin() {
         Profile.loadProfiles().forEach(profile -> profile.destroy(false)); //Enquanto não salvar todos os perfils em cache, ele não deixará o servidor desligar
+        
         this.sendMessage("O plugin desligou com sucesso!", 'c');
     }
 
