@@ -50,7 +50,7 @@ public class Booster {
     }
   }
 
-  enum BoosterType {
+  public enum BoosterType {
     PRIVATE, CLAN, NETWORK
   }
 }
