@@ -15,6 +15,8 @@ import com.vulcanth.commons.plugin.VulcanthPlugins;
 
 public class Main extends VulcanthPlugins {
 
+    public static String minigame;
+
     @Override
     public void loadPlugin() {
         Delivery.makeDeliveries();
