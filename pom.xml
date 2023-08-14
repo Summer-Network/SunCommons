@@ -6,11 +6,13 @@
 
     <groupId>com.vulcanth.commons</groupId>
     <artifactId>VulcanthCommons</artifactId>
-    <version>0.3</version>
-    <name>VulcanthCommons</name>
+    <version>0.4</version>
     <description>About Plugin API dos demais plugins da VulcanthNetwork, sendo o manager dos demais</description>
 
     <properties>
+        <main> com.vulcanth.commons.Main</main>
+        <outputPath>G:/Meu Drive/Development/builds</outputPath>
+
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -52,54 +54,59 @@
     </dependencies>
 
     <build>
-        <finalName>VulcanthCommons</finalName>
+        <defaultGoal>clean install</defaultGoal>
+        <resources>
+            <resource>
+                <!-- ativar filtro para poder utilizar as variáveis nas resources -->
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <!-- versions after this appear to be broken -->
-                <version>3.1</version>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-resources-plugin</artifactId>
-                <version>3.2.0</version>
-                <configuration>
-                    <encoding>UTF-8</encoding>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>animal-sniffer-maven-plugin</artifactId>
-                <version>1.13</version>
-                <configuration>
-                    <signature>
-                        <groupId>org.codehaus.mojo.signature</groupId>
-                        <artifactId>java16</artifactId>
-                        <version>1.1</version>
-                    </signature>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
+                <!-- vamos utilizar o shade plugin para incluir as libs dentro da jar -->
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>2.3</version>
+                <version>3.2.0</version>
+
                 <executions>
                     <execution>
                         <phase>package</phase>
+
                         <goals>
                             <goal>shade</goal>
                         </goals>
+
+                        <configuration>
+                            <!-- alterar saida do arquivo -->
+                            <outputFile>${outputPath}/${project.artifactId}.jar</outputFile>
+                            <!-- não criar dependency reduced -->
+                            <createDependencyReducedPom>false</createDependencyReducedPom>
+
+                            <artifactSet>
+                                <!-- excluir libs desnecessário -->
+                                <excludes>
+                                    <exclude>org.spigotmc:*</exclude>
+                                    <exclude>net.md_5:*</exclude>
+                                    <exclude>cglib:*</exclude>
+                                    <exclude>com.comphenix.**:*</exclude>
+                                    <exclude>me.clip:*</exclude>
+                                </excludes>
+                            </artifactSet>
+
+                            <filters>
+                                <filter>
+                                    <!-- excluir meta-inf -->
+                                    <artifact>*:*</artifact>
+                                    <excludes>
+                                        <exclude>META-INF/**</exclude>
+                                    </excludes>
+                                </filter>
+                            </filters>
+                        </configuration>
                     </execution>
                 </executions>
-                <configuration>
-                    <!-- utterly useless artifact from shade 2.x -->
-                    <createDependencyReducedPom>false</createDependencyReducedPom>
-                    <!-- when downloading via Maven we can pull depends individually -->
-                    <shadedArtifactAttached>true</shadedArtifactAttached>
-                </configuration>
             </plugin>
         </plugins>
     </build>
-
 </project>

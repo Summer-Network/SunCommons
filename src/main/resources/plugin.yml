@@ -1,4 +1,5 @@
-name: VulcanthCommons
-version: 0.3
-author: oJVzinn
-main: com.vulcanth.commons.Main
+name: ${project.artifactId}
+version: ${project.version}
+authors: [oJVzinn, Onyzn]
+
+main: ${main}
