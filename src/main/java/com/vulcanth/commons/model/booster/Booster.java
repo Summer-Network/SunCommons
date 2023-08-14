@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.bukkit.entity.Player;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 @Getter
@@ -15,19 +17,35 @@ public class Booster {
   private double multiplier;
   private BoosterType type;
 
+  public long makeExpires() {
+    return System.currentTimeMillis() + TimeUnit.HOURS.toMillis(hours);
+  }
+
+  public static final Map<String, NetworkBooster> NETWORK_BOOSTERS = new HashMap<>();
+
   public void active(Player player) {
     switch (type) {
       case PRIVATE:
-        //Profile.setBooster
+        //profile.setBooster(multiplier, makeExpires());
         break;
       case NETWORK:
-        //Main.minigame
+        NetworkBooster booster = NETWORK_BOOSTERS.get(Main.minigame);
 
-        new NetworkBooster(
-            player.getName(), multiplier, TimeUnit.HOURS.toMillis(hours));
+        if (booster != null && booster.getExpires() > System.currentTimeMillis()) return;
+
+        booster = new NetworkBooster(player.getName(), multiplier, makeExpires());
+
+        //RedisBackend.getInstance().publishData("booster", Main.minigame,
+        //    booster.getOwner(), booster.getMultiplier(), booster.getExpires()
+        //);
+
+        NETWORK_BOOSTERS.put(Main.minigame, booster);
         break;
       case CLAN:
-        //Clan.getByMember(player.getName());
+        //Clan clan = Clan.getByMember(player.getName());
+        //if (!clan.hasBooster()) {
+        //  clan.setBooster(multiplier, getExpires());
+        //}
         break;
     }
   }
