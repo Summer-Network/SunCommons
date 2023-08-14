@@ -1,4 +1,4 @@
-package org.nebula.core.bukkit.utility;
+package com.vulcanth.commons.utils;
 
 import lombok.AllArgsConstructor;
 import net.md_5.bungee.api.chat.ClickEvent;

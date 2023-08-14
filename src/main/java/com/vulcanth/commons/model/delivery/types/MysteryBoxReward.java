@@ -1,6 +1,6 @@
-package com.vulcanth.commons.delivery.types;
+package com.vulcanth.commons.model.delivery.types;
 
-import com.vulcanth.commons.delivery.DeliveryReward;
+import com.vulcanth.commons.model.delivery.DeliveryReward;
 import lombok.AllArgsConstructor;
 import org.bukkit.entity.Player;
 

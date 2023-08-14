@@ -1,4 +1,4 @@
-package org.nebula.core.bukkit.library.menu;
+package com.vulcanth.commons.library.menu;
 
 import lombok.Getter;
 import org.bukkit.Bukkit;
@@ -6,6 +6,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+/**
+ * @author Onyzn
+ */
 @Getter
 public class Menu {
 

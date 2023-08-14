@@ -1,4 +1,4 @@
-package org.nebula.core.bukkit.library.menu;
+package com.vulcanth.commons.library.menu;
 
 import lombok.Getter;
 import org.bukkit.Bukkit;
@@ -13,6 +13,9 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.java.JavaPlugin;
 
+/**
+ * @author Onyzn
+ */
 @Getter
 public abstract class ListedMenuPlayer extends ListedMenu implements Listener {
 

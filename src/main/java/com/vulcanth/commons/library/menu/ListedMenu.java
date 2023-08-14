@@ -1,18 +1,20 @@
-package org.nebula.core.bukkit.library.menu;
+package com.vulcanth.commons.library.menu;
 
+import com.vulcanth.commons.Main;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
-import org.nebula.core.bukkit.Main;
-import org.nebula.core.bukkit.utility.ItemBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author Onyzn
+ */
 @Getter
 public class ListedMenu implements Listener {
 

@@ -1,7 +1,6 @@
-package com.vulcanth.commons.delivery;
+package com.vulcanth.commons.model.delivery;
 
-import com.vulcanth.commons.delivery.types.CoinsReward;
-import com.vulcanth.commons.delivery.types.MysteryBoxReward;
+import com.vulcanth.commons.model.delivery.types.MysteryBoxReward;
 import com.vulcanth.commons.utils.ItemBuilder;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,7 +9,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -24,6 +22,10 @@ public class Delivery {
   private String permission;
   private List<DeliveryReward> rewards;
   private ItemStack icon;
+
+  public boolean hasPermission(Player player) {
+    return permission.isEmpty() || player.hasPermission(permission);
+  }
 
   public static final List<Delivery> DELIVERIES = new ArrayList<>();
 
@@ -45,5 +47,9 @@ public class Delivery {
             .lore("§7lore!")
             .build()
     ));
+  }
+
+  public static Delivery getBySlot(int slot) {
+    return DELIVERIES.stream().filter(d -> d.getSlot() == slot).findFirst().orElse(null);
   }
 }

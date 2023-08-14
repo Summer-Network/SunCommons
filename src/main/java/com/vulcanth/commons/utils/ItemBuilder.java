@@ -1,9 +1,11 @@
-package org.nebula.core.bukkit.utility;
+package com.vulcanth.commons.utils;
 
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
+import lombok.SneakyThrows;
 import org.bukkit.Color;
 import org.bukkit.Material;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
@@ -13,11 +15,8 @@ import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.potion.PotionEffect;
-import org.nebula.core.reflection.Accessors;
-import org.nebula.core.reflection.MinecraftReflection;
-import org.nebula.core.reflection.acessors.FieldAccessor;
-import org.nebula.core.reflection.acessors.MethodAccessor;
 
+import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -27,14 +26,6 @@ import java.util.function.Consumer;
  * @author Onyzn
  */
 public class ItemBuilder {
-
-  private static final MethodAccessor GET_PROFILE;
-  private static final FieldAccessor<GameProfile> SKULL_META_PROFILE;
-
-  static {
-    GET_PROFILE = Accessors.getMethod(MinecraftReflection.getCraftBukkitClass("entity.CraftPlayer"), GameProfile.class, 0);
-    SKULL_META_PROFILE = Accessors.getField(MinecraftReflection.getCraftBukkitClass("inventory.CraftMetaSkull"), "profile", GameProfile.class);
-  }
 
   private final ItemStack itemStack;
   private final ItemMeta itemMeta;
@@ -74,6 +65,16 @@ public class ItemBuilder {
     return this;
   }
 
+  public ItemBuilder displayPrefix(String displayPrefix) {
+    itemMeta.setDisplayName(displayPrefix + itemMeta.getDisplayName());
+    return this;
+  }
+
+  public ItemBuilder displaySuffix(String displaySuffix) {
+    itemMeta.setDisplayName(itemMeta.getDisplayName() + displaySuffix);
+    return this;
+  }
+
   public ItemBuilder lore(String... lines) {
     itemMeta.setLore(Arrays.asList(lines));
     return this;
@@ -106,21 +107,21 @@ public class ItemBuilder {
     return this;
   }
 
+  @SneakyThrows
   public ItemBuilder skin(String texture) {
     GameProfile profile = new GameProfile(UUID.randomUUID(), null);
     profile.getProperties().put("textures", new Property("textures", texture));
-    SKULL_META_PROFILE.set(itemMeta, profile);
-//    Field field = itemMeta.getClass().getDeclaredField("profile");
-//    field.setAccessible(true);
-//    field.set(itemMeta, profile);
+    Field field = itemMeta.getClass().getDeclaredField("profile");
+    field.setAccessible(true);
+    field.set(itemMeta, profile);
     return this;
   }
 
+  @SneakyThrows
   public ItemBuilder skin(Player player) {
-    SKULL_META_PROFILE.set(itemMeta, (GameProfile) GET_PROFILE.invoke(player));
-//    Field field = itemMeta.getClass().getDeclaredField("profile");
-//    field.setAccessible(true);
-//    field.set(itemMeta, ((CraftPlayer) player).getProfile());
+    Field field = itemMeta.getClass().getDeclaredField("profile");
+    field.setAccessible(true);
+    field.set(itemMeta, ((CraftPlayer) player).getProfile());
     return this;
   }
 

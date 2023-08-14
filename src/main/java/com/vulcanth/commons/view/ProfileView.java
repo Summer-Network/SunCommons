@@ -1,13 +1,12 @@
-package org.nebula.core.bukkit.view;
+package com.vulcanth.commons.view;
 
+import com.vulcanth.commons.library.menu.MenuPlayer;
+import com.vulcanth.commons.utils.ItemBuilder;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
+import org.bukkit.event.HandlerList;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.ItemFlag;
-import org.nebula.core.bukkit.library.menu.MenuPlayer;
-import org.nebula.core.bukkit.utility.ItemBuilder;
-import org.nebula.core.bukkit.utility.ComponentBuilder;
 
 public class ProfileView extends MenuPlayer {
 
@@ -20,10 +19,21 @@ public class ProfileView extends MenuPlayer {
         .build()
     );
 
-    setItem(11, ItemBuilder.of(Material.LEATHER_CHESTPLATE).leatherColor(255, 0, 0)
-        .display("§aAparência")
-        .lore("§7Modifique a aparência do seu", "§7personagem.")
-        .flagsAll()
+    setItem(11, ItemBuilder.of(Material.REDSTONE_COMPARATOR)
+        .display("§aPreferências")
+        .lore("§7ainda temos que kibar...")
+        .build()
+    );
+
+    setItem(12, ItemBuilder.of(Material.PAPER)
+        .display("§aEstatísticas")
+        .lore("§7ainda temos que kibar...")
+        .build()
+    );
+
+    setItem(14, ItemBuilder.of(Material.MINECART)
+        .display("§aEntregas")
+        .lore("§7ainda temos que kibar...")
         .build()
     );
 
@@ -35,23 +45,15 @@ public class ProfileView extends MenuPlayer {
     switch (evt.getSlot()) {
       case 10:
         player.playSound(player.getLocation(), Sound.ITEM_PICKUP, 1f, 1f);
-
-        new DeliveryView(player);
         break;
       case 11:
-        player.spigot().sendMessage(ComponentBuilder
-            .of("§cEssa funcionalidade está atualmente indisponível!")
-            .tooltip("§4Em breve!\n§cTentaremos tornar esta funcionaidade disponível.")
-            .build()
-        );
 
-        player.playSound(player.getLocation(), Sound.NOTE_STICKS, 1f, 1f);
         break;
     }
   }
 
   @Override
   public void onClose() {
-
+    HandlerList.unregisterAll(this);
   }
 }

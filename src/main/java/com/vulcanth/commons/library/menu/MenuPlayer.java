@@ -1,5 +1,6 @@
-package org.nebula.core.bukkit.library.menu;
+package com.vulcanth.commons.library.menu;
 
+import com.vulcanth.commons.Main;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -9,8 +10,10 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.nebula.core.bukkit.Main;
 
+/**
+ * @author Onyzn
+ */
 @Getter
 public abstract class MenuPlayer extends Menu implements Listener {
 

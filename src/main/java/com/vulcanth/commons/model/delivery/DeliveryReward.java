@@ -1,4 +1,4 @@
-package com.vulcanth.commons.delivery;
+package com.vulcanth.commons.model.delivery;
 
 import org.bukkit.entity.Player;
 

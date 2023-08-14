@@ -4,6 +4,7 @@ import com.vulcanth.commons.commands.CommandsAbstract;
 import com.vulcanth.commons.commands.collections.FireworkCommand;
 import com.vulcanth.commons.commands.collections.SpawnCommands;
 import com.vulcanth.commons.commands.collections.VoarCommands;
+import com.vulcanth.commons.model.delivery.Delivery;
 import com.vulcanth.commons.listeners.ListenersAbstract;
 import com.vulcanth.commons.listeners.collections.PlayerInteractEvents;
 import com.vulcanth.commons.listeners.collections.PlayerJoinEvents;
@@ -16,6 +17,8 @@ public class Main extends VulcanthPlugins {
 
     @Override
     public void loadPlugin() {
+        Delivery.makeDeliveries();
+
         getVulcanthConfig().setupConfigs("config.yml");
     }
 
