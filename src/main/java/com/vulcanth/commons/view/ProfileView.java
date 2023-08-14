@@ -13,6 +13,8 @@ public class ProfileView extends MenuPlayer {
   public ProfileView(Player player) {
     super(player, "Perfil", 3);
 
+    // TODO: KIBAR TUDO
+
     setItem(10, ItemBuilder.of(Material.SKULL_ITEM).durability((short) 3).skin(player)
         .display("§aInformações pessoais")
         .lore("§fCargo: §dGay")
