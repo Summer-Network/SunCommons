@@ -23,6 +23,11 @@ public class Delivery {
   private List<DeliveryReward> rewards;
   private ItemStack icon;
 
+  public void collect(Player player) {
+    //setCollected(id, player, System.currentTimeMillis());
+    rewards.forEach(reward -> reward.dispatch(player));
+  }
+
   public boolean hasPermission(Player player) {
     return permission.isEmpty() || player.hasPermission(permission);
   }
@@ -43,7 +48,7 @@ public class Delivery {
         Collections.singletonList(new MysteryBoxReward("5 stars", 3)),
         ItemBuilder
             .of(Material.ENDER_CHEST)
-            .display("1 Caixa Misteriosa")
+            .display("3 Caixa Misteriosa")
             .lore("§7lore!")
             .build()
     ));

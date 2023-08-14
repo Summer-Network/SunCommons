@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 public class BoosterReward implements DeliveryReward {
 
   @Override
-  public void dispath(Player player) {
+  public void dispatch(Player player) {
       // adicionar booster
   }
 }

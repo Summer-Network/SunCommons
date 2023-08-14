@@ -47,7 +47,15 @@ public abstract class CommandsAbstract extends Command {
             }
         }
 
-        this.executeCommand(commandSender, s, strings);
+        try {
+            this.executeCommand(commandSender, s, strings);
+        } catch (Exception ex) {
+            // TODO: fazer o sistema de ID
+            commandSender.sendMessage("§cOpa, ocorreu um erro ao executar este comando. " +
+                "Você pode nos ajudar a resolver essse problema reportando-o em nosso fórum " +
+                "e informando o ID §b#000000 §coara que possamos verificar o que ocorreu.");
+            ex.printStackTrace();
+        }
         return true;
     }
 

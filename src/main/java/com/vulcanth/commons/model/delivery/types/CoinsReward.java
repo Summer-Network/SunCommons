@@ -11,7 +11,7 @@ public class CoinsReward implements DeliveryReward {
   private double amount;
 
   @Override
-  public void dispath(Player player) {
+  public void dispatch(Player player) {
     //addCoins(player, minigame, amount);
     //player.sendMessage("§aVocê coletou a recompensa de "
     //    + StringUtils.formatNumber(amount) + " Coins!");

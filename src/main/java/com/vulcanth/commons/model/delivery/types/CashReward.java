@@ -10,7 +10,7 @@ public class CashReward implements DeliveryReward {
   private double amount;
 
   @Override
-  public void dispath(Player player) {
+  public void dispatch(Player player) {
     //addCash(player, amount);
     //player.sendMessage("§aVocê coletou a recompensa de "
     //    + StringUtils.formatNumber(amount) + " Cash!");

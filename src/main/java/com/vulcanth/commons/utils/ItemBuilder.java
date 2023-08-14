@@ -151,4 +151,12 @@ public class ItemBuilder {
   public static ItemBuilder cloneOf(ItemStack itemStack) {
     return new ItemBuilder(itemStack.clone());
   }
+
+  public static ItemBuilder headOf(Player player) {
+    return of(Material.SKULL_ITEM).durability((short) 3).skin(player);
+  }
+
+  public static ItemBuilder headOf(String texture) {
+    return of(Material.SKULL_ITEM).durability((short) 3).skin(texture);
+  }
 }

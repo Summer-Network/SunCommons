@@ -4,5 +4,5 @@ import org.bukkit.entity.Player;
 
 public interface DeliveryReward {
 
-  void dispath(Player player);
+  void dispatch(Player player);
 }

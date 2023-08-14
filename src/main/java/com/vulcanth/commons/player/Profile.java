@@ -19,6 +19,7 @@ import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class Profile {
+
     private static final ConcurrentHashMap<String, Profile> PROFILES = new ConcurrentHashMap<>();
 
     public static Profile createProfile(String name) {
@@ -62,6 +63,7 @@ public class Profile {
         player.setMaxHealth(20.0D);
         player.setHealth(player.getMaxHealth());
         player.setFoodLevel(20);
+        // substituir por um sendTite
         player.resetTitle();
         player.getInventory().clear();
         player.getInventory().setArmorContents(null);

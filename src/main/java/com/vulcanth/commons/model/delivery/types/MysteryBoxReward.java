@@ -11,7 +11,7 @@ public class MysteryBoxReward implements DeliveryReward {
   private int amount;
 
   @Override
-  public void dispath(Player player) {
+  public void dispatch(Player player) {
       //addBox(player, type, amount);
   }
 }

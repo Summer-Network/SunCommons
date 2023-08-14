@@ -45,7 +45,7 @@ public class DeliveryView extends MenuPlayer {
     // fazer verificações antes de poder coletar as recompensas
     // ^^^
 
-    delivery.getRewards().forEach(r -> r.dispath(player));
+    delivery.collect(player);
   }
 
   @Override
