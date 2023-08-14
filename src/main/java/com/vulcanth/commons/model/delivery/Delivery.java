@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @Getter
 @AllArgsConstructor
@@ -28,7 +29,7 @@ public class Delivery {
   private ItemStack icon;
 
   public void collect(Player player) {
-    //setCollected(id, player, System.currentTimeMillis());
+    //setCollected(id, player, System.currentTimeMillis() + TimeUnit.DAYS.toMillis(days));
     rewards.forEach(reward -> reward.dispatch(player));
   }
 
@@ -93,6 +94,7 @@ public class Delivery {
 
     slot = 31;
     amount = new int[]{3, 5};
+    permissions = new String[]{"role.mvp", "role.mvpplus"};
     for (int i = 0; i < 2; i++) {
       DELIVERIES.add(new Delivery(DELIVERIES.size(), 30, slot++, permissions[i],
           Collections.singletonList(
