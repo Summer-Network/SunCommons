@@ -1,4 +1,4 @@
-package com.vulcanth.commons.library.menu;
+package com.vulcanth.commons.library;
 
 import lombok.Getter;
 import org.bukkit.Bukkit;

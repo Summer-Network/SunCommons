@@ -1,33 +1,38 @@
-package org.nebula.core.storage;
+package com.vulcanth.commons.storage;
 
-import lombok.Getter;
-import org.nebula.core.storage.interfaces.ISQLProvider;
-import org.nebula.core.storage.providers.MySQLProvider;
-import org.nebula.core.storage.redis.RedisDatabase;
-import org.nebula.core.storage.sql.Migrations;
+import com.vulcanth.commons.Main;
+import com.vulcanth.commons.storage.types.MySQL;
+import com.vulcanth.commons.storage.types.Redis;
 
 public class Database {
 
-  @Getter private static RedisDatabase redis;
-  @Getter private static ISQLProvider provider;
+  private static MySQL mySQL = null;
+  private static Redis redis = null;
 
   public static void setupDatabase() {
-    redis = new RedisDatabase("localhost", "", 6379);
-    redis.connect();
+    mySQL = new MySQL("localhost", "3306", "local", "root", "");
+    //redis = new Redis("", "", "");
 
-    provider = new MySQLProvider(
-        "localhost",
-        "3306",
-        "test",
-        "root",
-        "");
-    provider.connect();
+    mySQL.setupTables();
 
-    Migrations.migrate();
+    Main.getInstance().sendMessage("Todos os database foram conectados com sucesso!");
   }
 
-  public static void shutdown() {
-    redis.disconnect();
-    provider.disconnect();
+  public static void disconnect() {
+    if (mySQL != null) {
+      mySQL.destroy();
+    }
+
+    if (redis != null) {
+      redis.destroy();
+    }
+  }
+
+  public static MySQL getMySQL() {
+    return mySQL;
+  }
+
+  public static Redis getRedis() {
+    return redis;
   }
 }

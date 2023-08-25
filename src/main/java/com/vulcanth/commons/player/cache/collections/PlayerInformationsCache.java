@@ -1,5 +1,6 @@
 package com.vulcanth.commons.player.cache.collections;
 
+import com.vulcanth.commons.player.Profile;
 import com.vulcanth.commons.player.cache.CacheAbstract;
 import simple.JSONObject;
 
@@ -9,8 +10,8 @@ import java.util.stream.Collectors;
 @SuppressWarnings("unchecked")
 public class PlayerInformationsCache extends CacheAbstract {
 
-    public PlayerInformationsCache() {
-        super("", "", "{}");
+    public PlayerInformationsCache(Profile profile) {
+        super("VulcanthProfiles", "INFORMATIONS", "{}", profile);
         if (this.getAsString().equals("{}")) {
             buildDefaultJSON();
         } else {
@@ -49,6 +50,7 @@ public class PlayerInformationsCache extends CacheAbstract {
         json.put("email", "");
         json.put("discord", "");
         json.put("role", "");
+        json.put("cash", "");
 
         return json;
     }

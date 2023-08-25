@@ -1,6 +1,7 @@
 package com.vulcanth.commons.library.menu;
 
 import com.vulcanth.commons.Main;
+import com.vulcanth.commons.library.Menu;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;

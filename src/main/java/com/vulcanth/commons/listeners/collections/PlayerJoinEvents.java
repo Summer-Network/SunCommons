@@ -57,6 +57,8 @@ public class PlayerJoinEvents extends ListenersAbstract {
             cache.updateInformation("lastLogin", SDF.format(new Date())); //Atualizando a informação do último login no cache, que posteriormente será salvo na DB
         }
 
+        Role.setTag(player);
+
         event.setJoinMessage(null);
     }
 

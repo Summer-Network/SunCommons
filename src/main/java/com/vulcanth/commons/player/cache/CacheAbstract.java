@@ -1,34 +1,58 @@
 package com.vulcanth.commons.player.cache;
 
 import com.vulcanth.commons.player.Profile;
+import com.vulcanth.commons.storage.Database;
+import com.vulcanth.commons.storage.tables.collections.ProfileTable;
 import simple.JSONArray;
 import simple.JSONObject;
 import simple.parser.JSONParser;
 import simple.parser.ParseException;
 
+import java.sql.Connection;
+
 public abstract class CacheAbstract {
 
     private final String table;
     private final String column;
+    private final Profile profile;
     private Object valueCache;
-    private Profile profile;
 
-    public CacheAbstract(String table, String column, Object defaultValue) {
+    public CacheAbstract(String table, String column, Object defaultValue, Profile profile) {
         this.table = table;
         this.column = column;
-        this.profile = null;
+        this.profile = profile;
         this.load(defaultValue);
     }
 
     //Sava os dados de forma permanente no database
     public void save(boolean async) {
-
+        switch (this.table) {
+            case "VulcanthProfiles": {
+                ProfileTable.update(profile.getName(), this.column, this.valueCache);
+                break;
+            }
+        }
     }
 
 
     //Ele carrega as informações de acordo com o que foi estabelecido no objeto
     private void load(Object defaultValue) {
-        this.valueCache = defaultValue;
+        if (!Database.getMySQL().conteins(this.table, "NAME", profile.getName())) {
+            this.valueCache = defaultValue;
+            switch (this.table) {
+                case "VulcanthProfiles": {
+                    ProfileTable.setDefault(profile.getName());
+                    break;
+                }
+            }
+        } else {
+            switch (this.table) {
+                case "VulcanthProfiles": {
+                    this.valueCache = ProfileTable.getInformation(profile.getName(), this.column);
+                    break;
+                }
+            }
+        }
     }
 
     public void setValueCache(Object value) {
@@ -65,10 +89,6 @@ public abstract class CacheAbstract {
         } catch (ParseException e) {
             return new JSONArray();
         }
-    }
-
-    public void setProfile(Profile profile) {
-        this.profile = profile;
     }
 
     public Profile getProfile() {

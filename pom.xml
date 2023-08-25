@@ -6,16 +6,15 @@
 
     <groupId>com.vulcanth.commons</groupId>
     <artifactId>VulcanthCommons</artifactId>
-    <version>0.4</version>
-    <description>About Plugin API dos demais plugins da VulcanthNetwork, sendo o manager dos demais</description>
+    <version>0.5</version>
+    <description>Plugin API dos demais plugins da VulcanthNetwork, sendo o manager dos demais</description>
 
     <properties>
         <main> com.vulcanth.commons.Main</main>
-        <outputPath>G:/Meu Drive/Development/builds</outputPath>
-
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
 
     <repositories>
@@ -33,6 +32,18 @@
     </repositories>
 
     <dependencies>
+        <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+            <version>2.1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.zaxxer</groupId>
+            <artifactId>HikariCP</artifactId>
+            <version>4.0.3</version>
+        </dependency>
+
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -78,8 +89,7 @@
                         </goals>
 
                         <configuration>
-                            <!-- alterar saida do arquivo -->
-                            <outputFile>${outputPath}/${project.artifactId}.jar</outputFile>
+                            <finalName>VulcanthCommons</finalName>
                             <!-- não criar dependency reduced -->
                             <createDependencyReducedPom>false</createDependencyReducedPom>
 

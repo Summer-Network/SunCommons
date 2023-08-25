@@ -1,5 +1,6 @@
 package com.vulcanth.commons.player.cache.collections;
 
+import com.vulcanth.commons.player.Profile;
 import com.vulcanth.commons.player.cache.CacheAbstract;
 import com.vulcanth.commons.player.preferences.PreferencesEnum;
 import simple.JSONObject;
@@ -10,8 +11,8 @@ import java.util.stream.Collectors;
 @SuppressWarnings("unchecked")
 public class PlayerPreferencesCache extends CacheAbstract {
 
-    public PlayerPreferencesCache() {
-        super("", "", "{}");
+    public PlayerPreferencesCache(Profile profile) {
+        super("VulcanthProfiles", "PREFERENCES", "{}", profile);
         if (this.getAsString().equals("{}")) {
             buildDefaultJSON();
         } else {

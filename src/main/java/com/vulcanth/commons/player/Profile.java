@@ -12,10 +12,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class Profile {
@@ -140,12 +139,14 @@ public class Profile {
             for (Class<? extends CacheAbstract> clazz : cacheClass) {
                 CacheAbstract cacheClazz;
                 try {
-                    cacheClazz = clazz.newInstance();
-                } catch (InstantiationException | IllegalAccessException e) {
+                    Constructor<? extends CacheAbstract> constructor = clazz.getConstructor(Profile.class);
+                    cacheClazz = constructor.newInstance(this);
+                } catch (NoSuchMethodException | InstantiationException | IllegalAccessException e) {
+                    throw new RuntimeException(e);
+                } catch (InvocationTargetException e) {
                     throw new RuntimeException(e);
                 }
 
-                cacheClazz.setProfile(profile);
                 cache.add(cacheClazz);
             }
         };
@@ -165,8 +166,8 @@ public class Profile {
 
     public void destroy(boolean async) {
         PROFILES.remove(this.name);
-        this.name = null;
         this.cache.forEach(cacheAbstract -> cacheAbstract.save(async));
+        this.name = null;
         this.cache = null;
     }
 
