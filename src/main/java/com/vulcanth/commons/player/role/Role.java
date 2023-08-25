@@ -1,6 +1,8 @@
 package com.vulcanth.commons.player.role;
 
+import com.vulcanth.commons.Main;
 import com.vulcanth.commons.utils.tags.TagUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.Arrays;
@@ -12,7 +14,13 @@ public class Role {
     }
 
     public static void setTag(Player player) {
-        TagUtils.sendTeams(player);
-        TagUtils.setTag(player);
+        Bukkit.getScheduler().runTaskLaterAsynchronously(Main.getInstance(), ()-> {
+            TagUtils.sendTeams(player);
+            TagUtils.setTag(player);
+        }, 3L);
+    }
+
+    public static void reset(Player player) {
+        TagUtils.reset(player.getName());
     }
 }

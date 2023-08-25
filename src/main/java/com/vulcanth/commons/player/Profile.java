@@ -3,11 +3,13 @@ package com.vulcanth.commons.player;
 import com.vulcanth.commons.Main;
 import com.vulcanth.commons.game.Game;
 import com.vulcanth.commons.lobby.SpawnManager;
+import com.vulcanth.commons.nms.NmsManager;
 import com.vulcanth.commons.player.cache.CacheAbstract;
 import com.vulcanth.commons.player.cache.collections.PlayerPreferencesCache;
 import com.vulcanth.commons.player.preferences.PreferencesEnum;
 import com.vulcanth.commons.player.role.Role;
 import com.vulcanth.commons.player.role.RoleEnum;
+import com.vulcanth.commons.player.scoreboard.Scoreboard;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
@@ -47,11 +49,13 @@ public class Profile {
     private String name;
     private List<CacheAbstract> cache;
     private Game game;
+    private Scoreboard scoreboard;
 
     public Profile(String name) {
         this.name = name;
         this.cache = new ArrayList<>();
         this.game = null;
+        this.scoreboard = null;
     }
 
     public void refreshPlayer() {
@@ -62,8 +66,7 @@ public class Profile {
         player.setMaxHealth(20.0D);
         player.setHealth(player.getMaxHealth());
         player.setFoodLevel(20);
-        // substituir por um sendTite
-        player.resetTitle();
+        NmsManager.sendTitle(player, "", "", 0, 0, 0);
         player.getInventory().clear();
         player.getInventory().setArmorContents(null);
         player.closeInventory();
@@ -169,6 +172,8 @@ public class Profile {
         this.cache.forEach(cacheAbstract -> cacheAbstract.save(async));
         this.name = null;
         this.cache = null;
+        this.scoreboard.destroy();
+        this.scoreboard = null;
     }
 
     public String getName() {
@@ -187,6 +192,10 @@ public class Profile {
         this.game = game;
     }
 
+    public void setScoreboard(Scoreboard scoreboard) {
+        this.scoreboard = scoreboard;
+    }
+
     @SuppressWarnings("unchecked")
     public <T extends Game> T getGame(Class<T> gameClass) {
         return gameClass.toString().equals(this.game.getClass().toString()) ? (T) game : null;
@@ -196,4 +205,7 @@ public class Profile {
         return this.game;
     }
 
+    public Scoreboard getScoreboard() {
+        return this.scoreboard;
+    }
 }

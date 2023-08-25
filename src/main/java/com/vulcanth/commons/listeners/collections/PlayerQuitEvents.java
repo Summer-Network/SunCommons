@@ -2,6 +2,7 @@ package com.vulcanth.commons.listeners.collections;
 
 import com.vulcanth.commons.listeners.ListenersAbstract;
 import com.vulcanth.commons.player.Profile;
+import com.vulcanth.commons.player.role.Role;
 import com.vulcanth.commons.utils.tags.TagUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -17,7 +18,7 @@ public class PlayerQuitEvents extends ListenersAbstract {
             profile.destroy(true);
         }
 
-        TagUtils.reset(player.getName());
+        Role.reset(player);
 
         event.setQuitMessage(null);
     }
