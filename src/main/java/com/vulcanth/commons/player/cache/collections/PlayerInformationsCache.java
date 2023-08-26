@@ -38,7 +38,7 @@ public class PlayerInformationsCache extends CacheAbstract {
     private void checkIfHasNew() {
         JSONObject json = getDefaultJSON();
         JSONObject newJson = this.getAsJSONObject();
-        List<String> keys = (List<String>) json.keySet().stream().filter(newJson::containsKey).collect(Collectors.toList());
+        List<String> keys = (List<String>) json.keySet().stream().filter(key -> !newJson.containsKey(key)).collect(Collectors.toList());
         keys.forEach(key -> newJson.put(key, ""));
         this.setValueCache(newJson.toJSONString());
     }

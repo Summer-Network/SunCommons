@@ -50,12 +50,14 @@ public class Profile {
     private List<CacheAbstract> cache;
     private Game game;
     private Scoreboard scoreboard;
+    private String hotbarKey;
 
     public Profile(String name) {
         this.name = name;
         this.cache = new ArrayList<>();
         this.game = null;
         this.scoreboard = null;
+        this.hotbarKey = null;
     }
 
     public void refreshPlayer() {
@@ -94,7 +96,7 @@ public class Profile {
                         RoleEnum role = Role.findRole(online);
                         RoleEnum roleP = Role.findRole(player);
                         PlayerPreferencesCache cache = getCache(PlayerPreferencesCache.class);
-                        if (Boolean.getBoolean(cache.getInformation(String.valueOf(PreferencesEnum.SHOW_PLAYERS)))) {
+                        if (cache.getPreference(PreferencesEnum.SHOW_PLAYERS)) {
                             showPlayer(player, online);
                         } else {
                             if (role.isAlwaysVisible()) {
@@ -107,7 +109,7 @@ public class Profile {
                         if (roleP.isAlwaysVisible()) {
                             showPlayer(online, player);
                         } else {
-                            if (!Boolean.getBoolean(Objects.requireNonNull(Profile.loadProfile(online.getName())).getCache(PlayerPreferencesCache.class).getInformation(String.valueOf(PreferencesEnum.SHOW_PLAYERS)))) {
+                            if (!Objects.requireNonNull(Profile.loadProfile(online.getName())).getCache(PlayerPreferencesCache.class).getPreference(PreferencesEnum.SHOW_PLAYERS)) {
                                 hidePlayer(online, player);
                             } else {
                                 showPlayer(online, player);
@@ -208,4 +210,13 @@ public class Profile {
     public Scoreboard getScoreboard() {
         return this.scoreboard;
     }
+
+    public void sethotbarKey(String key) {
+        this.hotbarKey = key;
+    }
+
+    public String getHotbarKey() {
+        return this.hotbarKey;
+    }
+
 }

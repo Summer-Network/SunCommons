@@ -20,15 +20,16 @@ public class PlayerPreferencesCache extends CacheAbstract {
         }
     }
 
-    public String getInformation(String key) {
-        return (String) this.getAsJSONObject().get(key);
+    public boolean getPreference(PreferencesEnum preference) {
+        return (boolean) getAsJSONObject().get(preference.getId());
     }
 
-    public void updateInformation(String key, String information) {
-        JSONObject json = this.getAsJSONObject();
-        json.replace(key, information);
-
-        this.setValueCache(json.toJSONString());
+    public void changePreference(PreferencesEnum preference) {
+        if (getPreference(preference)) {
+            getAsJSONObject().replace(preference.getId(), false);
+        } else {
+            getAsJSONObject().replace(preference.getId(), true);
+        }
     }
 
     //Aqui ele constroi um JSON que armazena informações básicas do jogador
@@ -39,8 +40,8 @@ public class PlayerPreferencesCache extends CacheAbstract {
     private void checkIfHasNew() {
         JSONObject json = getDefaultJSON();
         JSONObject newJson = this.getAsJSONObject();
-        List<String> keys = (List<String>) json.keySet().stream().filter(newJson::containsKey).collect(Collectors.toList());
-        keys.forEach(key -> newJson.put(key, ""));
+        List<String> keys = (List<String>) json.keySet().stream().filter(key -> !newJson.containsKey(key)).collect(Collectors.toList());
+        keys.forEach(key -> newJson.put(key, Boolean.TRUE.toString()));
         this.setValueCache(newJson.toJSONString());
     }
 

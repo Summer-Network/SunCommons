@@ -1,10 +1,7 @@
 package com.vulcanth.commons.nms.collections;
 
 import com.vulcanth.commons.nms.NMS;
-import net.minecraft.server.v1_8_R3.ChatComponentText;
-import net.minecraft.server.v1_8_R3.IChatBaseComponent;
-import net.minecraft.server.v1_8_R3.PacketPlayOutChat;
-import net.minecraft.server.v1_8_R3.PacketPlayOutTitle;
+import net.minecraft.server.v1_8_R3.*;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
@@ -32,5 +29,21 @@ public class NMS_1_8 implements NMS {
 
         PacketPlayOutTitle timingsPacket = new PacketPlayOutTitle(PacketPlayOutTitle.EnumTitleAction.TIMES, null, fadeIn, stay, fadeOut);
         craftPlayer.getHandle().playerConnection.sendPacket(timingsPacket);
+    }
+
+    @Override
+    public void sendCustonTab(Player player, String header, String footer) {
+        CraftPlayer craftPlayer = (CraftPlayer) player;
+        PacketPlayOutPlayerListHeaderFooter packet = new PacketPlayOutPlayerListHeaderFooter(IChatBaseComponent.ChatSerializer.a("{\"text\":\"" + header + "\"}"));
+
+        try {
+            java.lang.reflect.Field field = packet.getClass().getDeclaredField("b");
+            field.setAccessible(true);
+            field.set(packet, IChatBaseComponent.ChatSerializer.a("{\"text\":\"" + "\"}"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        craftPlayer.getHandle().playerConnection.sendPacket(packet);
     }
 }
