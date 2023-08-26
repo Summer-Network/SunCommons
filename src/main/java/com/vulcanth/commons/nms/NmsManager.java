@@ -17,6 +17,10 @@ public class NmsManager {
         nms.sendTitle(player, title, subtitle, fadeIn, stay, fadeOut);
     }
 
+    public static void sendCustomTab(Player player, String header, String footer) {
+        nms.sendCustomTab(player, header, footer);
+    }
+
     public static void setupNMS() { //Load no NMS reconrrente a versão do plugin
         String concurrentVersion = getVersion();
         if (concurrentVersion.contains("1.8")) {

@@ -32,7 +32,7 @@ public class NMS_1_8 implements NMS {
     }
 
     @Override
-    public void sendCustonTab(Player player, String header, String footer) {
+    public void sendCustomTab(Player player, String header, String footer) {
         CraftPlayer craftPlayer = (CraftPlayer) player;
         PacketPlayOutPlayerListHeaderFooter packet = new PacketPlayOutPlayerListHeaderFooter(IChatBaseComponent.ChatSerializer.a("{\"text\":\"" + header + "\"}"));
 

@@ -82,6 +82,10 @@ public class HotbarItemObject {
                             new ProfileView(player);
                             return true;
                         }
+
+                        case "minigames": {
+                            return true;
+                        }
                     }
                 }
             }
@@ -93,6 +97,7 @@ public class HotbarItemObject {
     private String replace(String itemBase, Profile profile) {
         return itemBase
                 .replace("{color_showplayers}", profile.getCache(PlayerPreferencesCache.class).getPreference(PreferencesEnum.SHOW_PLAYERS) ? "10" : "8")
-                .replace("{name_showplayers}", profile.getCache(PlayerPreferencesCache.class).getPreference(PreferencesEnum.SHOW_PLAYERS) ? "&aON" : "&cOFF");
+                .replace("{name_showplayers}", profile.getCache(PlayerPreferencesCache.class).getPreference(PreferencesEnum.SHOW_PLAYERS) ? "&aON" : "&cOFF")
+                .replace("{player}", profile.getName());
     }
 }
