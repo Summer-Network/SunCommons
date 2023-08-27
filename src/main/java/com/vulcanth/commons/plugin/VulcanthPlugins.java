@@ -5,18 +5,11 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public abstract class VulcanthPlugins extends JavaPlugin {
 
-    private static VulcanthPlugins instance;
-
-    public static VulcanthPlugins getInstance() {
-        return instance;
-    }
-
     private final VulcanthConfig config = new VulcanthConfig(this);
 
     @Override
     public void onLoad() {
         this.loadPlugin();
-        instance = this;
     }
 
     @Override

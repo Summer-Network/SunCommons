@@ -16,8 +16,15 @@ import com.vulcanth.commons.storage.Database;
 
 public class Main extends VulcanthPlugins {
 
+    private static Main instance;
+
+    public static Main getInstance() {
+        return instance;
+    }
+
     @Override
     public void loadPlugin() {
+        instance = this;
         getVulcanthConfig().setupConfigs("config.yml");
     }
 

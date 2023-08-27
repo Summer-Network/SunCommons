@@ -6,6 +6,7 @@ import com.vulcanth.commons.lobby.SpawnManager;
 import com.vulcanth.commons.nms.NmsManager;
 import com.vulcanth.commons.player.cache.CacheAbstract;
 import com.vulcanth.commons.player.cache.collections.PlayerPreferencesCache;
+import com.vulcanth.commons.player.cash.CashManager;
 import com.vulcanth.commons.player.preferences.PreferencesEnum;
 import com.vulcanth.commons.player.role.Role;
 import com.vulcanth.commons.player.role.RoleEnum;
@@ -51,6 +52,7 @@ public class Profile {
     private Game game;
     private ScoreboardManager scoreboard;
     private String hotbarKey;
+    private CashManager cashManager;
 
     public Profile(String name) {
         this.name = name;
@@ -58,6 +60,7 @@ public class Profile {
         this.game = null;
         this.scoreboard = null;
         this.hotbarKey = null;
+        this.cashManager = new CashManager(this);
     }
 
     public void refreshPlayer() {
@@ -176,6 +179,8 @@ public class Profile {
         this.cache = null;
         this.scoreboard.destroy();
         this.scoreboard = null;
+        this.cashManager = null;
+        this.hotbarKey = null;
     }
 
     public String getName() {
@@ -219,4 +224,7 @@ public class Profile {
         return this.hotbarKey;
     }
 
+    public CashManager getCashManager() {
+        return this.cashManager;
+    }
 }
