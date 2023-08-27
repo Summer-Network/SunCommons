@@ -16,11 +16,11 @@ import java.util.Map;
 
 public abstract class ScoreboardManager {
 
-    abstract void setScoreboard();
+    public abstract void setScoreboard();
 
-    abstract void update();
+    public abstract void update();
 
-    abstract void setTitle();
+    public abstract void setTitle();
 
     private Player player;
     private org.bukkit.scoreboard.Scoreboard scoreboard;
