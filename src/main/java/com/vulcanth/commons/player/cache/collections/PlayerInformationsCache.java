@@ -50,7 +50,7 @@ public class PlayerInformationsCache extends CacheAbstract {
         json.put("email", "");
         json.put("discord", "");
         json.put("role", "");
-        json.put("cash", "");
+        json.put("cash", "0");
 
         return json;
     }
