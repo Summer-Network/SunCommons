@@ -14,7 +14,7 @@ import org.bukkit.scoreboard.Team;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class Scoreboard {
+public abstract class ScoreboardManager {
 
     abstract void setScoreboard();
 
@@ -29,7 +29,7 @@ public abstract class Scoreboard {
     private BukkitTask task;
     private int updateTime;
 
-    public Scoreboard(Player player, int updateTime) {
+    public ScoreboardManager(Player player, int updateTime) {
         this.player = player;
         this.FIND_BY_LINE = new HashMap<>();
         this.lines = 0;

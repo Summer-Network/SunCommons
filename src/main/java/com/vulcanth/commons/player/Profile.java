@@ -9,7 +9,7 @@ import com.vulcanth.commons.player.cache.collections.PlayerPreferencesCache;
 import com.vulcanth.commons.player.preferences.PreferencesEnum;
 import com.vulcanth.commons.player.role.Role;
 import com.vulcanth.commons.player.role.RoleEnum;
-import com.vulcanth.commons.player.scoreboard.Scoreboard;
+import com.vulcanth.commons.player.scoreboard.ScoreboardManager;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
@@ -49,7 +49,7 @@ public class Profile {
     private String name;
     private List<CacheAbstract> cache;
     private Game game;
-    private Scoreboard scoreboard;
+    private ScoreboardManager scoreboard;
     private String hotbarKey;
 
     public Profile(String name) {
@@ -194,7 +194,7 @@ public class Profile {
         this.game = game;
     }
 
-    public void setScoreboard(Scoreboard scoreboard) {
+    public void setScoreboard(ScoreboardManager scoreboard) {
         this.scoreboard = scoreboard;
     }
 
@@ -207,7 +207,7 @@ public class Profile {
         return this.game;
     }
 
-    public Scoreboard getScoreboard() {
+    public ScoreboardManager getScoreboard() {
         return this.scoreboard;
     }
 
