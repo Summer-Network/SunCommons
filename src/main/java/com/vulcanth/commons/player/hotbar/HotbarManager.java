@@ -24,8 +24,6 @@ public class HotbarManager implements Listener {
 
     public void setHotbar(Player player, String key) {
         for (HotbarItemObject item : HOTBAR_FOR_KEY.get(key)) {
-            player.getInventory().clear();
-            player.getInventory().setArmorContents(null);
             item.addItem(player);
         }
     }

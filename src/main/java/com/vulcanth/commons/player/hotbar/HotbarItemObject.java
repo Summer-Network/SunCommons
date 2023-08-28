@@ -1,5 +1,6 @@
 package com.vulcanth.commons.player.hotbar;
 
+import com.vulcanth.commons.Main;
 import com.vulcanth.commons.player.Profile;
 import com.vulcanth.commons.player.cache.collections.PlayerPreferencesCache;
 import com.vulcanth.commons.player.preferences.PreferencesEnum;
@@ -38,7 +39,15 @@ public class HotbarItemObject {
     }
 
     public void addItem(Player player) {
-        ItemStack finalItem = ItemUtils.getItemStackFromString(expansion.hotbarReplaces(replace(this.item, Objects.requireNonNull(Profile.loadProfile(player.getName())))));
+        String finalItemString = expansion.hotbarReplaces(replace(this.item, Objects.requireNonNull(Profile.loadProfile(player.getName()))));
+        ItemStack finalItem = null;
+        try {
+            finalItem = ItemUtils.getItemStackFromString(finalItemString);
+        } catch (Exception e) {
+            Main.getInstance().sendMessage("Ocorreu um erro ao dar o item: " + finalItemString, '4');
+            e.printStackTrace();
+        }
+
         player.getInventory().setItem(getSlot(), finalItem);
     }
 

@@ -16,7 +16,14 @@ public class ItemUtils {
 
     public static ItemStack getItemStackFromString(String itemStackString) {
         String[] itemFormat = itemStackString.replace("\\n", "\n").split(" : ");
-        ItemStack finalItem = new ItemStack(Material.matchMaterial(itemFormat[0]), Integer.parseInt(itemFormat[1]));
+        ItemStack finalItem;
+        if (itemFormat[0].split(":").length > 1) {
+            finalItem = new ItemStack(Material.matchMaterial(itemFormat[0].split(":")[0]), Integer.parseInt(itemFormat[1]));
+            finalItem.setDurability(Short.parseShort(itemFormat[0].split(":")[1]));
+        } else {
+            finalItem = new ItemStack(Material.matchMaterial(itemFormat[0]), Integer.parseInt(itemFormat[1]));
+        }
+
         ItemMeta itemMeta = finalItem.getItemMeta();
         List<String> lore = new ArrayList<>();
         Map<Enchantment, Integer> enchants = new HashMap<>();

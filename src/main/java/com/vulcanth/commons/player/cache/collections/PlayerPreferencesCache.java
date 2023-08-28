@@ -21,7 +21,7 @@ public class PlayerPreferencesCache extends CacheAbstract {
     }
 
     public boolean getPreference(PreferencesEnum preference) {
-        return (boolean) getAsJSONObject().get(preference.getId());
+        return Boolean.getBoolean(String.valueOf(getAsJSONObject().get(preference.getId())));
     }
 
     public void changePreference(PreferencesEnum preference) {

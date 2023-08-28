@@ -39,7 +39,7 @@ public class NMS_1_8 implements NMS {
         try {
             java.lang.reflect.Field field = packet.getClass().getDeclaredField("b");
             field.setAccessible(true);
-            field.set(packet, IChatBaseComponent.ChatSerializer.a("{\"text\":\"" + "\"}"));
+            field.set(packet, IChatBaseComponent.ChatSerializer.a("{\"text\":\"" + footer + "\"}"));
         } catch (Exception e) {
             e.printStackTrace();
         }
