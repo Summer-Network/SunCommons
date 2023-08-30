@@ -175,9 +175,9 @@ public class Profile {
     public void destroy(boolean async) {
         PROFILES.remove(this.name);
         this.cache.forEach(cacheAbstract -> cacheAbstract.save(async));
+        this.scoreboard.destroy();
         this.name = null;
         this.cache = null;
-        this.scoreboard.destroy();
         this.scoreboard = null;
         this.cashManager = null;
         this.hotbarKey = null;

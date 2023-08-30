@@ -4,9 +4,8 @@ import com.vulcanth.commons.Main;
 import com.vulcanth.commons.player.Profile;
 import com.vulcanth.commons.player.cache.collections.PlayerPreferencesCache;
 import com.vulcanth.commons.player.preferences.PreferencesEnum;
-import com.vulcanth.commons.utils.ItemUtils;
+import com.vulcanth.commons.utils.BukkitUtils;
 import com.vulcanth.commons.utils.StringUtils;
-import com.vulcanth.commons.view.ProfileView;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -31,7 +30,7 @@ public class HotbarItemObject {
     }
 
     public ItemStack getItem() {
-        return ItemUtils.getItemStackFromString(this.item);
+        return BukkitUtils.getItemStackFromString(this.item);
     }
 
     public String getAction() {
@@ -39,16 +38,7 @@ public class HotbarItemObject {
     }
 
     public void addItem(Player player) {
-        String finalItemString = expansion.hotbarReplaces(replace(this.item, Objects.requireNonNull(Profile.loadProfile(player.getName()))));
-        ItemStack finalItem = null;
-        try {
-            finalItem = ItemUtils.getItemStackFromString(finalItemString);
-        } catch (Exception e) {
-            Main.getInstance().sendMessage("Ocorreu um erro ao dar o item: " + finalItemString, '4');
-            e.printStackTrace();
-        }
-
-        player.getInventory().setItem(getSlot(), finalItem);
+        player.getInventory().setItem(getSlot(), getFinalItem(player));
     }
 
     public void setupAction(Player player) {
@@ -80,6 +70,7 @@ public class HotbarItemObject {
                     switch (value) {
                         case "hideplayers": {
                             profile.getCache(PlayerPreferencesCache.class).changePreference(PreferencesEnum.SHOW_PLAYERS);
+                            updateItem(player);
                             return true;
                         }
                     }
@@ -88,7 +79,6 @@ public class HotbarItemObject {
                 case "open": {
                     switch (value) {
                         case "profile": {
-                            new ProfileView(player);
                             return true;
                         }
 
@@ -103,6 +93,23 @@ public class HotbarItemObject {
         return false;
     }
 
+    public void updateItem(Player player) {
+        player.getInventory().setItem(getSlot(), getFinalItem(player));
+        player.updateInventory();
+    }
+
+    public ItemStack getFinalItem(Player player) {
+        String finalItemString = expansion.hotbarReplaces(replace(this.item, Objects.requireNonNull(Profile.loadProfile(player.getName()))));
+        ItemStack finalItem = null;
+        try {
+            finalItem = BukkitUtils.getItemStackFromString(finalItemString);
+        } catch (Exception e) {
+            Main.getInstance().sendMessage("Ocorreu um erro ao dar o item: " + finalItemString, '4');
+            e.printStackTrace();
+        }
+
+        return finalItem;
+    }
     private String replace(String itemBase, Profile profile) {
         return itemBase
                 .replace("{color_showplayers}", profile.getCache(PlayerPreferencesCache.class).getPreference(PreferencesEnum.SHOW_PLAYERS) ? "10" : "8")

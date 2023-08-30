@@ -47,13 +47,12 @@ public abstract class ScoreboardManager {
     }
 
     public void destroy() {
-        this.player.getScoreboard().getObjectives().clear();
+        this.task.cancel();
+        this.task = null;
         this.player = null;
         this.scoreboard = null;
         this.FIND_BY_LINE.clear();
         this.FIND_BY_LINE = null;
-        this.task.cancel();
-        this.task = null;
         this.updateTime = 0;
         this.lines = 0;
     }
@@ -130,6 +129,10 @@ public abstract class ScoreboardManager {
 
     private void updateScore() {
         this.task = Bukkit.getScheduler().runTaskTimerAsynchronously(Main.getInstance(), () -> {
+            if (!player.isOnline()) {
+                return;
+            }
+
             lines = 0;
             this.update();
         }, 0L, this.updateTime);

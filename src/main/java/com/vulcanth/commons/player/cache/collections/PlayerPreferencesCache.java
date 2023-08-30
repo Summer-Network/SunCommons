@@ -3,6 +3,7 @@ package com.vulcanth.commons.player.cache.collections;
 import com.vulcanth.commons.player.Profile;
 import com.vulcanth.commons.player.cache.CacheAbstract;
 import com.vulcanth.commons.player.preferences.PreferencesEnum;
+import org.bukkit.Bukkit;
 import simple.JSONObject;
 
 import java.util.List;
@@ -21,15 +22,22 @@ public class PlayerPreferencesCache extends CacheAbstract {
     }
 
     public boolean getPreference(PreferencesEnum preference) {
-        return Boolean.getBoolean(String.valueOf(getAsJSONObject().get(preference.getId())));
+        return (Boolean) getAsJSONObject().get(preference.getId());
     }
 
     public void changePreference(PreferencesEnum preference) {
+        JSONObject newJson = this.getAsJSONObject();
+        Bukkit.broadcastMessage(String.valueOf(getPreference(preference)));
         if (getPreference(preference)) {
-            getAsJSONObject().replace(preference.getId(), false);
-        } else {
-            getAsJSONObject().replace(preference.getId(), true);
+            newJson.clear();
+            newJson.put(preference.getId(), false);
+            this.setValueCache(newJson.toJSONString());
+            return;
         }
+
+        newJson.clear();
+        newJson.put(preference.getId(), true);
+        this.setValueCache(newJson.toJSONString());
     }
 
     //Aqui ele constroi um JSON que armazena informações básicas do jogador
@@ -41,14 +49,14 @@ public class PlayerPreferencesCache extends CacheAbstract {
         JSONObject json = getDefaultJSON();
         JSONObject newJson = this.getAsJSONObject();
         List<String> keys = (List<String>) json.keySet().stream().filter(key -> !newJson.containsKey(key)).collect(Collectors.toList());
-        keys.forEach(key -> newJson.put(key, Boolean.TRUE.toString()));
+        keys.forEach(key -> newJson.put(key, true));
         this.setValueCache(newJson.toJSONString());
     }
 
     private JSONObject getDefaultJSON() {
         JSONObject json = new JSONObject();
         for (PreferencesEnum preference : PreferencesEnum.values()) {
-            json.put(String.valueOf(preference.getId()), Boolean.TRUE.toString());
+            json.put(preference.getId(), true);
         }
 
         return json;
