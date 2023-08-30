@@ -32,7 +32,7 @@ public class Main extends VulcanthPlugins {
     public void enablePlugin() {
         Database.setupDatabase();
 
-        CommandsAbstract.setupComands(SpawnCommands.class, VoarCommands.class, FireworkCommand.class);
+        CommandsAbstract.setupComands(SpawnCommands.class, VoarCommands.class);
         ListenersAbstract.setupListeners(PlayerJoinEvents.class, PlayerQuitEvents.class, PlayerInteractEvents.class); //Um simples sistema para registrar as classes de eventos sem precisar repitir o código diversas vezes
 
         SpawnManager.setupLocation();
