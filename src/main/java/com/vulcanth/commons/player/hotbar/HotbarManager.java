@@ -22,6 +22,10 @@ public class HotbarManager implements Listener {
         Bukkit.getPluginManager().registerEvents(this, Main.getInstance());
     }
 
+    public List<HotbarItemObject> listItensForKey(String key) {
+        return HOTBAR_FOR_KEY.get(key);
+    }
+
     public void setHotbar(Player player, String key) {
         for (HotbarItemObject item : HOTBAR_FOR_KEY.get(key)) {
             item.addItem(player);
