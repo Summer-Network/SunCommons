@@ -7,6 +7,8 @@ import com.vulcanth.commons.nms.NmsManager;
 import com.vulcanth.commons.player.cache.CacheAbstract;
 import com.vulcanth.commons.player.cache.collections.PlayerPreferencesCache;
 import com.vulcanth.commons.player.cash.CashManager;
+import com.vulcanth.commons.player.hotbar.HotbarItemObject;
+import com.vulcanth.commons.player.hotbar.HotbarManager;
 import com.vulcanth.commons.player.preferences.PreferencesEnum;
 import com.vulcanth.commons.player.role.Role;
 import com.vulcanth.commons.player.role.RoleEnum;
@@ -52,6 +54,7 @@ public class Profile {
     private Game game;
     private ScoreboardManager scoreboard;
     private String hotbarKey;
+    private List<HotbarItemObject> hotbarItens;
     private CashManager cashManager;
 
     public Profile(String name) {
@@ -60,6 +63,7 @@ public class Profile {
         this.game = null;
         this.scoreboard = null;
         this.hotbarKey = null;
+        this.hotbarItens = null;
         this.cashManager = new CashManager(this);
     }
 
@@ -216,8 +220,9 @@ public class Profile {
         return this.scoreboard;
     }
 
-    public void sethotbarKey(String key) {
+    public void sethotbarKey(String key, List<HotbarItemObject> hotbarItens) {
         this.hotbarKey = key;
+        this.hotbarItens = hotbarItens;
     }
 
     public String getHotbarKey() {
@@ -226,5 +231,11 @@ public class Profile {
 
     public CashManager getCashManager() {
         return this.cashManager;
+    }
+
+    public void refreshHotbar() {
+        if (hotbarItens != null) {
+            hotbarItens.forEach(hotbarItemObject -> hotbarItemObject.updateItem(this.getPlayer()));
+        }
     }
 }

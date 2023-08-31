@@ -6,6 +6,7 @@ import com.vulcanth.commons.player.cache.collections.PlayerPreferencesCache;
 import com.vulcanth.commons.player.preferences.PreferencesEnum;
 import com.vulcanth.commons.utils.BukkitUtils;
 import com.vulcanth.commons.utils.StringUtils;
+import com.vulcanth.commons.view.ProfileMenu;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -79,6 +80,7 @@ public class HotbarItemObject {
                 case "open": {
                     switch (value) {
                         case "profile": {
+                            new ProfileMenu(profile).open();
                             return true;
                         }
 
@@ -112,7 +114,7 @@ public class HotbarItemObject {
     }
     private String replace(String itemBase, Profile profile) {
         return itemBase
-                .replace("{color_showplayers}", profile.getCache(PlayerPreferencesCache.class).getPreference(PreferencesEnum.SHOW_PLAYERS) ? "10" : "8")
+                .replace("{color_showplayers}", profile.getCache(PlayerPreferencesCache.class).getDyeColor(PreferencesEnum.SHOW_PLAYERS))
                 .replace("{name_showplayers}", profile.getCache(PlayerPreferencesCache.class).getPreference(PreferencesEnum.SHOW_PLAYERS) ? "&aON" : "&cOFF")
                 .replace("{player}", profile.getName());
     }

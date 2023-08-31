@@ -40,6 +40,22 @@ public class PlayerPreferencesCache extends CacheAbstract {
         this.setValueCache(newJson.toJSONString());
     }
 
+    public String getGlassColor(PreferencesEnum preference) {
+        return getPreference(preference) ? "5" : "14";
+    }
+
+    public String getDyeColor(PreferencesEnum preference) {
+        return getPreference(preference) ? "10" : "8";
+    }
+
+    public String getState(PreferencesEnum preference) {
+        return getPreference(preference) ? "Ativado" : "Desativado";
+    }
+
+    public String getStateWithColor(PreferencesEnum preference) {
+        return getPreference(preference) ? "§aAtivado" : "§cDesativado";
+    }
+
     //Aqui ele constroi um JSON que armazena informações básicas do jogador
     private void buildDefaultJSON() {
         this.setValueCache(getDefaultJSON().toJSONString()); //Caso utilize JSON, sempre o salve como JSON String
