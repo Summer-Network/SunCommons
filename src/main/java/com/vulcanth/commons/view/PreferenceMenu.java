@@ -44,7 +44,7 @@ public class PreferenceMenu extends PlayerMenu {
                     PlayerPreferencesCache cache = this.profile.getCache(PlayerPreferencesCache.class);
                     switch (slot) {
                         case 0: {
-                            player.playSound(player.getLocation(), Sound.CLICK,  0.5F, 1.0F);
+                            player.playSound(player.getLocation(), Sound.CLICK, 0.5F, 2.0F);
                             break;
                         }
 
@@ -53,8 +53,13 @@ public class PreferenceMenu extends PlayerMenu {
                             this.profile.refreshHotbar();
                             this.profile.refreshPlayers();
                             new PreferenceMenu(profile).open();
+                            player.playSound(player.getLocation(), Sound.ITEM_PICKUP, 0.5F, 1.0F);
                             break;
                         }
+
+                        case 49:
+                            new ProfileMenu(profile).open();
+                            player.playSound(player.getLocation(), Sound.CLICK, 0.5F, 2.0F);
                     }
 
                     event.setCancelled(true);
@@ -76,11 +81,24 @@ public class PreferenceMenu extends PlayerMenu {
     @Override
     public void setupItens(Player player) {
         PlayerPreferencesCache cache = this.profile.getCache(PlayerPreferencesCache.class);
+
         //Player show
         this.setItem(BukkitUtils.getItemStackFromString("347 : 1 : nome>&aJogadores : desc>&7Ative ou desative os\n&7jogadores no lobby."), 0);
-        this.setItem(BukkitUtils.getItemStackFromString("351:" + cache.getDyeColor(PreferencesEnum.SHOW_PLAYERS) + " : 1 : nome>" + cache.getStateWithColor(PreferencesEnum.SHOW_PLAYERS) + " : desc>&fEstado: &7" + cache.getState(PreferencesEnum.SHOW_PLAYERS) + "\n \n&eClique para modificar!"), 9);
+        this.setItem(BukkitUtils.getItemStackFromString("160:" + cache.getGlassColor(PreferencesEnum.SHOW_PLAYERS) + " : 1 : nome>" + cache.getStateWithColor(PreferencesEnum.SHOW_PLAYERS) + " : desc>&fEstado: &7" + cache.getState(PreferencesEnum.SHOW_PLAYERS) + "\n \n&eClique para modificar!"), 9);
 
-        this.setItem(BukkitUtils.getItemStackFromString("ARROW : 1 : nome>&cVoltar : desc>&7Clique para voltar para o menu anterior"), 40);
+        //Private messages
+        this.setItem(BukkitUtils.getItemStackFromString("PAPER : 1 : nome>&aMensagens Privadas : desc>&7Ative ou desative as mensagens\n&7enviadas através de um tell."), 1);
+        this.setItem(BukkitUtils.getItemStackFromString("160:" + cache.getGlassColor(PreferencesEnum.PRIVATE_MESSAGES) + " : 1 : nome>" + cache.getStateWithColor(PreferencesEnum.PRIVATE_MESSAGES) + " : desc>&fEstado: &7" + cache.getState(PreferencesEnum.SHOW_PLAYERS) + "\n \n&eClique para modificar!"), 10);
+
+        //Blood
+        this.setItem(BukkitUtils.getItemStackFromString("331 : 1 : nome>&aViolência : desc>&7Ative ou desative as partículas\n&7de sangue no PvP."), 2);
+        this.setItem(BukkitUtils.getItemStackFromString("160:" + cache.getGlassColor(PreferencesEnum.BLOOD) + " : 1 : nome>" + cache.getStateWithColor(PreferencesEnum.BLOOD) + " : desc>&fEstado: &7" + cache.getState(PreferencesEnum.BLOOD) + "\n \n&eClique para modificar!"), 11);
+
+        //Lobby Protection
+        this.setItem(BukkitUtils.getItemStackFromString("399 : 1 : nome>&aProteção no /lobby : desc>&7Ative ou desative o pedido\n&7de confirmação ao utilizar o /lobby"), 3);
+        this.setItem(BukkitUtils.getItemStackFromString("160:" + cache.getGlassColor(PreferencesEnum.LOBBY_PROTECTION) + " : 1 : nome>" + cache.getStateWithColor(PreferencesEnum.LOBBY_PROTECTION) + " : desc>&fEstado: &7" + cache.getState(PreferencesEnum.BLOOD) + "\n \n&eClique para modificar!"), 12);
+
+        this.setItem(BukkitUtils.getItemStackFromString("ARROW : 1 : nome>&cVoltar : desc>&7Clique para voltar para o menu anterior"), 49);
     }
 
     @Override

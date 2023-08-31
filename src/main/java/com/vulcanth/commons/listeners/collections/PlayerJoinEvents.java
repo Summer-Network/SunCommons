@@ -14,11 +14,12 @@ import org.bukkit.event.player.PlayerJoinEvent;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 import java.util.TimeZone;
 
 public class PlayerJoinEvents extends ListenersAbstract {
 
-    private static final SimpleDateFormat SDF = new SimpleDateFormat("dd/MM/yy 'às' hh:mm:ss");
+    private static final SimpleDateFormat SDF = new SimpleDateFormat("dd/MM/yy 'às' HH:mm:ss", new Locale("pt", "BR"));
 
     static {
         SDF.setTimeZone(TimeZone.getTimeZone("GMT-3"));
@@ -54,6 +55,7 @@ public class PlayerJoinEvents extends ListenersAbstract {
                 cache.updateInformation("firstLogin", SDF.format(new Date()));
             }
 
+            player.sendMessage("a");
             cache.updateInformation("lastLogin", SDF.format(new Date())); //Atualizando a informação do último login no cache, que posteriormente será salvo na DB
         }
 

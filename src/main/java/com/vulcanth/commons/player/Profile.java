@@ -64,7 +64,6 @@ public class Profile {
         this.scoreboard = null;
         this.hotbarKey = null;
         this.hotbarItens = null;
-        this.cashManager = new CashManager(this);
     }
 
     public void refreshPlayer() {
@@ -169,6 +168,7 @@ public class Profile {
         }
 
         Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getInstance(), task);
+        this.cashManager = new CashManager(this);
     }
 
     @SuppressWarnings("unchecked")

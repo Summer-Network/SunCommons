@@ -3,6 +3,7 @@ package com.vulcanth.commons.view;
 import com.vulcanth.commons.library.menu.PlayerMenu;
 import com.vulcanth.commons.player.Profile;
 import com.vulcanth.commons.player.cache.collections.PlayerInformationsCache;
+import com.vulcanth.commons.player.cash.CashManager;
 import com.vulcanth.commons.player.role.Role;
 import com.vulcanth.commons.utils.BukkitUtils;
 import org.bukkit.Material;
@@ -46,6 +47,8 @@ public class ProfileMenu extends PlayerMenu {
                         }
 
                         case 10: {
+                            new PreferenceMenu(profile).open();
+                            player.playSound(player.getLocation(), Sound.CLICK, 0.5F, 2.0F);
                             break;
                         }
                     }
@@ -71,7 +74,7 @@ public class ProfileMenu extends PlayerMenu {
         //Head informations
         String discord = profile.getCache(PlayerInformationsCache.class).getInformation("discord").equals("") ? "&cNão cadastrado" : profile.getCache(PlayerInformationsCache.class).getInformation("discord");
         String email = profile.getCache(PlayerInformationsCache.class).getInformation("email").equals("") ? "&cNão cadastrado" : profile.getCache(PlayerInformationsCache.class).getInformation("email");
-        this.setItem(BukkitUtils.getItemStackFromString("397:3 : 1 : nome>&aInformações pessoais : desc>&fRank: " + Role.findRole(player).getName() + "\n&fCash: &6" + this.profile.getCashManager().getCash() + "\n \n&fCadastrado: " + profile.getCache(PlayerInformationsCache.class).getInformation("firstLogin") + "\n&fÚltimo acesso: " + profile.getCache(PlayerInformationsCache.class).getInformation("firstLogin") + "\n \n&fCelular: &cEm Breve\n&fDiscord: " + discord + "\n&fEmail: " + email + " : skin>" + player.getName()), 13);
+        this.setItem(BukkitUtils.getItemStackFromString("397:3 : 1 : nome>&aInformações pessoais : desc>&fRank: " + Role.findRole(player).getName() + "\n&fCash: &6" + new CashManager(profile).getCash() + "\n \n&fCadastrado: &7" + profile.getCache(PlayerInformationsCache.class).getInformation("firstLogin") + "\n&fPrimeiro Login: &7" + profile.getCache(PlayerInformationsCache.class).getInformation("firstLogin") + "\n&fÚltimo acesso: &7" + profile.getCache(PlayerInformationsCache.class).getInformation("lastLogin") + "\n \n&fCelular: &cEm Breve\n&fDiscord: " + discord + "\n&fEmail: " + email + " : skin>" + player.getName()), 13);
 
         //Preferences
         this.setItem(BukkitUtils.getItemStackFromString("404 : 1 : nome>&aPreferências : desc>&7Em nosso servidor você pode personalizar\n&7sua experiência de jogo por completo.\n&7Personalize várias opções únicas como\n&7você desejar!\n \n&8As opções incluem ativar ou desativar as\n&8mensagens privadas, os jogadores e outros.\n \n&eClique para personalizar as opções!"), 10);

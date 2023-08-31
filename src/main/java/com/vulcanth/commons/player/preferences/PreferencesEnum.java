@@ -5,7 +5,10 @@ import java.util.Objects;
 
 public enum PreferencesEnum {
 
-    SHOW_PLAYERS(1);
+    SHOW_PLAYERS(1),
+    PRIVATE_MESSAGES(2),
+    BLOOD(3),
+    LOBBY_PROTECTION(4);
 
     public static PreferencesEnum findByID(String id) {
         return Arrays.stream(PreferencesEnum.values()).filter(preferencesEnum -> Objects.equals(preferencesEnum.getId(), id)).findFirst().orElse(null);

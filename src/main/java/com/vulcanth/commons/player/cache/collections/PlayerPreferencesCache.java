@@ -27,7 +27,6 @@ public class PlayerPreferencesCache extends CacheAbstract {
 
     public void changePreference(PreferencesEnum preference) {
         JSONObject newJson = this.getAsJSONObject();
-        Bukkit.broadcastMessage(String.valueOf(getPreference(preference)));
         if (getPreference(preference)) {
             newJson.clear();
             newJson.put(preference.getId(), false);
