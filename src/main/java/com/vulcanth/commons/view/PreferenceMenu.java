@@ -57,9 +57,45 @@ public class PreferenceMenu extends PlayerMenu {
                             break;
                         }
 
-                        case 49:
+                        case 1: {
+                            player.playSound(player.getLocation(), Sound.CLICK, 0.5F, 2.0F);
+                            break;
+                        }
+
+                        case 10: {
+                            cache.changePreference(PreferencesEnum.PRIVATE_MESSAGES);
+                            new PreferenceMenu(profile).open();
+                            player.playSound(player.getLocation(), Sound.ITEM_PICKUP, 0.5F, 1.0F);
+                            break;
+                        }
+
+                        case 2: {
+                            player.playSound(player.getLocation(), Sound.CLICK, 0.5F, 2.0F);
+                            break;
+                        }
+
+                        case 11: {
+                            cache.changePreference(PreferencesEnum.BLOOD);
+                            new PreferenceMenu(profile).open();
+                            player.playSound(player.getLocation(), Sound.ITEM_PICKUP, 0.5F, 1.0F);
+                            break;
+                        }
+
+                        case 3: {
+                            player.playSound(player.getLocation(), Sound.CLICK, 0.5F, 2.0F);
+                            break;
+                        }
+
+                        case 12: {
+                            cache.changePreference(PreferencesEnum.LOBBY_PROTECTION);
+                            new PreferenceMenu(profile).open();
+                            player.playSound(player.getLocation(), Sound.ITEM_PICKUP, 0.5F, 1.0F);
+                        }
+
+                        case 49: {
                             new ProfileMenu(profile).open();
                             player.playSound(player.getLocation(), Sound.CLICK, 0.5F, 2.0F);
+                        }
                     }
 
                     event.setCancelled(true);

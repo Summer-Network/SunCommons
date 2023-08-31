@@ -3,6 +3,7 @@ package com.vulcanth.commons.player.hotbar;
 import com.vulcanth.commons.Main;
 import com.vulcanth.commons.player.Profile;
 import com.vulcanth.commons.player.cache.collections.PlayerPreferencesCache;
+import com.vulcanth.commons.player.hotbar.delay.HotbarDelay;
 import com.vulcanth.commons.player.preferences.PreferencesEnum;
 import com.vulcanth.commons.utils.BukkitUtils;
 import com.vulcanth.commons.utils.StringUtils;
@@ -70,8 +71,15 @@ public class HotbarItemObject {
                 case "action": {
                     switch (value) {
                         case "hideplayers": {
+                            if (HotbarDelay.hasDelay(player.getName())) {
+                                player.sendMessage("§cVocê precisa aguardar mais " + HotbarDelay.getDelay(player.getName()) + "s para utilizar novamente.");
+                                return true;
+                            }
+
+                            player.sendMessage(profile.getCache(PlayerPreferencesCache.class).getPreference(PreferencesEnum.SHOW_PLAYERS) ? "§cVisibilidade de jogadores desativada." : "§aVisibilidade de jogadores ativada.");
                             profile.getCache(PlayerPreferencesCache.class).changePreference(PreferencesEnum.SHOW_PLAYERS);
                             updateItem(player);
+                            HotbarDelay.addDelayForPlayer(player.getName(), 5L);
                             return true;
                         }
                     }

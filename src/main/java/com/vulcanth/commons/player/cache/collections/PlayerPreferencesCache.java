@@ -28,14 +28,12 @@ public class PlayerPreferencesCache extends CacheAbstract {
     public void changePreference(PreferencesEnum preference) {
         JSONObject newJson = this.getAsJSONObject();
         if (getPreference(preference)) {
-            newJson.clear();
-            newJson.put(preference.getId(), false);
+            newJson.replace(preference.getId(), false);
             this.setValueCache(newJson.toJSONString());
             return;
         }
 
-        newJson.clear();
-        newJson.put(preference.getId(), true);
+        newJson.replace(preference.getId(), true);
         this.setValueCache(newJson.toJSONString());
     }
 

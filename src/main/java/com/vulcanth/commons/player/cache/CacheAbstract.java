@@ -1,8 +1,10 @@
 package com.vulcanth.commons.player.cache;
 
+import com.vulcanth.commons.Main;
 import com.vulcanth.commons.player.Profile;
 import com.vulcanth.commons.storage.Database;
 import com.vulcanth.commons.storage.tables.collections.ProfileTable;
+import org.bukkit.Bukkit;
 import simple.JSONArray;
 import simple.JSONObject;
 import simple.parser.JSONParser;
@@ -25,12 +27,21 @@ public abstract class CacheAbstract {
     }
 
     //Sava os dados de forma permanente no database
+    @Deprecated
     public void save(boolean async) {
-        switch (this.table) {
-            case "VulcanthProfiles": {
-                ProfileTable.update(profile.getName(), this.column, this.valueCache);
-                break;
+        Runnable task = ()-> {
+            switch (this.table) {
+                case "VulcanthProfiles": {
+                    ProfileTable.update(profile.getName(), this.column, this.valueCache);
+                    break;
+                }
             }
+        };
+
+        if (async) {
+            Bukkit.getScheduler().scheduleAsyncDelayedTask(Main.getInstance(), task);
+        } else {
+            Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getInstance(), task);
         }
     }
 
