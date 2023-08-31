@@ -90,6 +90,7 @@ public class PreferenceMenu extends PlayerMenu {
                             cache.changePreference(PreferencesEnum.LOBBY_PROTECTION);
                             new PreferenceMenu(profile).open();
                             player.playSound(player.getLocation(), Sound.ITEM_PICKUP, 0.5F, 1.0F);
+                            break;
                         }
 
                         case 49: {
