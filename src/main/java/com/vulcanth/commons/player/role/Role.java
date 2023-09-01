@@ -10,7 +10,7 @@ import java.util.Arrays;
 public class Role {
 
     public static RoleEnum findRole(Player player) {
-        return Arrays.stream(RoleEnum.values()).filter(roleEnum -> player.hasPermission(roleEnum.getPermission())).findFirst().orElse(RoleEnum.MEMBRO);
+        return Arrays.stream(RoleEnum.values()).filter(roleEnum -> roleEnum.getPermission() != null && player.hasPermission(roleEnum.getPermission())).findFirst().orElse(RoleEnum.MEMBRO);
     }
 
     public static void setTag(Player player) {

@@ -1,11 +1,14 @@
 package com.vulcanth.commons.view;
 
 import com.vulcanth.commons.library.menu.PlayerMenu;
+import com.vulcanth.commons.model.Delivery;
 import com.vulcanth.commons.player.Profile;
+import com.vulcanth.commons.player.cache.collections.PlayerDeliveryCache;
 import com.vulcanth.commons.player.cache.collections.PlayerInformationsCache;
 import com.vulcanth.commons.player.cash.CashManager;
 import com.vulcanth.commons.player.role.Role;
 import com.vulcanth.commons.utils.BukkitUtils;
+import com.vulcanth.commons.utils.StringUtils;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -13,6 +16,8 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+
+import java.util.Arrays;
 
 public class ProfileMenu extends PlayerMenu {
 
@@ -51,6 +56,12 @@ public class ProfileMenu extends PlayerMenu {
                             player.playSound(player.getLocation(), Sound.CLICK, 0.5F, 2.0F);
                             break;
                         }
+
+                        case 15: {
+                            new DeliveryMenu(profile).open();
+                            player.playSound(player.getLocation(), Sound.CLICK, 0.5F, 2.0F);
+                            break;
+                        }
                     }
 
                     event.setCancelled(true);
@@ -82,11 +93,16 @@ public class ProfileMenu extends PlayerMenu {
         //Statistics
         this.setItem(BukkitUtils.getItemStackFromString("PAPER : 1 : nome>&aEstatísticas : desc>&7Visualize as suas estatísticas de\n&7cada minigame do nosso servidor.\n \n&eClique para ver as estatísticas!"), 11);
 
-        boolean has = false;
+        boolean has;
         //Delivery
-        this.setItem(BukkitUtils.getItemStackFromString(has ? "342 : 1 : nome>&aEntregas : desc>&7Colete mensalmente itens exclusivos.\n&7Atualmente, você pode coletar &n" + "entregas.size()" + " entregas!\n" + "stringBuilder" + "\n \n&eClique para ver!" : "328 : 1 : nome>&aEntregas : desc>&7Você não possui entregas para coletar."), 15);
+        PlayerDeliveryCache cache = profile.getCache(PlayerDeliveryCache.class);
+        StringBuilder stringBuilder = new StringBuilder();
+        Arrays.stream(Delivery.values()).filter(delivery -> delivery.canCollect(player) && !cache.hasColletedDelivery(delivery.getId())).forEach(delivery -> stringBuilder.append("\n &7• &f").append(StringUtils.stripColors(delivery.getItem(profile).getItemMeta().getDisplayName())));
+        has = Delivery.listAllDeliveryNotClaim(profile).size() > 1;
+        this.setItem(BukkitUtils.getItemStackFromString(has ? "342 : 1 : nome>&aEntregas : desc>&7Colete mensalmente itens exclusivos.\n&7Atualmente, você pode coletar &n" + Delivery.listAllDeliveryNotClaim(profile).size() + " entregas!\n" + stringBuilder + "\n \n&eClique para ver!" : "328 : 1 : nome>&aEntregas : desc>&7Você não possui entregas para coletar."), 15);
 
         //Upgrade Vip
+        has = true;
         this.setItem(BukkitUtils.getItemStackFromString("384 : 1 : nome>&aEvolua seu VIP : desc>" + (has ? "\n§7Você já possui " + Role.findRole(player.getPlayer()).getName() + "§7.\n \n§7Evolua agora mesmo o seu " + "Role.getPlayerRole(player.getPlayer()).getName()" + "\n§7para " + "Role.getRoleByName(new UpgradePlayer(player).getCurrentUpgrade().getRole()).getName()" + "§7 por apenas §6" + "new UpgradePlayer(player).getCurrentUpgrade().getPrice()" + " §6Cash§7.\n\n§eClique para upar seu VIP." : "§7Você não possui evoluções disponíveis.")), 16);
     }
 

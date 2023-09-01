@@ -9,7 +9,7 @@ public enum RoleEnum {
     AJUDANTE("§eAjudante", "§e[Ajudante] ", "role.ajudante", 3.0, true, true, 4),
     STREAMER("§5Streamer", "§5[Streamer] ", "role.streamer", 3.0, true, true, 5),
     YOUTUBER("§cYouTuber", "§c[YouTuber] ", "role.yt", 3.0, true, true, 6),
-    MVPPLUS("§bMVP§b+", "§b[MVP§6+§b] ", "role.mvpplus", 3.5, true, true, 7),
+    MVPPLUS("§bMVP§6+§b", "§b[MVP§6+§b] ", "role.mvpplus", 3.5, true, true, 7),
     MVP("§6MVP", "§6[MVP] ", "role.mvp", 3.0, true, true, 8),
     VIP("§aVIP", "§a[VIP] ", "role.vip", 2.0, true, true, 9),
     MEMBRO("§7Membro", "§7[Membro] ", null, 1.0, true, true, 10);

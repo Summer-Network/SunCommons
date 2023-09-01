@@ -50,6 +50,43 @@ public class StringUtils {
     suffixes.put(1_000_000_000_000_000_000_000_000_000_000_000_000_000_000_000_000_000_000_000_000_000_000_000_000_000_000_000_000_000_000_000D, "TG");
   }
 
+  public static String transformTimeFormated(double time) {
+    int segunds;
+    int minuts = 0;
+    int hours = 0;
+    int days = 0;
+    int monthys = 0;
+    int years = 0;
+
+    while (time >= 31104000) {
+      years++;
+      time -= 31104000;
+    }
+
+    while (time >= 2592000) {
+      monthys++;
+      time -= 2592000;
+    }
+
+    while (time >= 86400) {
+      days++;
+      time -= 86400;
+    }
+
+    while (time >= 3600) {
+      hours++;
+      time -= 3600;
+    }
+
+    while (time >= 60) {
+      minuts++;
+      time -= 60;
+    }
+
+    segunds = (int) time;
+    return (years > 0 ? years + "a " : "") + (monthys > 0 ? monthys + "m " : "") + (days > 0 ? days + "d " : "") + (hours > 0 ? hours + "h " : "") + (minuts > 0 ? minuts + "m " : "") + (segunds > 0 ? segunds + "s " : "");
+  }
+
   public static String format(double value) {
     if (value == Double.MIN_VALUE) {
       return format(Double.MIN_VALUE + 1);

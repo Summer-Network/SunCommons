@@ -3,6 +3,7 @@ package com.vulcanth.commons.listeners.collections;
 import com.vulcanth.commons.Main;
 import com.vulcanth.commons.listeners.ListenersAbstract;
 import com.vulcanth.commons.player.Profile;
+import com.vulcanth.commons.player.cache.collections.PlayerDeliveryCache;
 import com.vulcanth.commons.player.cache.collections.PlayerInformationsCache;
 import com.vulcanth.commons.player.cache.collections.PlayerPreferencesCache;
 import com.vulcanth.commons.player.role.Role;
@@ -35,7 +36,7 @@ public class PlayerJoinEvents extends ListenersAbstract {
     public void onPlayerPreLogin(AsyncPlayerPreLoginEvent event) {
         String name = event.getName();
         try {
-            Profile.createProfile(name).loadCaches(false, PlayerInformationsCache.class, PlayerPreferencesCache.class);
+            Profile.createProfile(name).loadCaches(false, PlayerInformationsCache.class, PlayerPreferencesCache.class, PlayerDeliveryCache.class);
         } catch (Exception e) {
             event.setKickMessage("§cOcorreu enquanto carregavamos o seu perfil!");
             event.setLoginResult(AsyncPlayerPreLoginEvent.Result.KICK_OTHER);

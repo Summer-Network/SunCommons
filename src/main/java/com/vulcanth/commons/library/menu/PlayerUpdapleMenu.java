@@ -2,19 +2,23 @@ package com.vulcanth.commons.library.menu;
 
 import com.vulcanth.commons.Main;
 import com.vulcanth.commons.library.MenuAbstract;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
+
+import java.util.*;
 
 public abstract class PlayerUpdapleMenu extends MenuAbstract {
 
     private final Player player;
-    private BukkitTask task;
     private Integer delay;
+    private BukkitTask task;
 
     public PlayerUpdapleMenu(Player player, Integer slots) {
         super(slots);
@@ -37,17 +41,17 @@ public abstract class PlayerUpdapleMenu extends MenuAbstract {
     }
 
     @EventHandler
-    private void onPlayerCloseInventory(InventoryCloseEvent event) {
+    public void onPlayerCloseInventory(InventoryCloseEvent event) {
         this.onPlayerCloseMenu(event);
     }
 
     @EventHandler
-    private void onPlayerInteractInventory(InventoryClickEvent event) {
+    public void onPlayerInteractInventory(InventoryClickEvent event) {
         this.onPlayerInteractMenu(event);
     }
 
     @EventHandler
-    private void onPlayerQuit(PlayerQuitEvent event) {
+    public void onPlayerQuit(PlayerQuitEvent event) {
         this.onPlayerQuitOnMenu(event);
     }
 
