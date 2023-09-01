@@ -18,17 +18,9 @@ public class NMS_1_8 implements NMS {
     public void sendTitle(Player player, String title, String subtitle, int fadeIn, int stay, int fadeOut) {
         CraftPlayer craftPlayer = (CraftPlayer) player;
 
-        IChatBaseComponent titleComponent = IChatBaseComponent.ChatSerializer.a("{\"text\": \"" + title + "\"}");
-        IChatBaseComponent subtitleComponent = IChatBaseComponent.ChatSerializer.a("{\"text\": \"" + subtitle + "\"}");
-
-        PacketPlayOutChat titlePacket = new PacketPlayOutChat(titleComponent, (byte) 2);
-        PacketPlayOutChat subtitlePacket = new PacketPlayOutChat(subtitleComponent, (byte) 2);
-
-        craftPlayer.getHandle().playerConnection.sendPacket(titlePacket);
-        craftPlayer.getHandle().playerConnection.sendPacket(subtitlePacket);
-
-        PacketPlayOutTitle timingsPacket = new PacketPlayOutTitle(PacketPlayOutTitle.EnumTitleAction.TIMES, null, fadeIn, stay, fadeOut);
-        craftPlayer.getHandle().playerConnection.sendPacket(timingsPacket);
+        craftPlayer.getHandle().playerConnection.sendPacket(new PacketPlayOutTitle(fadeIn, stay, fadeOut));
+        craftPlayer.getHandle().playerConnection.sendPacket(new PacketPlayOutTitle(PacketPlayOutTitle.EnumTitleAction.TITLE, IChatBaseComponent.ChatSerializer.a("{\"text\": \"" + title + "\"}")));
+        craftPlayer.getHandle().playerConnection.sendPacket(new PacketPlayOutTitle(PacketPlayOutTitle.EnumTitleAction.SUBTITLE, IChatBaseComponent.ChatSerializer.a("{\"text\": \"" + subtitle + "\"}")));
     }
 
     @Override

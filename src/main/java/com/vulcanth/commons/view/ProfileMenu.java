@@ -2,6 +2,7 @@ package com.vulcanth.commons.view;
 
 import com.vulcanth.commons.library.menu.PlayerMenu;
 import com.vulcanth.commons.model.Delivery;
+import com.vulcanth.commons.model.UpgradeVIP;
 import com.vulcanth.commons.player.Profile;
 import com.vulcanth.commons.player.cache.collections.PlayerDeliveryCache;
 import com.vulcanth.commons.player.cache.collections.PlayerInformationsCache;
@@ -9,6 +10,11 @@ import com.vulcanth.commons.player.cash.CashManager;
 import com.vulcanth.commons.player.role.Role;
 import com.vulcanth.commons.utils.BukkitUtils;
 import com.vulcanth.commons.utils.StringUtils;
+import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -62,6 +68,31 @@ public class ProfileMenu extends PlayerMenu {
                             player.playSound(player.getLocation(), Sound.CLICK, 0.5F, 2.0F);
                             break;
                         }
+
+                        case 16: {
+                            UpgradeVIP upgrade = UpgradeVIP.findUpgradeVIP(Role.findRole(player));
+                            if (upgrade != null) {
+                                long cash = upgrade.getPrice();
+                                if (new CashManager(profile).getCash() < cash) {
+                                    TextComponent component = new TextComponent("");
+                                    for (BaseComponent components : TextComponent.fromLegacyText("\n§cAparentemente você não possui cash o suficiente para upar o seu vip, para adquirir mais, basta clicar ")) {
+                                        component.addExtra(components);
+                                    }
+                                    getLink(component, player);
+                                    return;
+                                }
+
+                                player.playSound(player.getLocation(), Sound.CLICK, 0.5F, 1.0F);
+                                new UpgradeMenu(profile).open();
+                            } else {
+                                TextComponent component = new TextComponent("");
+                                for (BaseComponent components : TextComponent.fromLegacyText("\n§cAparentemente você não possui um vip para upa-lo! Para comprar um, clique ")) {
+                                    component.addExtra(components);
+                                }
+                                getLink(component, player);
+                            }
+                            break;
+                        }
                     }
 
                     event.setCancelled(true);
@@ -102,13 +133,28 @@ public class ProfileMenu extends PlayerMenu {
         this.setItem(BukkitUtils.getItemStackFromString(has ? "342 : 1 : nome>&aEntregas : desc>&7Colete mensalmente itens exclusivos.\n&7Atualmente, você pode coletar &n" + Delivery.listAllDeliveryNotClaim(profile).size() + " entregas!\n" + stringBuilder + "\n \n&eClique para ver!" : "328 : 1 : nome>&aEntregas : desc>&7Você não possui entregas para coletar."), 15);
 
         //Upgrade Vip
-        has = true;
-        this.setItem(BukkitUtils.getItemStackFromString("384 : 1 : nome>&aEvolua seu VIP : desc>" + (has ? "\n§7Você já possui " + Role.findRole(player.getPlayer()).getName() + "§7.\n \n§7Evolua agora mesmo o seu " + "Role.getPlayerRole(player.getPlayer()).getName()" + "\n§7para " + "Role.getRoleByName(new UpgradePlayer(player).getCurrentUpgrade().getRole()).getName()" + "§7 por apenas §6" + "new UpgradePlayer(player).getCurrentUpgrade().getPrice()" + " §6Cash§7.\n\n§eClique para upar seu VIP." : "§7Você não possui evoluções disponíveis.")), 16);
+        has = UpgradeVIP.findUpgradeVIP(Role.findRole(player)) != null;
+        this.setItem(BukkitUtils.getItemStackFromString("384 : 1 : nome>&aEvolua seu VIP : desc>" + (has ? "\n§7Você já possui " + Role.findRole(player.getPlayer()).getName() + "§7.\n \n§7Evolua agora mesmo o seu " + Role.findRole(player.getPlayer()).getName() + "\n§7para " + UpgradeVIP.findUpgradeVIP(Role.findRole(player)).getRole().getName() + "§7 por apenas §6" + UpgradeVIP.findUpgradeVIP(Role.findRole(player)).getPrice() + " §6Cash§7.\n\n§eClique para upar seu VIP." : "§7Você não possui evoluções disponíveis.")), 16);
     }
 
     @Override
     public void destroy() {
         this.profile = null;
         HandlerList.unregisterAll(this);
+    }
+
+    private void getLink(TextComponent component, Player player) {
+        TextComponent click = new TextComponent("AQUI");
+        click.setColor(ChatColor.GOLD);
+        click.setBold(true);
+        click.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://vulcanth.com"));
+        click.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, TextComponent.fromLegacyText("§7Clique para ir a nossa loja.")));
+        component.addExtra(click);
+        for (BaseComponent components : TextComponent.fromLegacyText(" §cpara ir a nossa loja.\n")) {
+            component.addExtra(components);
+        }
+        player.spigot().sendMessage(component);
+        player.playSound(player.getLocation(), Sound.VILLAGER_NO, 0.5F, 0.5F);
+        player.closeInventory();
     }
 }

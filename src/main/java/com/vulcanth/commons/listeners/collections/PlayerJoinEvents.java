@@ -47,6 +47,9 @@ public class PlayerJoinEvents extends ListenersAbstract {
     public void onPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
         Profile profile = Profile.loadProfile(player.getName());
+        if (profile == null) {
+            player.kickPlayer("§cOops...\n§cocorreu um erro enquanto carregavamos o seu perfil!");
+        }
         if (profile != null) {
             profile.refreshPlayer();
             Bukkit.getScheduler().runTaskLater(Main.getInstance(), profile::refreshPlayer, 3L);
@@ -56,7 +59,6 @@ public class PlayerJoinEvents extends ListenersAbstract {
                 cache.updateInformation("firstLogin", SDF.format(new Date()));
             }
 
-            player.sendMessage("a");
             cache.updateInformation("lastLogin", SDF.format(new Date())); //Atualizando a informação do último login no cache, que posteriormente será salvo na DB
         }
 

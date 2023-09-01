@@ -1,1 +1,7 @@
 spawn-location: ''
+host: ''
+port: ''
+database: ''
+user: ''
+password: ''
+discordWebHook: ''

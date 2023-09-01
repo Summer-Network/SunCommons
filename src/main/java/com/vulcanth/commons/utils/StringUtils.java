@@ -410,6 +410,21 @@ public class StringUtils {
     return String.valueOf(str);
   }
 
+  public static String getRandomCode(Integer caracters) {
+    Random r = new Random();
+    List<String> b = new ArrayList<>();
+    for (int i = 0; i < caracters; i++) {
+      char c = (char)(r.nextInt(9) + '1');
+      b.add(String.valueOf(c));
+    }
+    StringJoiner joiner = new StringJoiner("");
+    for (String s : b) {
+      joiner.add(s);
+    }
+    String str = joiner.toString();
+    return String.valueOf(str);
+  }
+
   public static boolean isInvalid(double value) {
     return value < 0 || Double.isNaN(value) || Double.isInfinite(value);
   }

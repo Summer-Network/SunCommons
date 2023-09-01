@@ -2,12 +2,15 @@ package com.vulcanth.commons.commands;
 
 import com.vulcanth.commons.Main;
 import com.vulcanth.commons.listeners.ListenersAbstract;
+import com.vulcanth.commons.plugin.VulcanthExeption;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.SimpleCommandMap;
 import org.bukkit.entity.Player;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.Arrays;
 
 public abstract class CommandsAbstract extends Command {
@@ -50,12 +53,9 @@ public abstract class CommandsAbstract extends Command {
         try {
             this.executeCommand(commandSender, s, strings);
         } catch (Exception ex) {
-            // TODO: fazer o sistema de ID
-            commandSender.sendMessage("§cOpa, ocorreu um erro ao executar este comando. " +
-                "Você pode nos ajudar a resolver essse problema reportando-o em nosso fórum " +
-                "e informando o ID §b#000000 §coara que possamos verificar o que ocorreu.");
-            ex.printStackTrace();
+            new VulcanthExeption(commandSender, ex.getStackTrace()[0].toString());
         }
+
         return true;
     }
 

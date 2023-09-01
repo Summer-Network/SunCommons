@@ -7,9 +7,9 @@ import com.vulcanth.commons.player.role.RoleEnum;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class VoarCommands extends CommandsAbstract {
+public class VoarCommand extends CommandsAbstract {
 
-    public VoarCommands() {
+    public VoarCommand() {
         super("voar", true, "fly");
     }
 

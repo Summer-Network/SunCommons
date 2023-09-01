@@ -2,6 +2,7 @@ package com.vulcanth.commons.model;
 
 import com.vulcanth.commons.player.Profile;
 import com.vulcanth.commons.player.cache.collections.PlayerDeliveryCache;
+import com.vulcanth.commons.player.cash.CashManager;
 import com.vulcanth.commons.player.role.Role;
 import com.vulcanth.commons.player.role.RoleEnum;
 import com.vulcanth.commons.utils.BukkitUtils;
@@ -65,6 +66,36 @@ public enum Delivery {
     public boolean canCollect(Player player) {
         return player.hasPermission("deliverys.bypass") || this.role.getId() == Role.findRole(player).getId();
     }
+
+    public void setupReward(Profile profile) {
+        String[] rewards = this.reward.split(" ; ");
+        for (String reward : rewards) {
+            String type = reward.split(":")[0];
+            String value = reward.split(":")[1];
+            String subValue = "";
+            if (reward.split(":").length > 2) {
+                subValue = reward.split(":")[2];
+            }
+
+            switch (type.toLowerCase()) {
+                case "mb": {
+                    profile.getPlayer().sendMessage("§aVocê ganhou caixas misteriosas");
+                    break;
+                }
+
+                case "cash": {
+                    new CashManager(profile).addCash(Long.valueOf(value));
+                    break;
+                }
+
+                case "booster": {
+                    profile.getPlayer().sendMessage("§aVocê ganhou o booster do tipo '" + value + "' para " + subValue + "hrs!");
+                    break;
+                }
+            }
+        }
+    }
+
     public Integer getDays() {
         return this.days;
     }

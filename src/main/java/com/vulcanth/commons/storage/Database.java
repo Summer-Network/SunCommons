@@ -10,7 +10,7 @@ public class Database {
   private static Redis redis = null;
 
   public static void setupDatabase() {
-    mySQL = new MySQL("localhost", "3306", "local", "root", "");
+    mySQL = new MySQL(Main.getInstance().getConfig().getString("host"), Main.getInstance().getConfig().getString("port"), Main.getInstance().getConfig().getString("database"), Main.getInstance().getConfig().getString("user"), Main.getInstance().getConfig().getString("password"));
     //redis = new Redis("", "", "");
 
     mySQL.setupTables();

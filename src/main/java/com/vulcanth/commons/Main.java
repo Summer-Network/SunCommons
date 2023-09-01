@@ -1,8 +1,9 @@
 package com.vulcanth.commons;
 
 import com.vulcanth.commons.commands.CommandsAbstract;
-import com.vulcanth.commons.commands.collections.SpawnCommands;
-import com.vulcanth.commons.commands.collections.VoarCommands;
+import com.vulcanth.commons.commands.collections.CashCommand;
+import com.vulcanth.commons.commands.collections.SpawnCommand;
+import com.vulcanth.commons.commands.collections.VoarCommand;
 import com.vulcanth.commons.listeners.ListenersAbstract;
 import com.vulcanth.commons.listeners.collections.PlayerInteractEvents;
 import com.vulcanth.commons.listeners.collections.PlayerJoinEvents;
@@ -12,6 +13,7 @@ import com.vulcanth.commons.nms.NmsManager;
 import com.vulcanth.commons.player.Profile;
 import com.vulcanth.commons.plugin.VulcanthPlugins;
 import com.vulcanth.commons.storage.Database;
+import com.vulcanth.commons.utils.ResetAplication;
 
 public class Main extends VulcanthPlugins {
 
@@ -32,11 +34,13 @@ public class Main extends VulcanthPlugins {
     public void enablePlugin() {
         Database.setupDatabase();
 
-        CommandsAbstract.setupComands(SpawnCommands.class, VoarCommands.class);
+        CommandsAbstract.setupComands(SpawnCommand.class, VoarCommand.class, CashCommand.class);
         ListenersAbstract.setupListeners(PlayerJoinEvents.class, PlayerQuitEvents.class, PlayerInteractEvents.class); //Um simples sistema para registrar as classes de eventos sem precisar repitir o código diversas vezes
 
         SpawnManager.setupLocation();
         NmsManager.setupNMS();
+
+        ResetAplication.scheduleShutdown("10:00:00");
 
         this.sendMessage("O plugin iniciou com sucesso!");
     }

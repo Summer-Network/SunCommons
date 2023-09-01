@@ -47,6 +47,7 @@ public class DeliveryMenu extends PlayerUpdapleMenu {
                     new DeliveryMenu(profile);
                     event.setCancelled(true);
                     if (slot == 49) {
+                        new ProfileMenu(profile).open();
                         player.playSound(player.getLocation(), Sound.CLICK, 0.5F, 2.0F);
                     } else {
                         Arrays.stream(Delivery.values()).filter(delivery -> delivery.getSlot() == slot).findFirst().ifPresent(delivery -> {
@@ -61,7 +62,7 @@ public class DeliveryMenu extends PlayerUpdapleMenu {
 
                             player.playSound(player.getLocation(), Sound.LEVEL_UP, 0.5F, 1.0F);
                             cache.setDeliveryClaim(delivery.getId(), System.currentTimeMillis(), delivery.getDays());
-                            player.sendMessage(cache.getObject().toJSONString());
+                            delivery.setupReward(profile);
                             player.sendMessage("§aRecompensa coletada com sucesso!");
                         });
                     }
