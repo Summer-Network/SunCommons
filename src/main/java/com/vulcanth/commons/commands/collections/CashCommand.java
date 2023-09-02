@@ -33,7 +33,7 @@ public class CashCommand extends CommandsAbstract {
         switch (options.toLowerCase()) {
             case "add": {
                 if (args.length < 3) {
-                    sender.sendMessage("§cTente /cash add [jogador] [quantia].");
+                    sender.sendMessage("§cUtilize \"/cash add <jogador> [quantia]\" para adicionar cash.");
                     return;
                 }
 
@@ -63,7 +63,7 @@ public class CashCommand extends CommandsAbstract {
 
             case "remove": {
                 if (args.length < 3) {
-                    sender.sendMessage("§cTente /cash remove [jogador] [quantia].");
+                    sender.sendMessage("§cUtilize \"/cash remove <jogador> [quantia]\" para remover o cash do jogador.");
                     return;
                 }
 
@@ -99,7 +99,7 @@ public class CashCommand extends CommandsAbstract {
 
             case "set": {
                 if (args.length < 3) {
-                    sender.sendMessage("§cTente /cash set [jogador] [quantia].");
+                    sender.sendMessage("§cUtilize \"/cash set <jogador> [quantia]\" para definir o cash do jogador.");
                     return;
                 }
 

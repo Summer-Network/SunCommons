@@ -12,7 +12,7 @@ public enum RoleEnum {
     MVPPLUS("mvpplus", "§bMVP§6+§b", "§b[MVP§6+§b] ", "role.mvpplus", "§b", 3.5, true, true, 7),
     MVP("mvp", "§6MVP", "§6[MVP] ", "role.mvp", "§6", 3.0, true, true, 8),
     VIP("vip", "§aVIP", "§a[VIP] ", "role.vip", "§a", 2.0, true, true, 9),
-    MEMBRO("default", "§7Membro", "§7[Membro] ", null, "§7", 1.0, true, true, 10);
+    MEMBRO("default", "§7Membro", "§7", null, "§7", 1.0, true, true, 10);
 
     private final String groupName;
     private final int id;

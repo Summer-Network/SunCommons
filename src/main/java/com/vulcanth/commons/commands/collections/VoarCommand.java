@@ -25,7 +25,7 @@ public class VoarCommand extends CommandsAbstract {
             }
 
             if (!role.canFly()) {
-                player.sendMessage("§cComando exclusivo para o cargo §aVIP §cou superior.");
+                player.sendMessage("§cSomente VIP ou superior podem executar este comando.");
                 return;
             }
 
