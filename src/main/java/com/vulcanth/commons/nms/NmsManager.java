@@ -9,6 +9,9 @@ public class NmsManager {
 
     private static NMS nms;
 
+    public static void setValueAndSignature(Player player, String value, String signature) {
+        nms.setValueAndSignature(player, value, signature);
+    }
     public static void sendAction(Player player, String message) {
         nms.sendAction(player, message);
     }

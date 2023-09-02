@@ -1,5 +1,7 @@
 package com.vulcanth.commons.nms.collections;
 
+import com.mojang.authlib.GameProfile;
+import com.mojang.authlib.properties.Property;
 import com.vulcanth.commons.nms.NMS;
 import net.minecraft.server.v1_8_R3.*;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
@@ -38,4 +40,14 @@ public class NMS_1_8 implements NMS {
 
         craftPlayer.getHandle().playerConnection.sendPacket(packet);
     }
+
+    public void setValueAndSignature(Player player, String value, String signature) {
+        GameProfile profile = ((CraftPlayer)player).getProfile();
+        if (value != null && signature != null) {
+            profile.getProperties().clear();
+            profile.getProperties().put("textures", new Property("textures", value, signature));
+        }
+
+    }
+
 }
