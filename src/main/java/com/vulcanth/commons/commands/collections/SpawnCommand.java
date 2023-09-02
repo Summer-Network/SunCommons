@@ -14,7 +14,6 @@ public class SpawnCommand extends CommandsAbstract {
     @Override
     public void executeCommand(CommandSender sender, String label, String[] args) {
         Player player = getPlayerSender(sender);
-        String a = args[1];
         if (!player.hasPermission("vulcanthcommons.cmd.setspawn")) {
             player.sendMessage("§cComando exclusivo para §4Gerente §cou superior!");
             return;
