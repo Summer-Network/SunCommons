@@ -2,6 +2,7 @@ package com.vulcanth.commons.storage.types;
 
 import com.vulcanth.commons.Main;
 import com.vulcanth.commons.storage.tables.collections.ProfileTable;
+import com.vulcanth.commons.storage.tables.collections.SkinTable;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import org.bukkit.Bukkit;
@@ -34,6 +35,7 @@ public class MySQL {
 
     public void setupTables() {
         new ProfileTable();
+        new SkinTable();
     }
 
     public void insert(PreparedStatement preparedStatement) {
