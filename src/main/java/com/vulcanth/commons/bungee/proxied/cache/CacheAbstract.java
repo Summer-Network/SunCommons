@@ -1,8 +1,6 @@
 package com.vulcanth.commons.bungee.proxied.cache;
 
-import com.vulcanth.commons.Main;
 import com.vulcanth.commons.bungee.proxied.ProxiedProfile;
-import org.bukkit.Bukkit;
 import simple.JSONArray;
 import simple.JSONObject;
 import simple.parser.JSONParser;
@@ -12,25 +10,13 @@ public abstract class CacheAbstract {
 
     private final ProxiedProfile profile;
     private Object valueCache;
+    private String key;
 
-    public CacheAbstract(Object defaultValue, ProxiedProfile profile) {
+    public CacheAbstract(String key, Object defaultValue, ProxiedProfile profile) {
         this.profile = profile;
+        this.key = key;
         this.load(defaultValue);
     }
-
-    //Sava os dados de forma permanente no database
-    @Deprecated
-    public void save(boolean async) {
-        Runnable task = ()-> {
-        };
-
-        if (async) {
-            Bukkit.getScheduler().scheduleAsyncDelayedTask(Main.getInstance(), task);
-        } else {
-            Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getInstance(), task);
-        }
-    }
-
 
     //Ele carrega as informações de acordo com o que foi estabelecido no objeto
     private void load(Object defaultValue) {
@@ -75,5 +61,9 @@ public abstract class CacheAbstract {
 
     public ProxiedProfile getProfile() {
         return this.profile;
+    }
+
+    public String getKey() {
+        return this.key;
     }
 }

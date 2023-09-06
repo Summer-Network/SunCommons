@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 public class PlayerInformationsCache extends CacheAbstract {
 
     public PlayerInformationsCache(ProxiedProfile profile) {
-        super("{}", profile);
+        super("INFORMATIONS", "{}", profile);
         if (this.getAsString().equals("{}")) {
             buildDefaultJSON();
         } else {

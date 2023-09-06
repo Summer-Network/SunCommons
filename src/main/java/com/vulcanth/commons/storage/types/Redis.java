@@ -17,6 +17,8 @@ import java.io.DataInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class Redis {
 
@@ -24,6 +26,7 @@ public class Redis {
     private String password;
     private List<RedisResponceAbstract> responces;
     private Jedis connection;
+    private final ExecutorService executorService;
 
     public Redis(String password, String host, String port, boolean isBungee) {
         this.password = password;
@@ -53,15 +56,25 @@ public class Redis {
         }
 
         setupChannel();
+        this.executorService = Executors.newFixedThreadPool(10);
     }
 
     public void openConnection() {
         try {
-            connection = this.resource.getResource();
-            connection.auth(this.password);
+            this.connection = this.resource.getResource();
+            this.connection.auth(this.password);
+            this.connection.getClient().setTimeout(5000);
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public Jedis createConnection() {
+        Jedis jedis = this.resource.getResource();
+        jedis.auth(this.password);
+        jedis.getClient().setTimeout(5000);
+
+        return jedis;
     }
 
     public void closeConnection() {
@@ -73,6 +86,7 @@ public class Redis {
 
     public void destroy() {
         this.resource.destroy();
+        this.executorService.shutdown();
         this.resource = null;
         this.password = null;
         System.out.println("Redis desligado com sucesso!");
@@ -97,7 +111,9 @@ public class Redis {
     }
 
     public void setupChannel() {
-       connection.subscribe(new JedisPubSub() {
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+
+        executor.submit(()-> connection.subscribe(new JedisPubSub() {
             @Override
             public void onMessage(String chanel, String value) {
                 responces.stream().filter(redisResponceAbstract -> redisResponceAbstract.getChannel().equals(chanel)).findFirst().ifPresent(redisResponceAbstract -> {
@@ -114,7 +130,8 @@ public class Redis {
             }
 
             @Override
-            public void onPMessage(String s, String s1, String s2) {}
+            public void onPMessage(String s, String s1, String s2) {
+            }
 
             @Override
             public void onSubscribe(String s, int i) {
@@ -122,18 +139,32 @@ public class Redis {
             }
 
             @Override
-            public void onUnsubscribe(String s, int i) {}
+            public void onUnsubscribe(String s, int i) {
+            }
 
             @Override
-            public void onPUnsubscribe(String s, int i) {}
+            public void onPUnsubscribe(String s, int i) {
+            }
 
             @Override
-            public void onPSubscribe(String s, int i) {}
-        }, "proxiedprofile");
+            public void onPSubscribe(String s, int i) {
+            }
+        }, "proxiedprofile"));
     }
 
     public void sendMessage(String channel, ByteArrayOutputStream byteArrayDataOutput) {
-        String finalByte = byteArrayDataOutput.toString();
-        connection.publish(channel, finalByte);
+        executorService.submit(() -> {
+            Jedis connectionNew = this.resource.getResource();
+            try {
+                connectionNew.auth(this.password);
+                connectionNew.getClient().setTimeout(1000);
+                String finalByte = byteArrayDataOutput.toString();
+                connectionNew.publish(channel, finalByte);
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                connectionNew.disconnect();
+            }
+        });
     }
 }

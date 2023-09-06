@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 public class PlayerPreferencesCache extends CacheAbstract {
 
     public PlayerPreferencesCache(ProxiedProfile profile) {
-        super("{}", profile);
+        super("PREFERENCES", "{}", profile);
         if (this.getAsString().equals("{}")) {
             buildDefaultJSON();
         } else {

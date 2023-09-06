@@ -1,10 +1,8 @@
 package com.vulcanth.commons.bungee.proxied;
 
-import com.vulcanth.commons.Main;
 import com.vulcanth.commons.bungee.BungeeMain;
 import com.vulcanth.commons.bungee.proxied.cache.CacheAbstract;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
-import org.bukkit.Bukkit;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -63,11 +61,10 @@ public class ProxiedProfile {
         };
 
         if (async) {
-            Bukkit.getScheduler().scheduleAsyncDelayedTask(Main.getInstance(), task);
-            return;
+            BungeeMain.getInstance().getProxy().getScheduler().runAsync(BungeeMain.getInstance(), task);
+        } else {
+            task.run();
         }
-
-        Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getInstance(), task);
     }
 
     @SuppressWarnings("unchecked")
@@ -75,9 +72,11 @@ public class ProxiedProfile {
         return (T) this.cache.stream().filter(cacheAbstract -> cacheAbstract.getClass().toString().equals(classCache.toString())).findFirst().orElse(null);
     }
 
-    public void destroy(boolean async) {
+    public CacheAbstract getCache(String column) {
+        return this.cache.stream().filter(cacheAbstract -> cacheAbstract.getKey().equals(column)).findFirst().orElse(null);
+    }
+    public void destroy() {
         PROFILES.remove(this.name);
-        this.cache.forEach(cacheAbstract -> cacheAbstract.save(async));
         this.name = null;
         this.cache = null;
     }

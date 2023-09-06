@@ -10,6 +10,9 @@ import simple.JSONObject;
 import simple.parser.JSONParser;
 import simple.parser.ParseException;
 
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 import java.sql.Connection;
 
 public abstract class CacheAbstract {
@@ -43,6 +46,8 @@ public abstract class CacheAbstract {
         } else {
             Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getInstance(), task);
         }
+
+        syncRedis();
     }
 
 
@@ -64,10 +69,27 @@ public abstract class CacheAbstract {
                 }
             }
         }
+
+        syncRedis();
+    }
+
+    public void syncRedis() {
+        try {
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            DataOutputStream byteArrayDataOutput = new DataOutputStream(byteArrayOutputStream);
+            byteArrayDataOutput.writeUTF(this.profile.getName());
+            byteArrayDataOutput.writeUTF(this.column);
+            byteArrayDataOutput.writeUTF(this.getAsString());
+            byteArrayDataOutput.writeUTF(this.getAsString());
+            Database.getRedis().sendMessage("proxiedprofile", byteArrayOutputStream);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void setValueCache(Object value) {
         this.valueCache = value;
+        syncRedis();
     }
 
     public Object getValueCache() {

@@ -18,17 +18,12 @@ import java.io.IOException;
 public class ProxiedJoinEvents extends ListenersAbstract {
 
     @EventHandler
-    public void onPlayerPreLogin(PostLoginEvent event) throws IOException {
+    public void onPlayerPreLogin(PostLoginEvent event) {
         ProxiedPlayer player = event.getPlayer();
         try {
-            ProxiedProfile.createProfile(player.getName()).loadCaches(false, PlayerInformationsCache.class, PlayerPreferencesCache.class);
+            ProxiedProfile.createProfile(player.getName()).loadCaches(true, PlayerInformationsCache.class, PlayerPreferencesCache.class);
         } catch (Exception e) {
             player.disconnect(TextComponent.fromLegacyText("§cOcorreu enquanto carregavamos o seu perfil!"));
         }
-
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        DataOutputStream byteArrayDataOutput = new DataOutputStream(byteArrayOutputStream);
-        byteArrayDataOutput.writeUTF(player.getName());
-        Database.getRedis().sendMessage("proxiedprofile", byteArrayOutputStream);
     }
 }

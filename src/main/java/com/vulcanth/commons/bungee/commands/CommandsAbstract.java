@@ -30,7 +30,7 @@ public abstract class CommandsAbstract extends Command {
     }
 
     @Override
-    public void execute(net.md_5.bungee.api.CommandSender sender, String[] args) {
+    public void execute(CommandSender sender, String[] args) {
         if (onlyPlayer) {
             if (!(sender instanceof ProxiedPlayer)) {
                 sender.sendMessage(TextComponent.fromLegacyText("§cComando de uso exclusivo para jogadores!"));
