@@ -13,7 +13,6 @@ import com.vulcanth.commons.nms.NmsManager;
 import com.vulcanth.commons.player.Profile;
 import com.vulcanth.commons.plugin.VulcanthPlugins;
 import com.vulcanth.commons.storage.Database;
-import com.vulcanth.commons.utils.ResetAplication;
 
 public class Main extends VulcanthPlugins {
 
@@ -32,15 +31,13 @@ public class Main extends VulcanthPlugins {
     @SuppressWarnings("unchecked")
     @Override
     public void enablePlugin() {
-        Database.setupDatabase();
+        Database.setupDatabase(false);
 
         CommandsAbstract.setupComands(SpawnCommand.class, VoarCommand.class, CashCommand.class);
         ListenersAbstract.setupListeners(PlayerJoinEvents.class, PlayerQuitEvents.class, PlayerInteractEvents.class); //Um simples sistema para registrar as classes de eventos sem precisar repitir o código diversas vezes
 
         SpawnManager.setupLocation();
         NmsManager.setupNMS();
-
-        ResetAplication.scheduleShutdown("10:00:00");
 
         this.sendMessage("O plugin iniciou com sucesso!");
     }

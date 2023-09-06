@@ -1,0 +1,4 @@
+name: 'VulcanthCommons'
+version: ${project.version}
+author: oJVzinn
+main: ${main-bungee}

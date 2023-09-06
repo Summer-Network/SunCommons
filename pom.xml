@@ -6,11 +6,12 @@
 
     <groupId>com.vulcanth.commons</groupId>
     <artifactId>VulcanthCommons</artifactId>
-    <version>0.6.7</version>
+    <version>0.6.8</version>
     <description>Plugin API dos demais plugins da VulcanthNetwork, sendo o manager dos demais</description>
 
     <properties>
         <main> com.vulcanth.commons.Main</main>
+        <main-bungee> com.vulcanth.commons.bungee.BungeeMain</main-bungee>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

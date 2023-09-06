@@ -1,5 +1,6 @@
 package com.vulcanth.commons.plugin;
 
+import com.vulcanth.commons.utils.ResetAplication;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -10,6 +11,7 @@ public abstract class VulcanthPlugins extends JavaPlugin {
     @Override
     public void onLoad() {
         this.loadPlugin();
+        ResetAplication.scheduleShutdown("10:00:00");
     }
 
     @Override

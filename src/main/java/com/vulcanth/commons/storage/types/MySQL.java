@@ -1,6 +1,7 @@
 package com.vulcanth.commons.storage.types;
 
 import com.vulcanth.commons.Main;
+import com.vulcanth.commons.bungee.BungeeMain;
 import com.vulcanth.commons.storage.tables.collections.ProfileTable;
 import com.vulcanth.commons.storage.tables.collections.SkinTable;
 import com.zaxxer.hikari.HikariConfig;
@@ -15,7 +16,7 @@ public class MySQL {
 
     private HikariDataSource resource;
 
-    public MySQL(String host, String port, String databaseName, String username, String password) {
+    public MySQL(String host, String port, String databaseName, String username, String password, boolean isBungee) {
         try {
             HikariConfig config = new HikariConfig();
             config.setJdbcUrl("jdbc:mysql://" + host + ":" + port + "/" + databaseName);
@@ -28,8 +29,13 @@ public class MySQL {
             config.setAutoCommit(true);
             this.resource = new HikariDataSource(config);
         } catch (Exception e) {
-            Main.getInstance().sendMessage("Algo deu errado enquanto conectavamos ao database...", '4');
-            Bukkit.shutdown();
+            if (isBungee) {
+                BungeeMain.getInstance().sendMessage("Algo deu errado enquanto conectavamos ao database...", '4');
+                BungeeMain.getInstance().getProxy().stop();
+            } else {
+                Main.getInstance().sendMessage("Algo deu errado enquanto conectavamos ao database...", '4');
+                Bukkit.shutdown();
+            }
         }
     }
 
@@ -149,7 +155,7 @@ public class MySQL {
     public void destroy() {
         this.resource.close();
         this.resource = null;
-        Main.getInstance().sendMessage("MySQL desligado com sucesso!", 'e');
+        System.out.println("MySQL desligado com sucesso!");
     }
 
     public Connection openConnection() {
