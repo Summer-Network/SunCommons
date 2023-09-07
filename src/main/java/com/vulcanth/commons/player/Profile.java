@@ -21,6 +21,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 public class Profile {
 
@@ -92,10 +93,11 @@ public class Profile {
         refreshPlayers();
     }
 
+    @Deprecated
     public void refreshPlayers() {
         Bukkit.getScheduler().scheduleAsyncDelayedTask(Main.getInstance(), ()-> {
             Player player = getPlayer();
-            for (Player online : Bukkit.getOnlinePlayers()) {
+            for (Player online : Bukkit.getOnlinePlayers().stream().filter(player1 -> !player1.equals(player)).collect(Collectors.toList())) {
                 Profile profile = Profile.loadProfile(online.getName());
                 if (profile != null) {
                     if (profile.getGame() == null) { //Significa que o jogador está no lobby
@@ -112,10 +114,11 @@ public class Profile {
                             }
 
                         }
+
                         if (roleP.isAlwaysVisible()) {
                             showPlayer(online, player);
                         } else {
-                            if (!Objects.requireNonNull(Profile.loadProfile(online.getName())).getCache(PlayerPreferencesCache.class).getPreference(PreferencesEnum.SHOW_PLAYERS)) {
+                            if (!profile.getCache(PlayerPreferencesCache.class).getPreference(PreferencesEnum.SHOW_PLAYERS)) {
                                 hidePlayer(online, player);
                             } else {
                                 showPlayer(online, player);
@@ -160,6 +163,8 @@ public class Profile {
 
                 cache.add(cacheClazz);
             }
+
+            this.cashManager = new CashManager(this);
         };
 
         if (async) {
@@ -177,14 +182,13 @@ public class Profile {
     }
 
     public void destroy(boolean async) {
-        PROFILES.remove(this.name);
         this.cache.forEach(cacheAbstract -> cacheAbstract.save(async));
         this.scoreboard.destroy();
-        this.name = null;
         this.cache = null;
         this.scoreboard = null;
         this.cashManager = null;
         this.hotbarKey = null;
+        PROFILES.remove(this.name);
     }
 
     public String getName() {

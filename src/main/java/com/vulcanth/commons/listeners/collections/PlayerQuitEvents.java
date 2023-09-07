@@ -19,7 +19,6 @@ public class PlayerQuitEvents extends ListenersAbstract {
         }
 
         Role.reset(player);
-
         event.setQuitMessage(null);
     }
 

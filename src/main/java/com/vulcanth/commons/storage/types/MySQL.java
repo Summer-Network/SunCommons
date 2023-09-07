@@ -6,6 +6,7 @@ import com.vulcanth.commons.storage.tables.collections.ProfileTable;
 import com.vulcanth.commons.storage.tables.collections.SkinTable;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import com.zaxxer.hikari.metrics.dropwizard.CodaHaleMetricsTracker;
 import org.bukkit.Bukkit;
 
 import java.sql.*;
@@ -22,11 +23,13 @@ public class MySQL {
             config.setJdbcUrl("jdbc:mysql://" + host + ":" + port + "/" + databaseName);
             config.setUsername(username);
             config.setPassword(password);
-            config.setMinimumIdle(5);
-            config.setMaximumPoolSize(40);
-            config.setConnectionTimeout(10000);
-            config.setIdleTimeout(10000);
+            config.setMinimumIdle(20);
+            config.setMaximumPoolSize(100);
+            config.setConnectionTimeout(20000);
+            config.setIdleTimeout(1000);
+            config.setValidationTimeout(3000);
             config.setAutoCommit(true);
+            config.setMaxLifetime(1800000);
             this.resource = new HikariDataSource(config);
         } catch (Exception e) {
             if (isBungee) {

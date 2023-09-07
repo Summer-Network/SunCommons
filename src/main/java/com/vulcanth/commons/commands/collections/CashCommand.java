@@ -69,7 +69,7 @@ public class CashCommand extends CommandsAbstract {
 
                 Player targetP = null;
                 try {
-                    targetP = Bukkit.getPlayer(args[0]);
+                    targetP = Bukkit.getPlayer(args[1]);
                 } catch (Exception e) {
                     sender.sendMessage("§cJogador offline no momento.");
                 }
@@ -87,8 +87,8 @@ public class CashCommand extends CommandsAbstract {
                 }
 
                 CashManager cashManager = new CashManager(Objects.requireNonNull(Profile.loadProfile(targetP.getName())));
-                if (cashManager.getCash() - amount <= 0) {
-                    sender.sendMessage("§aNão é possível deixar o jogador zerado ou com cash negativo!");
+                if (cashManager.getCash() - amount < 0) {
+                    sender.sendMessage("§aNão é possível deixar o jogador com cash negativo!");
                     return;
                 }
 
@@ -105,7 +105,7 @@ public class CashCommand extends CommandsAbstract {
 
                 Player targetP = null;
                 try {
-                    targetP = Bukkit.getPlayer(args[0]);
+                    targetP = Bukkit.getPlayer(args[1]);
                 } catch (Exception e) {
                     sender.sendMessage("§cJogador offline no momento.");
                 }
@@ -122,8 +122,7 @@ public class CashCommand extends CommandsAbstract {
                     return;
                 }
 
-                CashManager cashManager = new CashManager(Objects.requireNonNull(Profile.loadProfile(targetP.getName())));
-                cashManager.setCash(amount);
+                new CashManager(Objects.requireNonNull(Profile.loadProfile(targetP.getName()))).setCash(amount);
                 sender.sendMessage("§aQuantia de cash setada com sucesso!");
                 break;
             }

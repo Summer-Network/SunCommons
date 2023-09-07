@@ -79,6 +79,7 @@ public class HotbarItemObject {
                             player.sendMessage(profile.getCache(PlayerPreferencesCache.class).getPreference(PreferencesEnum.SHOW_PLAYERS) ? "§cVisibilidade de jogadores desativada." : "§aVisibilidade de jogadores ativada.");
                             profile.getCache(PlayerPreferencesCache.class).changePreference(PreferencesEnum.SHOW_PLAYERS);
                             updateItem(player);
+                            profile.refreshPlayers();
                             HotbarDelay.addDelayForPlayer(player.getName(), 5L);
                             return true;
                         }

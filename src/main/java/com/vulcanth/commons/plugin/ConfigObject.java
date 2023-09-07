@@ -22,7 +22,6 @@ public class ConfigObject {
         this.file = file;
         this.fileLink = fileLink;
         this.checkIfHasNewPatch(vulcanthConfig);
-        System.out.println("a");
     }
 
     @Deprecated

@@ -1,28 +1,45 @@
 package com.vulcanth.commons.bungee;
 
+import com.vulcanth.commons.bungee.commands.CommandsAbstract;
+import com.vulcanth.commons.bungee.commands.collections.ManutencaoCommand;
 import com.vulcanth.commons.bungee.listeners.ListenersAbstract;
 import com.vulcanth.commons.bungee.listeners.collections.ProxiedJoinEvents;
+import com.vulcanth.commons.bungee.listeners.collections.ServerEvents;
 import com.vulcanth.commons.bungee.plugin.VulcanthBungee;
 import com.vulcanth.commons.storage.Database;
+
+import java.util.Objects;
 
 public class BungeeMain extends VulcanthBungee {
 
     private static BungeeMain instance;
+    private static boolean isMaintence;
 
     public static BungeeMain getInstance() {
         return instance;
     }
 
+    public static void setIsMaintence(boolean isMaintence) {
+        BungeeMain.isMaintence = isMaintence;
+    }
+
+    public static boolean isIsMaintence() {
+        return isMaintence;
+    }
+
     @Override
     public void loadPlugin() {
         instance = this;
+        isMaintence = Objects.requireNonNull(getYaml("options.yml", "plugins/" + getDescription().getName())).getBoolean("manutencao");
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void enablePlugin() {
         Database.setupDatabase(true);
 
-        ListenersAbstract.setupListeners(ProxiedJoinEvents.class);
+        CommandsAbstract.setupComands(ManutencaoCommand.class);
+        ListenersAbstract.setupListeners(ProxiedJoinEvents.class, ServerEvents.class);
 
         this.sendMessage("O plugin iniciou com sucesso!");
     }

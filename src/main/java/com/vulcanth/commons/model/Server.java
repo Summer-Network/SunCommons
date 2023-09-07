@@ -9,6 +9,7 @@ public enum Server {
     LOBBY("47 : 1 : nome>&6Lobby Principal : desc>&eClique para conectar", 12, ""),
     SKYWARS("GRASS : 1 : nome>&aSky Wars &b&lV0.0\n \n &eConfira a atualização &n0.0\n &bvulcanth.com/skywars\n \n &7Você tem medo de altura? Então este\n &7jogo não é para você! No Sky Wars, você\n \n& 7deverá eliminar os seus adversários com\n \n&7e ajuda de diversos Kits e Habilidades.\n \n &8• &fSolo\n &8• &fDupla\n \n&aClique para conectar!", 1, ""),
     BEDWARS("", 1, ""),
+
     THE_BRIDGE("", 1, ""),
     BUILD_BATTLE("", 1, ""),
     TEST_ZONE("", 1, ""),

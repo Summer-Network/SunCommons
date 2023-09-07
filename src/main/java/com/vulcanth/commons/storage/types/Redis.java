@@ -26,7 +26,6 @@ public class Redis {
     private String password;
     private List<RedisResponceAbstract> responces;
     private Jedis connection;
-    private final ExecutorService executorService;
 
     public Redis(String password, String host, String port, boolean isBungee) {
         this.password = password;
@@ -56,7 +55,6 @@ public class Redis {
         }
 
         setupChannel();
-        this.executorService = Executors.newFixedThreadPool(10);
     }
 
     public void openConnection() {
@@ -86,7 +84,6 @@ public class Redis {
 
     public void destroy() {
         this.resource.destroy();
-        this.executorService.shutdown();
         this.resource = null;
         this.password = null;
         System.out.println("Redis desligado com sucesso!");
@@ -153,6 +150,7 @@ public class Redis {
     }
 
     public void sendMessage(String channel, ByteArrayOutputStream byteArrayDataOutput) {
+        ExecutorService executorService = Executors.newFixedThreadPool(Integer.MAX_VALUE);
         executorService.submit(() -> {
             Jedis connectionNew = this.resource.getResource();
             try {

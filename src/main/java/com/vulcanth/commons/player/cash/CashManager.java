@@ -12,7 +12,11 @@ public class CashManager {
     }
 
     public Long getCash() {
-        return Long.valueOf(this.cache.getInformation("cash"));
+        try {
+            return Long.valueOf(this.cache.getInformation("cash"));
+        } catch (Exception e) {
+            return 0L;
+        }
     }
 
     public void addCash(Long value) {

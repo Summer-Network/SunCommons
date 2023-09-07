@@ -44,7 +44,7 @@ public abstract class CacheAbstract {
         if (async) {
             Bukkit.getScheduler().scheduleAsyncDelayedTask(Main.getInstance(), task);
         } else {
-            Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getInstance(), task);
+            task.run();
         }
 
         syncRedis();
