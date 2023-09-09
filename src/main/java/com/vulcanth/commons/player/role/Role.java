@@ -25,6 +25,10 @@ public class Role {
         }, 3L);
     }
 
+    public static RoleEnum findRoleByID(String id) {
+        return Arrays.stream(RoleEnum.values()).filter(roleEnum -> String.valueOf(roleEnum.getId()).equals(id)).findFirst().orElse(RoleEnum.MEMBRO);
+    }
+
     public static void reset(Player player) {
         TagUtils.reset(player.getName());
     }
