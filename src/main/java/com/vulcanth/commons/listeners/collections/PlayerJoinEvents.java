@@ -36,7 +36,7 @@ public class PlayerJoinEvents extends ListenersAbstract {
     public void onPlayerPreLogin(AsyncPlayerPreLoginEvent event) {
         String name = event.getName();
         try {
-            Profile.createProfile(name).loadCaches(true, PlayerInformationsCache.class, PlayerPreferencesCache.class, PlayerDeliveryCache.class);
+            Profile.createProfile(name).loadCaches(false, PlayerInformationsCache.class, PlayerPreferencesCache.class, PlayerDeliveryCache.class);
         } catch (Exception e) {
             event.setKickMessage("§cOcorreu enquanto carregavamos o seu perfil!");
             event.setLoginResult(AsyncPlayerPreLoginEvent.Result.KICK_OTHER);
@@ -47,7 +47,7 @@ public class PlayerJoinEvents extends ListenersAbstract {
     public void onPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
         Profile profile = Profile.loadProfile(player.getName());
-        if (profile == null) {
+        if (profile == null || profile.getCache(PlayerInformationsCache.class) == null) {
             player.kickPlayer("§cOops...\n§cocorreu um erro enquanto carregavamos o seu perfil!");
         }
         if (profile != null) {

@@ -9,6 +9,7 @@ import com.vulcanth.commons.listeners.collections.PlayerInteractEvents;
 import com.vulcanth.commons.listeners.collections.PlayerJoinEvents;
 import com.vulcanth.commons.listeners.collections.PlayerQuitEvents;
 import com.vulcanth.commons.lobby.SpawnManager;
+import com.vulcanth.commons.model.ServerManager;
 import com.vulcanth.commons.nms.NmsManager;
 import com.vulcanth.commons.player.Profile;
 import com.vulcanth.commons.plugin.VulcanthPlugins;
@@ -38,6 +39,7 @@ public class Main extends VulcanthPlugins {
 
         SpawnManager.setupLocation();
         NmsManager.setupNMS();
+        ServerManager.setupServers();
 
         this.sendMessage("O plugin iniciou com sucesso!");
     }

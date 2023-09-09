@@ -16,6 +16,7 @@ import java.util.List;
 public class MySQL {
 
     private HikariDataSource resource;
+    private Connection connection;
 
     public MySQL(String host, String port, String databaseName, String username, String password, boolean isBungee) {
         try {
@@ -163,7 +164,10 @@ public class MySQL {
 
     public Connection openConnection() {
         try {
-            return this.resource.getConnection();
+            if(connection == null || connection.isClosed()){
+                this.connection = resource.getConnection();
+            }
+            return connection;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
