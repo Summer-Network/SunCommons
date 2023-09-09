@@ -14,10 +14,6 @@ public class Role {
         return Arrays.stream(RoleEnum.values()).filter(roleEnum -> roleEnum.getPermission() != null && player.hasPermission(roleEnum.getPermission())).findFirst().orElse(RoleEnum.MEMBRO);
     }
 
-    public static RoleEnum findRole(ProxiedPlayer player) {
-        return Arrays.stream(RoleEnum.values()).filter(roleEnum -> roleEnum.getPermission() != null && player.hasPermission(roleEnum.getPermission())).findFirst().orElse(RoleEnum.MEMBRO);
-    }
-
     public static void setTag(Player player) {
         Bukkit.getScheduler().runTaskLaterAsynchronously(Main.getInstance(), ()-> {
             TagUtils.sendTeams(player);

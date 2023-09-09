@@ -9,10 +9,10 @@ public enum ProxiedRoleEnum {
     AJUDANTE("ajudante", "§eAjudante", "§e[Ajudante] ", "role.ajudante", "§e", 3.0, true, true, 4),
     STREAMER("streamer", "§5Streamer", "§5[Streamer] ", "role.streamer", "§5", 3.0, true, true, 5),
     YOUTUBER("yt", "§cYouTuber", "§c[YouTuber] ", "role.yt", "§c", 3.0, true, true, 6),
-    MVPPLUS("mvpplus", "§bMVP§6+§b", "§b[MVP§6+§b] ", "role.mvpplus", "§b", 3.5, true, true, 7),
-    MVP("mvp", "§6MVP", "§6[MVP] ", "role.mvp", "§6", 3.0, true, true, 8),
-    VIP("vip", "§aVIP", "§a[VIP] ", "role.vip", "§a", 2.0, true, true, 9),
-    MEMBRO("default", "§7Membro", "§7", null, "§7", 1.0, true, true, 10);
+    MVPPLUS("mvpplus", "§bMVP§6+§b", "§b[MVP§6+§b] ", "role.mvpplus", "§b", 3.5, true, false, 7),
+    MVP("mvp", "§6MVP", "§6[MVP] ", "role.mvp", "§6", 3.0, true, false, 8),
+    VIP("vip", "§aVIP", "§a[VIP] ", "role.vip", "§a", 2.0, true, false, 9),
+    MEMBRO("default", "§7Membro", "§7", null, "§7", 1.0, false, false, 10);
 
     private final String groupName;
     private final int id;

@@ -9,4 +9,7 @@ public class ProxiedRole {
     public static ProxiedRoleEnum findRole(ProxiedPlayer player) {
         return Arrays.stream(ProxiedRoleEnum.values()).filter(roleEnum -> roleEnum.getPermission() != null && player.hasPermission(roleEnum.getPermission())).findFirst().orElse(ProxiedRoleEnum.MEMBRO);
     }
+    public static ProxiedRoleEnum findRoleByID(String id) {
+        return Arrays.stream(ProxiedRoleEnum.values()).filter(roleEnum -> String.valueOf(roleEnum.getId()).equals(id)).findFirst().orElse(ProxiedRoleEnum.MEMBRO);
+    }
 }
