@@ -44,7 +44,6 @@ public enum Server {
     }
 
     public void connect(Profile profile) {
-        this.servers.stream().sorted((serverInfo, t1) -> Integer.compare(s))
     }
 
     public List<ServerInfo> listServers() {
