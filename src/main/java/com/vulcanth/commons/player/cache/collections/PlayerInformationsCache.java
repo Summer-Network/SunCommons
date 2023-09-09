@@ -2,6 +2,8 @@ package com.vulcanth.commons.player.cache.collections;
 
 import com.vulcanth.commons.player.Profile;
 import com.vulcanth.commons.player.cache.CacheAbstract;
+import com.vulcanth.commons.player.role.Role;
+import com.vulcanth.commons.player.role.RoleEnum;
 import simple.JSONObject;
 
 import java.util.List;
@@ -49,7 +51,7 @@ public class PlayerInformationsCache extends CacheAbstract {
         json.put("lastLogin", "");
         json.put("email", "");
         json.put("discord", "");
-        json.put("role", "");
+        json.put("role", String.valueOf(RoleEnum.MEMBRO.getId()));
         json.put("cash", "0");
 
         return json;
