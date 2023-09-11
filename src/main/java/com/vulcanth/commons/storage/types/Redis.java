@@ -4,6 +4,7 @@ import com.google.common.io.ByteArrayDataOutput;
 import com.vulcanth.commons.Main;
 import com.vulcanth.commons.bungee.BungeeMain;
 import com.vulcanth.commons.storage.redisresponces.RedisResponceAbstract;
+import com.vulcanth.commons.storage.redisresponces.collections.PlayerRoleUpdater;
 import com.vulcanth.commons.storage.redisresponces.collections.ProxiedUpdater;
 import org.bukkit.Bukkit;
 import redis.clients.jedis.Jedis;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 public class Redis {
 
@@ -49,7 +51,7 @@ public class Redis {
         }
 
         try {
-            loadResponses(ProxiedUpdater.class);
+            loadResponses(ProxiedUpdater.class, PlayerRoleUpdater.class);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -146,7 +148,7 @@ public class Redis {
             @Override
             public void onPSubscribe(String s, int i) {
             }
-        }, "proxiedprofile"));
+        }, "proxiedprofile", "playerrole"));
     }
 
     public void sendMessage(String channel, ByteArrayOutputStream byteArrayDataOutput) {

@@ -39,7 +39,7 @@ public class Main extends VulcanthPlugins {
 
         SpawnManager.setupLocation();
         NmsManager.setupNMS();
-        ServerManager.setupServers();
+        //ServerManager.setupServers();
 
         this.sendMessage("O plugin iniciou com sucesso!");
     }

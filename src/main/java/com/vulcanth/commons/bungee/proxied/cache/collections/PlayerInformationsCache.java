@@ -2,6 +2,8 @@ package com.vulcanth.commons.bungee.proxied.cache.collections;
 
 import com.vulcanth.commons.bungee.proxied.ProxiedProfile;
 import com.vulcanth.commons.bungee.proxied.cache.CacheAbstract;
+import com.vulcanth.commons.bungee.proxied.role.ProxiedRoleEnum;
+import com.vulcanth.commons.player.role.RoleEnum;
 import simple.JSONObject;
 
 import java.util.List;
@@ -49,7 +51,7 @@ public class PlayerInformationsCache extends CacheAbstract {
         json.put("lastLogin", "");
         json.put("email", "");
         json.put("discord", "");
-        json.put("role", "");
+        json.put("role", String.valueOf(ProxiedRoleEnum.MEMBRO.getId()));
         json.put("cash", "0");
 
         return json;

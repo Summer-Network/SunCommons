@@ -53,7 +53,12 @@ public abstract class CommandsAbstract extends Command {
         try {
             this.executeCommand(commandSender, s, strings);
         } catch (Exception ex) {
-            new VulcanthExeption(commandSender, ex.getStackTrace()[0].toString());
+            StringBuilder sb = new StringBuilder();
+            for (StackTraceElement stack : ex.getStackTrace()) {
+                sb.append(stack.toString()).append(" || ");
+            }
+
+            new VulcanthExeption(commandSender, sb.toString());
         }
 
         return true;

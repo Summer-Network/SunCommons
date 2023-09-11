@@ -183,7 +183,9 @@ public class Profile {
 
     public void destroy(boolean async) {
         this.cache.forEach(cacheAbstract -> cacheAbstract.save(async));
-        this.scoreboard.destroy();
+        if (this.scoreboard != null) {
+            this.scoreboard.destroy();
+        }
         this.cache = null;
         this.scoreboard = null;
         this.cashManager = null;
