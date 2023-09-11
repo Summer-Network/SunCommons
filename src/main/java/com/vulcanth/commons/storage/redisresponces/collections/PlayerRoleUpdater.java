@@ -19,5 +19,5 @@ public abstract class PlayerRoleUpdater extends RedisResponceAbstract {
         update(key, Long.parseLong(value.readUTF()));
     }
 
-    abstract void update(String name, long roleId);
+    public abstract void update(String name, long roleId);
 }
