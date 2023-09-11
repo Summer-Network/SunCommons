@@ -109,6 +109,7 @@ public class Redis {
         }
     }
 
+
     public void setupChannel() {
         ExecutorService executor = Executors.newSingleThreadExecutor();
 

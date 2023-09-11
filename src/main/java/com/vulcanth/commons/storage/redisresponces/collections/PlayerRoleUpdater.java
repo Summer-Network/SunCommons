@@ -7,17 +7,20 @@ import java.io.IOException;
 
 public abstract class PlayerRoleUpdater extends RedisResponceAbstract {
 
-    private PlayerRoleUpdater classInstance;
+    private static Updater classInstance = null;
 
-    public PlayerRoleUpdater(PlayerRoleUpdater classInstance) {
+    public PlayerRoleUpdater() {
         super("playerrole");
-        this.classInstance = classInstance;
     }
 
     @Override
     public void setupAction(String key, DataInputStream value) throws IOException {
-        update(key, Long.parseLong(value.readUTF()));
+        if (classInstance != null) {
+            classInstance.update(key, Long.parseLong(value.readUTF()));
+        }
     }
 
-    public abstract void update(String name, long roleId);
+    public static void setClassUpdater(Updater updater) {
+        classInstance = updater;
+    }
 }
