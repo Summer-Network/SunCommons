@@ -5,7 +5,7 @@ import com.vulcanth.commons.storage.redisresponces.RedisResponceAbstract;
 import java.io.DataInputStream;
 import java.io.IOException;
 
-public abstract class PlayerRoleUpdater extends RedisResponceAbstract {
+public class PlayerRoleUpdater extends RedisResponceAbstract {
 
     private static Updater classInstance = null;
 
