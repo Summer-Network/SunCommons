@@ -8,6 +8,7 @@ import com.vulcanth.commons.player.preferences.PreferencesEnum;
 import com.vulcanth.commons.utils.BukkitUtils;
 import com.vulcanth.commons.utils.StringUtils;
 import com.vulcanth.commons.view.ProfileMenu;
+import com.vulcanth.commons.view.ServerMenu;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -94,6 +95,7 @@ public class HotbarItemObject {
                         }
 
                         case "minigames": {
+                            new ServerMenu(profile).open();
                             return true;
                         }
                     }

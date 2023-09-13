@@ -14,6 +14,7 @@ import com.vulcanth.commons.nms.NmsManager;
 import com.vulcanth.commons.player.Profile;
 import com.vulcanth.commons.plugin.VulcanthPlugins;
 import com.vulcanth.commons.storage.Database;
+import org.bukkit.Bukkit;
 
 public class Main extends VulcanthPlugins {
 
@@ -27,6 +28,7 @@ public class Main extends VulcanthPlugins {
     public void loadPlugin() {
         instance = this;
         getVulcanthConfig().setupConfigs("config.yml");
+        Bukkit.getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
     }
 
     @SuppressWarnings("unchecked")
@@ -39,7 +41,7 @@ public class Main extends VulcanthPlugins {
 
         SpawnManager.setupLocation();
         NmsManager.setupNMS();
-        //ServerManager.setupServers();
+        ServerManager.setupServers();
 
         this.sendMessage("O plugin iniciou com sucesso!");
     }

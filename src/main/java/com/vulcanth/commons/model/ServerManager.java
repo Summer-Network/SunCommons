@@ -9,7 +9,7 @@ public class ServerManager {
 
     public static void setupServers() {
         Bukkit.getScheduler().scheduleAsyncRepeatingTask(Main.getInstance(), ()-> {
-            Arrays.stream(Server.values()).forEach(server -> server.listServers().forEach(ServerInfo::update));
-        }, 0L, 10L);
+            Arrays.stream(Server.values()).filter(server -> !server.listServers().isEmpty()).forEach(server -> server.listServers().forEach(ServerInfo::update));
+        }, 40L, 10L);
     }
 }

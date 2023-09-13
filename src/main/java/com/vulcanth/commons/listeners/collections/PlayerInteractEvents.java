@@ -9,8 +9,6 @@ import org.bukkit.event.player.PlayerInteractEvent;
 public class PlayerInteractEvents extends ListenersAbstract {
 
     @EventHandler
-    public void onPlayerInteract(PlayerInteractEvent event) {
-        Player player = event.getPlayer();
-    }
+    public void onPlayerInteract(PlayerInteractEvent event) {}
 
 }
