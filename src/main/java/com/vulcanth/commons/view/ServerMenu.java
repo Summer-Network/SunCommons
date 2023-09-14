@@ -20,7 +20,7 @@ public class ServerMenu extends PlayerUpdapleMenu {
     private Profile profile;
 
     public ServerMenu(Profile profile) {
-        super(profile.getPlayer(), 6, "Modos de jogo");
+        super(profile.getPlayer(), 5, "Modos de jogo");
         this.profile = profile;
 
         this.setDelay(10);

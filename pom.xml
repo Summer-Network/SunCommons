@@ -6,7 +6,7 @@
 
     <groupId>com.vulcanth.commons</groupId>
     <artifactId>VulcanthCommons</artifactId>
-    <version>0.7.6</version>
+    <version>0.7.6.3</version>
     <description>Plugin API dos demais plugins da VulcanthNetwork, sendo o manager dos demais</description>
 
     <properties>
@@ -35,6 +35,16 @@
         <repository>
             <id>placeholderapi</id>
             <url>https://repo.extendedclip.com/content/repositories/placeholderapi/</url>
+        </repository>
+
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+
+        <repository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/groups/public/</url>
         </repository>
     </repositories>
 
@@ -74,6 +84,20 @@
             <groupId>me.clip</groupId>
             <artifactId>placeholderapi</artifactId>
             <version>2.11.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.decentsoftware-eu</groupId>
+            <artifactId>decentholograms</artifactId>
+            <version>2.8.3</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>net.jitse</groupId>
+            <artifactId>npclib-api</artifactId>
+            <version>2.11.1-SNAPSHOT</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 

@@ -1,9 +1,11 @@
 package com.vulcanth.commons.bungee.listeners.collections;
 
+import com.vulcanth.commons.bungee.BungeeMain;
 import com.vulcanth.commons.bungee.listeners.ListenersAbstract;
 import com.vulcanth.commons.bungee.proxied.ProxiedProfile;
 import com.vulcanth.commons.bungee.proxied.cache.collections.PlayerInformationsCache;
 import com.vulcanth.commons.bungee.proxied.cache.collections.PlayerPreferencesCache;
+import com.vulcanth.commons.bungee.proxied.role.ProxiedRole;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.LoginEvent;
@@ -25,6 +27,14 @@ public class ProxiedJoinEvents extends ListenersAbstract {
     @EventHandler
     public void onPlayerPostLogin(PostLoginEvent event) {
         ProxiedPlayer player = event.getPlayer();
+        /*if (BungeeMain.isIsMaintence()) {
+            if (ProxiedRole.findRole(player).getId() <= 4) {
+                return;
+            } else {
+                player.disconnect(TextComponent.fromLegacyText("§c§lVULCANTH - MANUTENÇÃO\n\n§cAtualmente estamos em manutenção, aguarde para mais informações\n§cem nosso site: www.vulcanth.com"));
+            }
+        }*/
+
         if (ProxiedProfile.loadProfile(player.getName()) == null) {
             player.disconnect(TextComponent.fromLegacyText("§cOcorreu enquanto carregavamos o seu perfil!"));
         }
