@@ -1,6 +1,7 @@
 package com.vulcanth.commons.plugin;
 
 import com.vulcanth.commons.Main;
+import com.vulcanth.commons.bungee.BungeeMain;
 import com.vulcanth.commons.utils.DiscordWebHook;
 import com.vulcanth.commons.utils.StringUtils;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -8,6 +9,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.io.IOException;
+import java.util.Objects;
 
 public class VulcanthExeption {
 
@@ -34,11 +36,25 @@ public class VulcanthExeption {
         sender.sendMessage(TextComponent.fromLegacyText("§cOpa, ocorreu um erro ao executar este comando. " +
                 "Você pode nos ajudar a resolver essse problema reportando-o em nosso fórum " +
                 "e informando o ID §b#" + this.code + " §coara que possamos verificar o que ocorreu."));
-        sendDiscordError();
+        sendDiscordErro();
     }
 
     public void sendDiscordError() {
         DiscordWebHook dc = new DiscordWebHook(Main.getInstance().getVulcanthConfig().findYamlByFileLink("config.yml").getStringWithColor("discordWebHook"));
+        DiscordWebHook.EmbedObject embed = new DiscordWebHook.EmbedObject();
+        dc.setContent("<@&1147354520758788158>");
+        embed.addField("Código:", this.code, false);
+        embed.addField("Erro:", this.cause, false);
+        dc.addEmbed(embed);
+        try {
+            dc.execute();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void sendDiscordErro() {
+        DiscordWebHook dc = new DiscordWebHook(String.valueOf(Objects.requireNonNull(BungeeMain.getYaml("options.yml", "plugins/" + BungeeMain.getInstance().getDescription().getName())).getBoolean("discordWebHook")));
         DiscordWebHook.EmbedObject embed = new DiscordWebHook.EmbedObject();
         dc.setContent("<@&1147354520758788158>");
         embed.addField("Código:", this.code, false);

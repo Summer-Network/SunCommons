@@ -27,13 +27,13 @@ public class ProxiedJoinEvents extends ListenersAbstract {
     @EventHandler
     public void onPlayerPostLogin(PostLoginEvent event) {
         ProxiedPlayer player = event.getPlayer();
-        /*if (BungeeMain.isIsMaintence()) {
+        if (BungeeMain.isIsMaintence()) {
             if (ProxiedRole.findRole(player).getId() <= 4) {
                 return;
             } else {
                 player.disconnect(TextComponent.fromLegacyText("§c§lVULCANTH - MANUTENÇÃO\n\n§cAtualmente estamos em manutenção, aguarde para mais informações\n§cem nosso site: www.vulcanth.com"));
             }
-        }*/
+        }
 
         if (ProxiedProfile.loadProfile(player.getName()) == null) {
             player.disconnect(TextComponent.fromLegacyText("§cOcorreu enquanto carregavamos o seu perfil!"));

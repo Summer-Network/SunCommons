@@ -1,5 +1,7 @@
 package com.vulcanth.commons.utils;
 
+import net.md_5.bungee.config.Configuration;
+
 import javax.net.ssl.HttpsURLConnection;
 import java.awt.*;
 import java.io.IOException;
