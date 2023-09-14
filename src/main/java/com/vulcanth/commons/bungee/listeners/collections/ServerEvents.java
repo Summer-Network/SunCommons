@@ -21,5 +21,4 @@ public class ServerEvents extends ListenersAbstract {
         serverPing.setDescription("§b§lVulcanth§b.com §7[1.8 - 1.20]\n§ewww.vulcanth.com");
         event.setResponse(serverPing);
     }
-
 }
