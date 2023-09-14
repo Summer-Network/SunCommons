@@ -7,6 +7,7 @@ import com.vulcanth.commons.bungee.listeners.collections.ProxiedJoinEvents;
 import com.vulcanth.commons.bungee.listeners.collections.ServerEvents;
 import com.vulcanth.commons.bungee.plugin.VulcanthBungee;
 import com.vulcanth.commons.storage.Database;
+import net.md_5.bungee.config.Configuration;
 
 import java.util.Objects;
 
@@ -14,6 +15,7 @@ public class BungeeMain extends VulcanthBungee {
 
     private static BungeeMain instance;
     private static boolean isMaintence;
+    private static Configuration config;
 
     public static BungeeMain getInstance() {
         return instance;
@@ -25,6 +27,9 @@ public class BungeeMain extends VulcanthBungee {
 
     public static boolean isIsMaintence() {
         return isMaintence;
+    }
+    public Configuration getConfig() {
+        return config;
     }
 
     @Override

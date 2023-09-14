@@ -1,6 +1,4 @@
-package com.vulcanth.commons.utils;
-
-import net.md_5.bungee.config.Configuration;
+package com.vulcanth.commons.bungee.plugin;
 
 import javax.net.ssl.HttpsURLConnection;
 import java.awt.*;
@@ -8,8 +6,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.reflect.Array;
 import java.net.URL;
-import java.util.*;
 import java.util.List;
+import java.util.*;
 
 public class DiscordWebHook {
 
@@ -23,7 +21,6 @@ public class DiscordWebHook {
     public DiscordWebHook(String url) {
         this.url = url;
     }
-
 
 
     public void setContent(String content) {

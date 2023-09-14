@@ -1,6 +1,7 @@
 package com.vulcanth.commons.bungee.commands;
 
 import com.vulcanth.commons.bungee.BungeeMain;
+import com.vulcanth.commons.bungee.plugin.VulcanthBungeeException;
 import com.vulcanth.commons.plugin.VulcanthExeption;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -41,7 +42,7 @@ public abstract class CommandsAbstract extends Command {
         try {
             this.executeCommand(sender, args);
         } catch (Exception ex) {
-            new VulcanthExeption(sender, ex.getStackTrace()[0].toString());
+            new VulcanthBungeeException(sender, ex.getStackTrace()[0].toString());
         }
     }
 
