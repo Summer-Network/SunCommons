@@ -93,7 +93,6 @@ public class ServerInfo {
             }
         } catch (IOException ex) {
             // Trate a exceção adequadamente, por exemplo, registre-a ou lance-a novamente conforme necessário.
-            ex.printStackTrace();
             this.online = 0;
             this.maxPlayers = 0;
             this.motd = "";

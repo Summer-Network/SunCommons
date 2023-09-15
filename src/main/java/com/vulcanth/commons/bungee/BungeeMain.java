@@ -4,6 +4,7 @@ import com.vulcanth.commons.bungee.commands.CommandsAbstract;
 import com.vulcanth.commons.bungee.commands.collections.ManutencaoCommand;
 import com.vulcanth.commons.bungee.listeners.ListenersAbstract;
 import com.vulcanth.commons.bungee.listeners.collections.ProxiedJoinEvents;
+import com.vulcanth.commons.bungee.listeners.collections.ProxiedQuitEvents;
 import com.vulcanth.commons.bungee.listeners.collections.ServerEvents;
 import com.vulcanth.commons.bungee.plugin.VulcanthBungee;
 import com.vulcanth.commons.storage.Database;
@@ -44,7 +45,7 @@ public class BungeeMain extends VulcanthBungee {
         Database.setupDatabase(true);
 
         CommandsAbstract.setupComands(ManutencaoCommand.class);
-        ListenersAbstract.setupListeners(ProxiedJoinEvents.class, ServerEvents.class);
+        ListenersAbstract.setupListeners(ProxiedJoinEvents.class, ServerEvents.class, ProxiedQuitEvents.class);
 
         this.sendMessage("O plugin iniciou com sucesso!");
     }

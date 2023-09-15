@@ -1,6 +1,6 @@
 name: ${project.artifactId}
 version: ${project.version}
 authors: [oJVzinn]
-depend: [PlaceholderAPI, DecentHolograms, NPCLibPlugin]
+depend: [PlaceholderAPI, DecentHolograms]
 
 main: ${main}
