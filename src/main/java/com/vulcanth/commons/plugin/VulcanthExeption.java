@@ -1,25 +1,24 @@
 package com.vulcanth.commons.plugin;
 
-import com.vulcanth.commons.Main;
-import com.vulcanth.commons.bungee.BungeeMain;
 import com.vulcanth.commons.utils.DiscordWebHook;
 import com.vulcanth.commons.utils.StringUtils;
-import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.io.IOException;
-import java.util.Objects;
 
 public class VulcanthExeption {
 
     private final String code = StringUtils.getRandomCode(6);
     private final String cause;
+    private final String webhookURL = "https://discord.com/api/webhooks/1147334310173618236/YHcVJj0w-QfUJ35Hb-HXWliE5cR2x4TMvsOyB6aHDOxEY-oR8joBDJIiraF1M9FLhrgI";
+    DiscordWebHook webhook = new DiscordWebHook(webhookURL);
+
     public VulcanthExeption(Player player, String throwable) {
         this.cause = throwable;
         player.sendMessage("§cOpa, ocorreu um erro ao executar este comando. " +
                 "Você pode nos ajudar a resolver essse problema reportando-o em nosso fórum " +
-                "e informando o ID §b#" + this.code + " §coara que possamos verificar o que ocorreu.");
+                "e informando o ID §b#" + this.code + " §cpara que possamos verificar o que ocorreu.");
         sendDiscordError();
     }
 
@@ -27,19 +26,21 @@ public class VulcanthExeption {
         this.cause = throwable;
         sender.sendMessage("§cOpa, ocorreu um erro ao executar este comando. " +
                 "Você pode nos ajudar a resolver essse problema reportando-o em nosso fórum " +
-                "e informando o ID §b#" + this.code + " §coara que possamos verificar o que ocorreu.");
+                "e informando o ID §b#" + this.code + " §cpara que possamos verificar o que ocorreu.");
         sendDiscordError();
     }
 
     public void sendDiscordError() {
-        DiscordWebHook dc = new DiscordWebHook(Main.getInstance().getVulcanthConfig().findYamlByFileLink("config.yml").getStringWithColor("discordWebHook"));
-        DiscordWebHook.EmbedObject embed = new DiscordWebHook.EmbedObject();
-        dc.setContent("<@&1147354520758788158>");
-        embed.addField("Código:", this.code, false);
-        embed.addField("Erro:", this.cause, false);
-        dc.addEmbed(embed);
+
+        String mentionMessage = "<@&1147354520758788158>";
+        DiscordWebHook.EmbedObject embed = new DiscordWebHook.EmbedObject()
+                .addField("Código:", this.code, false)
+                .addField("Erro:", this.cause, false);
+
         try {
-            dc.execute();
+            webhook.setContent(mentionMessage);
+            webhook.addEmbed(embed);
+            webhook.execute();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
