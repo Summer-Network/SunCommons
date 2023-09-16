@@ -4,6 +4,7 @@ import com.vulcanth.commons.commands.CommandsAbstract;
 import com.vulcanth.commons.commands.collections.CashCommand;
 import com.vulcanth.commons.commands.collections.SpawnCommand;
 import com.vulcanth.commons.commands.collections.VoarCommand;
+import com.vulcanth.commons.library.HologramAbstract;
 import com.vulcanth.commons.listeners.ListenersAbstract;
 import com.vulcanth.commons.listeners.collections.PlayerInteractEvents;
 import com.vulcanth.commons.listeners.collections.PlayerJoinEvents;
@@ -38,6 +39,7 @@ public class Main extends VulcanthPlugins {
 
         CommandsAbstract.setupComands(SpawnCommand.class, VoarCommand.class, CashCommand.class);
         ListenersAbstract.setupListeners(PlayerJoinEvents.class, PlayerQuitEvents.class, PlayerInteractEvents.class); //Um simples sistema para registrar as classes de eventos sem precisar repitir o código diversas vezes
+        HologramAbstract.setupHologram(HologramAbstract.class);
 
         SpawnManager.setupLocation();
         NmsManager.setupNMS();

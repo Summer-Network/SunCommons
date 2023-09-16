@@ -1,6 +1,7 @@
 package com.vulcanth.commons.nms;
 
 import com.vulcanth.commons.Main;
+import com.vulcanth.commons.library.holograms.Hologram;
 import com.vulcanth.commons.nms.collections.NMS_1_8;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
