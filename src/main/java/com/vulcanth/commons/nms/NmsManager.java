@@ -1,8 +1,6 @@
 package com.vulcanth.commons.nms;
 
 import com.vulcanth.commons.Main;
-import com.vulcanth.commons.library.holograms.Hologram;
-import com.vulcanth.commons.nms.collections.IEntityWrapper;
 import com.vulcanth.commons.nms.collections.NMS_1_8;
 import com.vulcanth.commons.library.holograms.HologramLine;
 import org.bukkit.Bukkit;
@@ -45,14 +43,4 @@ public class NmsManager {
         return Bukkit.getServer().getVersion().split("MC: ")[1].split("\\)")[0];
     }
 
-    public static IEntityWrapper createArmorStand(Location location, HologramLine line, ItemStack item) {
-        return nms.createArmorStand(location, line, item);
-    }
-    public static IEntityWrapper createItem(Location location, HologramLine line, ItemStack item) {
-        return nms.createItem(location, line, item);
-    }
-
-    public static IEntityWrapper createSlime(Location location, HologramLine line) {
-        return nms.createSlime(location, line);
-    }
 }

@@ -1,94 +1,75 @@
 package com.vulcanth.commons.library.holograms;
 
+import lombok.Getter;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Hologram {
 
-    private String attached;
-    private boolean spawned;
     private final Location location;
-    private final Map<Integer, HologramLine> lines = new HashMap<>();
+    private final List<String> lines;
+    private boolean spawned;
+    private final List<Player> playersInRange;
 
-    public Hologram(Location location, String... lines) {
+    public Hologram(Location location, List<String> lines) {
         this.location = location;
-
-        int current = 0;
-        for (String line : lines) {
-            this.lines.put(++current,
-                    new HologramLine(this, location.clone().add(0, 0.33 * current, 0), line));
-        }
-    }
-
-    public void setAttached(String player) {
-        this.attached = player;
-    }
-
-    public Hologram spawn() {
-        if (spawned) {
-            return this;
-        }
-
-        this.lines.values().forEach(HologramLine::spawn);
-        this.spawned = true;
-        return this;
-    }
-
-    public Hologram despawn() {
-        if (!spawned) {
-            return this;
-        }
-
-        this.lines.values().forEach(HologramLine::despawn);
+        this.lines = new ArrayList<>(lines);
         this.spawned = false;
-        return this;
+        this.playersInRange = new ArrayList<>();
     }
 
-    public Hologram withLine(String line) {
-        int l = 1;
-        while (this.lines.containsKey(l)) {
-            l++;
-        }
 
-        this.lines.put(l, new HologramLine(this, this.location.clone().add(0, 0.33 * l, 0), line));
+    public void spawn(Player player) {
         if (spawned) {
-            this.lines.get(l).spawn();
+            return; // Já spawnado
         }
 
-        return this;
+        for (int i = 0; i < lines.size(); i++) {
+            Location lineLocation = location.clone().add(0, -i * 0.25, 0);
+            String lineText = lines.get(i);
+            HologramLine lineEntity = new HologramLine(this, lineLocation, lineText);
+            lineEntity.spawn(player);
+        }
+        spawned = true;
     }
 
-    public Hologram updateLine(int id, String line) {
-        if (!this.lines.containsKey(id)) {
-            return this;
+    public void despawn() {
+        if (!spawned) {
+            return; // Já despawnado
         }
 
-        HologramLine hl = this.lines.get(id);
-        hl.setLine(line);
-        return this;
+        for (Player player : playersInRange) {
+            for (HologramLine lineEntity : getLines()) {
+                lineEntity.despawn(player);
+            }
+        }
+        spawned = false;
     }
 
-    public boolean canSee(Player player) {
-        return this.attached == null || this.attached.equals(player.getName());
+    public List<HologramLine> getLines() {
+        List<HologramLine> lines = new ArrayList<>();
+        for (int i = 0; i < lines.size(); i++) {
+            Location lineLocation = location.clone().add(0, -i * 0.25, 0);
+            String lineText = String.valueOf(lines.get(i));
+            HologramLine lineEntity = new HologramLine(this, lineLocation, lineText);
+            lines.add(lineEntity);
+        }
+        return lines;
     }
 
-    public boolean isSpawned() {
-        return this.spawned;
+    public List<Player> getPlayersInRange() {
+        return new ArrayList<>(playersInRange);
     }
 
-    public Location getLocation() {
-        return this.location;
+    public void addPlayerInRange(Player player) {
+        playersInRange.add(player);
     }
 
-    public HologramLine getLine(int id) {
-        return this.lines.get(id);
-    }
-
-    public Collection<HologramLine> getLines() {
-        return this.lines.values();
+    public void removePlayerInRange(Player player) {
+        playersInRange.remove(player);
     }
 }

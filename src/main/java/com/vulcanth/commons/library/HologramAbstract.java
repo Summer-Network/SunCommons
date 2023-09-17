@@ -7,8 +7,8 @@ import org.bukkit.event.Listener;
 public abstract class HologramAbstract implements Listener {
 
     @SuppressWarnings("unchecked")
-    public static void setupHologram(Class<? extends HologramAbstract>... listenersClasses) {
-        for (Class<? extends HologramAbstract> clazz : listenersClasses) {
+    public static void setupHologram(Class<? extends HologramAbstract>... hologramClasses) {
+        for (Class<? extends HologramAbstract> clazz : hologramClasses) {
             try {
                 clazz.newInstance();
             } catch (InstantiationException | IllegalAccessException e) {

@@ -48,5 +48,4 @@ public class NMS_1_8 implements NMS {
             profile.getProperties().put("textures", new Property("textures", value, signature));
         }
     }
-
 }

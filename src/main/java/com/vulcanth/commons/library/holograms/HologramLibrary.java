@@ -1,34 +1,30 @@
 package com.vulcanth.commons.library.holograms;
 
-import com.google.common.collect.ImmutableList;
-import com.vulcanth.commons.nms.collections.IEntityWrapper;
-import com.vulcanth.commons.plugin.VulcanthPlugins;
+import com.vulcanth.commons.library.HologramAbstract;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.entity.Entity;
-import org.bukkit.plugin.Plugin;
+import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
-public class HologramLibrary {
+public class HologramLibrary extends HologramAbstract {
 
     private static final List<Hologram> holograms = new ArrayList<>();
-    private static Plugin plugin;
+    private static final Map<Integer, Hologram> entityIdToHologramMap = new HashMap<>();
 
     public static Hologram createHologram(Location location, List<String> lines) {
-        return createHologram(location, true, lines);
+        return createHologram(location, lines);
     }
 
     public static Hologram createHologram(Location location, String... lines) {
         return createHologram(location, true, lines);
     }
 
-    public static Hologram createHologram(Location location, boolean spawn, String... lines) {
-        Hologram hologram = new Hologram(location, lines);
+    public static Hologram createHologram(Location location, boolean spawn, String[] lines) {
+        Hologram hologram = new Hologram(location, Arrays.asList(lines));
+        Player player = null;
         if (spawn) {
-            hologram.spawn();
+            hologram.spawn(player);
         }
         holograms.add(hologram);
         return hologram;
@@ -40,34 +36,47 @@ public class HologramLibrary {
     }
 
     public static void unregisterAll() {
-        holograms.forEach(Hologram::despawn);
-        holograms.clear();
-        plugin = null;
-    }
-
-    public static Entity getHologramEntity(int entityId) {
-        for (Hologram hologram : listHolograms()) {
-            if (hologram.isSpawned()) {
-                for (HologramLine line : hologram.getLines()) {
-                    IEntityWrapper armor = line.getArmor();
-                    if (armor != null && armor.getId() == entityId) {
-                        return armor.getEntity();
-                    }
-                }
-            }
+        for (Hologram hologram : holograms) {
+            hologram.despawn();
         }
-        return null;
+        holograms.clear();
+        entityIdToHologramMap.clear();
     }
 
-    public static Hologram getHologram(Entity entity) {
-        return NMS.getHologram(entity);
-    }
-
-    public static boolean isHologramEntity(Entity entity) {
-        return NMS.isHologramEntity(entity);
+    public static Hologram getHologram(int entityId) {
+        return entityIdToHologramMap.get(entityId);
     }
 
     public static Collection<Hologram> listHolograms() {
-        return ImmutableList.copyOf(holograms);
+        return new ArrayList<>(holograms);
+    }
+
+    public static void updateHologramsForPlayer(Player player) {
+        for (Hologram hologram : holograms) {
+            for (HologramLine line : hologram.getLines()) {
+                line.spawn(player);
+            }
+        }
+    }
+
+    public static void hideHologramsForPlayer(Player player) {
+        for (Hologram hologram : holograms) {
+            for (HologramLine line : hologram.getLines()) {
+                line.despawn(player);
+            }
+        }
+    }
+
+
+    public static void showHologramsForAllPlayers() {
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            updateHologramsForPlayer(player);
+        }
+    }
+
+    public static void hideHologramsForAllPlayers() {
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            hideHologramsForPlayer(player);
+        }
     }
 }

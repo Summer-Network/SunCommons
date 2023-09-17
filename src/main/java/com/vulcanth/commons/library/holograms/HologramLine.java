@@ -1,12 +1,14 @@
 package com.vulcanth.commons.library.holograms;
 
-import com.vulcanth.commons.nms.NMS;
-import com.vulcanth.commons.nms.NmsManager;
-import com.vulcanth.commons.nms.collections.IEntityWrapper;
+import com.comphenix.protocol.PacketType;
+import com.comphenix.protocol.ProtocolLibrary;
+import com.comphenix.protocol.events.PacketContainer;
 import com.vulcanth.commons.utils.StringUtils;
 import lombok.Getter;
 import org.bukkit.Location;
-import org.bukkit.inventory.ItemStack;
+import org.bukkit.entity.Player;
+
+import java.lang.reflect.InvocationTargetException;
 
 @Getter
 public class HologramLine {
@@ -15,94 +17,78 @@ public class HologramLine {
     private InteractionHandler interactionHandler;
     private String line;
     private final Hologram hologram;
-    private IEntityWrapper armor, slime, item;
+    private int entityId;
 
     public HologramLine(Hologram hologram, Location location, String line) {
         this.location = location;
         this.hologram = hologram;
-        setLine(line);
+        this.line = line;
     }
 
-    public void spawn() {
-        if (armor == null) {
-            armor = NMS.createArmorStand(location, line, this);
-            if (interactionHandler != null) {
-                setInteractionHandler(interactionHandler);
-            }
-        }
+    public void spawn(Player player) {
+        sendSpawnPacket(player);
     }
 
-    public void despawn() {
-        if (armor != null) {
-            armor.killEntity();
-            armor = null;
-        }
-        if (slime != null) {
-            slime.killEntity();
-            slime = null;
-        }
-        if (item != null) {
-            item.killEntity();
-            item = null;
-        }
+    public void despawn(Player player) {
+        sendDestroyPacket(player);
     }
 
     public void setInteractionHandler(InteractionHandler interactionHandler) {
-        if (interactionHandler == null) {
-            if (slime != null) {
-                slime.killEntity();
-                slime = null;
-            }
-            this.interactionHandler = null;
-            return;
-        }
-
-        if (armor != null) {
-            slime = slime == null ? NmsManager.createSlime(location, this) : slime;
-
-            if (slime != null) {
-                slime.setPassengerOf(armor.getEntity());
-            }
-
-            this.interactionHandler = interactionHandler;
-        }
-    }
-
-    public void setItem(ItemStack item) {
-        if (item == null) {
-            if (this.item != null) {
-                this.item.killEntity();
-                this.item = null;
-            }
-            return;
-        }
-
-        if (armor != null) {
-            this.item = this.item == null ? NmsManager.createItem(location, item, this) : this.item;
-
-            if (this.item != null) {
-                this.item.setPassengerOf(armor.getEntity());
-            }
-        }
-    }
-
-    public void setLocation(Location location) {
-        if (armor != null) {
-            armor.setLocation(location);
-            if (slime != null) {
-                slime.setPassengerOf(armor.getEntity());
-            }
-        }
+        this.interactionHandler = interactionHandler;
     }
 
     public void setLine(String line) {
         String formattedLine = StringUtils.formatColors(line);
         if (!formattedLine.equals(this.line)) {
             this.line = formattedLine;
-            if (armor == null && hologram.isSpawned()) {
-                spawn();
-            } else if (armor != null) {
-                armor.setName(this.line);
+            sendMetadataPacket();
+        }
+    }
+
+    private void sendSpawnPacket(Player player) {
+        PacketContainer packet = ProtocolLibrary.getProtocolManager().createPacket(PacketType.Play.Server.SPAWN_ENTITY_LIVING);
+        packet.getIntegers().write(0, entityId);
+        packet.getIntegers().write(1, (int) (location.getX() * 32D));
+        packet.getIntegers().write(2, (int) (location.getY() * 32D));
+        packet.getIntegers().write(3, (int) (location.getZ() * 32D));
+        packet.getBytes().write(0, (byte) 0);
+        packet.getBytes().write(1, (byte) 0);
+        packet.getBytes().write(2, (byte) 0);
+        packet.getIntegers().write(4, 0);
+        packet.getIntegers().write(5, 0);
+        packet.getIntegers().write(6, 0);
+
+        try {
+            ProtocolLibrary.getProtocolManager().sendServerPacket(player, packet);
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void sendDestroyPacket(Player player) {
+        PacketContainer packet = ProtocolLibrary.getProtocolManager().createPacket(PacketType.Play.Server.ENTITY_DESTROY);
+        packet.getIntegerArrays().write(0, new int[]{entityId});
+
+        try {
+            ProtocolLibrary.getProtocolManager().sendServerPacket(player, packet);
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    private void sendMetadataPacket() {
+        PacketContainer packet = ProtocolLibrary.getProtocolManager().createPacket(PacketType.Play.Server.ENTITY_METADATA);
+        packet.getIntegers().write(0, entityId);
+
+        // Preencha aqui os metadados necessários, como nome e outros atributos
+        // Você pode usar packet.getWatchableCollectionModifier() para adicionar metadados
+
+        for (Player player : hologram.getPlayersInRange()) {
+            try {
+                ProtocolLibrary.getProtocolManager().sendServerPacket(player, packet);
+            } catch (InvocationTargetException e) {
+                e.printStackTrace();
             }
         }
     }
