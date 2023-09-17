@@ -1,20 +1,21 @@
 package com.vulcanth.commons.library.holograms;
 
 import com.vulcanth.commons.nms.NMS;
+import com.vulcanth.commons.nms.NmsManager;
+import com.vulcanth.commons.nms.collections.IEntityWrapper;
 import com.vulcanth.commons.utils.StringUtils;
+import lombok.Getter;
 import org.bukkit.Location;
 import org.bukkit.inventory.ItemStack;
 
+@Getter
 public class HologramLine {
 
     private final Location location;
-    private IArmorStand armor;
-    private ISlime slime;
-    private IItem item;
-    private TouchHandler touch;
-    private PickupHandler pickup;
+    private InteractionHandler interactionHandler;
     private String line;
     private final Hologram hologram;
+    private IEntityWrapper armor, slime, item;
 
     public HologramLine(Hologram hologram, Location location, String line) {
         this.location = location;
@@ -25,8 +26,8 @@ public class HologramLine {
     public void spawn() {
         if (armor == null) {
             armor = NMS.createArmorStand(location, line, this);
-            if (touch != null) {
-                setTouchable(touch);
+            if (interactionHandler != null) {
+                setInteractionHandler(interactionHandler);
             }
         }
     }
@@ -46,79 +47,52 @@ public class HologramLine {
         }
     }
 
-    public void setTouchable(TouchHandler touch) {
-        if (touch == null) {
+    public void setInteractionHandler(InteractionHandler interactionHandler) {
+        if (interactionHandler == null) {
             if (slime != null) {
                 slime.killEntity();
                 slime = null;
             }
-            this.touch = null;
+            this.interactionHandler = null;
             return;
         }
 
         if (armor != null) {
-            slime = slime == null ? NMS.createSlime(location, this) : slime;
+            slime = slime == null ? NmsManager.createSlime(location, this) : slime;
 
             if (slime != null) {
                 slime.setPassengerOf(armor.getEntity());
             }
 
-            this.touch = touch;
+            this.interactionHandler = interactionHandler;
         }
     }
 
-    public void setItem(ItemStack item, PickupHandler pickup) {
-        if (pickup == null) {
+    public void setItem(ItemStack item) {
+        if (item == null) {
             if (this.item != null) {
                 this.item.killEntity();
                 this.item = null;
             }
-            this.pickup = null;
             return;
         }
 
         if (armor != null) {
-            this.item = this.item == null ? NMS.createItem(location, item, this) : this.item;
+            this.item = this.item == null ? NmsManager.createItem(location, item, this) : this.item;
 
             if (this.item != null) {
                 this.item.setPassengerOf(armor.getEntity());
             }
-
-            this.pickup = pickup;
         }
-    }
-
-    public Location getLocation() {
-        return location;
     }
 
     public void setLocation(Location location) {
         if (armor != null) {
-            armor.setLocation(location.getX(), location.getY(), location.getZ());
+            armor.setLocation(location);
             if (slime != null) {
                 slime.setPassengerOf(armor.getEntity());
             }
         }
-    }
-
-    public IArmorStand getArmor() {
-        return armor;
-    }
-
-    public ISlime getSlime() {
-        return slime;
-    }
-
-    public TouchHandler getTouchHandler() {
-        return touch;
-    }
-
-    public PickupHandler getPickupHandler() {
-        return pickup;
-    }
-
-    public String getLine() {
-        return line;
     }
 
     public void setLine(String line) {
@@ -131,9 +105,5 @@ public class HologramLine {
                 armor.setName(this.line);
             }
         }
-    }
-
-    public Hologram getHologram() {
-        return hologram;
     }
 }

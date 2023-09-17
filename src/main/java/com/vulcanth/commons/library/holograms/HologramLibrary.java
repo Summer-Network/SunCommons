@@ -1,6 +1,7 @@
 package com.vulcanth.commons.library.holograms;
 
 import com.google.common.collect.ImmutableList;
+import com.vulcanth.commons.nms.collections.IEntityWrapper;
 import com.vulcanth.commons.plugin.VulcanthPlugins;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -48,7 +49,7 @@ public class HologramLibrary {
         for (Hologram hologram : listHolograms()) {
             if (hologram.isSpawned()) {
                 for (HologramLine line : hologram.getLines()) {
-                    IArmorStand armor = line.getArmor();
+                    IEntityWrapper armor = line.getArmor();
                     if (armor != null && armor.getId() == entityId) {
                         return armor.getEntity();
                     }

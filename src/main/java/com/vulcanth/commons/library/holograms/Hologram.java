@@ -10,7 +10,6 @@ import java.util.Map;
 public class Hologram {
 
     private String attached;
-
     private boolean spawned;
     private final Location location;
     private final Map<Integer, HologramLine> lines = new HashMap<>();
