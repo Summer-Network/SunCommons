@@ -11,18 +11,18 @@ public class HologramLibrary extends HologramAbstract {
 
     private static final List<Hologram> holograms = new ArrayList<>();
     private static final Map<Integer, Hologram> entityIdToHologramMap = new HashMap<>();
+    public static Player player;
 
-    public static Hologram createHologram(Location location, List<String> lines) {
-        return createHologram(location, lines);
+    public static Hologram createHologram(Player player, Location location, List<String> lines) {
+        return createHologram(player, location, lines);
     }
 
-    public static Hologram createHologram(Location location, String... lines) {
-        return createHologram(location, true, lines);
+    public static Hologram createHologram(Player player, Location location, String... lines) {
+        return createHologram(player, location, true, lines);
     }
 
-    public static Hologram createHologram(Location location, boolean spawn, String[] lines) {
-        Hologram hologram = new Hologram(location, Arrays.asList(lines));
-        Player player = null;
+    public static Hologram createHologram(Player player, Location location, boolean spawn, String[] lines) {
+        Hologram hologram = new Hologram(player, location, lines);
         if (spawn) {
             hologram.spawn(player);
         }

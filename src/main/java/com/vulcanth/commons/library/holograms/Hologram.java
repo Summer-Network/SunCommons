@@ -1,11 +1,10 @@
 package com.vulcanth.commons.library.holograms;
 
-import lombok.Getter;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Hologram {
@@ -14,10 +13,12 @@ public class Hologram {
     private final List<String> lines;
     private boolean spawned;
     private final List<Player> playersInRange;
+    private final Player player;
 
-    public Hologram(Location location, List<String> lines) {
+    public Hologram(Player player, Location location, String[] lines) {
+        this.player = player;
         this.location = location;
-        this.lines = new ArrayList<>(lines);
+        this.lines = new ArrayList<>(Arrays.asList(lines));
         this.spawned = false;
         this.playersInRange = new ArrayList<>();
     }

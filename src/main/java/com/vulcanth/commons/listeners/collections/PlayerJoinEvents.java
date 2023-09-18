@@ -1,7 +1,10 @@
 package com.vulcanth.commons.listeners.collections;
 
 import com.vulcanth.commons.Main;
+import com.vulcanth.commons.library.holograms.Hologram;
+import com.vulcanth.commons.library.holograms.HologramLibrary;
 import com.vulcanth.commons.listeners.ListenersAbstract;
+import com.vulcanth.commons.lobby.SpawnManager;
 import com.vulcanth.commons.player.Profile;
 import com.vulcanth.commons.player.cache.collections.PlayerDeliveryCache;
 import com.vulcanth.commons.player.cache.collections.PlayerInformationsCache;
@@ -62,7 +65,7 @@ public class PlayerJoinEvents extends ListenersAbstract {
 
             cache.updateInformation("lastLogin", SDF.format(new Date())); //Atualizando a informação do último login no cache, que posteriormente será salvo na DB
         }
-
+        HologramLibrary.createHologram(profile.getPlayer(), SpawnManager.getSpawnLocation().clone().add(0, 2, 0), "todo jv é viado");
         event.setJoinMessage(null);
     }
 
