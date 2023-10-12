@@ -35,7 +35,7 @@ public class LoginTable extends TableAbstract {
     public void setupTable() {
         try {
             Statement statement = getConnection().createStatement();
-            statement.execute("CREATE TABLE IF NOT EXISTS VulcanthProfiles(`NAME` TEXT NOT NULL, `PASSWORD` TEXT, `ADDRESS` TEXT) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;");
+            statement.execute("CREATE TABLE IF NOT EXISTS VulcanthLogin(`NAME` TEXT NOT NULL, `PASSWORD` TEXT, `ADDRESS` TEXT) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;");
         } catch (SQLException e) {
             e.printStackTrace();
         }

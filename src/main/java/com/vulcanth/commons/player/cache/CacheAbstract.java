@@ -4,6 +4,7 @@ import com.vulcanth.commons.Main;
 import com.vulcanth.commons.player.Profile;
 import com.vulcanth.commons.storage.Database;
 import com.vulcanth.commons.storage.tables.collections.ProfileTable;
+import lombok.Getter;
 import org.bukkit.Bukkit;
 import simple.JSONArray;
 import simple.JSONObject;
@@ -36,6 +37,9 @@ public abstract class CacheAbstract {
             switch (this.table) {
                 case "VulcanthProfiles": {
                     ProfileTable.update(profile.getName(), this.column, this.valueCache);
+                    break;
+                }
+                case "VulcanthSkin": {
                     break;
                 }
             }

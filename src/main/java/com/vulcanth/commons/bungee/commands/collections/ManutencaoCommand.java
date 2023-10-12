@@ -20,7 +20,7 @@ public class ManutencaoCommand extends CommandsAbstract {
         if (sender instanceof ProxiedPlayer) {
             ProxiedPlayer player = getPlayerSender(sender);
             if (!(ProxiedRole.findRole(player).getId() >= 1)) {
-                player.sendMessage(TextComponent.fromLegacyText("§cSomente gerente ou superior podem executar este comando."));
+                player.sendMessage(TextComponent.fromLegacyText("§cSomente Gerente ou superior podem executar este comando."));
                 return;
             }
         }

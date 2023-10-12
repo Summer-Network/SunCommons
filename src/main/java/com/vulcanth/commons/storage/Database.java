@@ -11,8 +11,8 @@ public class Database {
   private static Redis redis = null;
 
   public static void setupDatabase(boolean bungee) {
-    mySQL = new MySQL("149.56.38.55", "3306", "s2_core", "u2_97on0bXdg2", "=!LQj!OmDoRThwQ8bkk=Tvqn", bungee);
-    redis = new Redis("VulcanthInTheTop", "ca-01.antryhost.com", "25570", bungee);
+    mySQL = new MySQL("135.148.29.98", "3306", "s6_vulcanth", "u6_JJnvqiEAuO", "1KGCTvBqIWUHL@.kHQ7zcd1P", bungee);
+    redis = new Redis("VulcanthInTheTop", "i7.vulcanth.com", "25569", bungee);
 
     mySQL.setupTables();
 

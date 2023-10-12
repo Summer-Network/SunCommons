@@ -13,7 +13,7 @@ public class ProfileTable extends TableAbstract {
     public static void setDefault(String name) {
         Connection connection = Database.getMySQL().openConnection();
         try {
-            PreparedStatement ps = connection.prepareStatement("INSERT INTO VulcanthProfiles values(?,?,?,?)");
+            PreparedStatement ps = connection.prepareStatement("INSERT INTO VulcanthProfiles VALUES(?, ?, ?, ?)");
             ps.setString(1, name);
             ps.setString(2, "{}");
             ps.setString(3, "{}");

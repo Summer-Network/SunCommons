@@ -7,7 +7,7 @@ public enum ProxiedRoleEnum {
     ADMIN("admin", "§cAdmin", "§c[Admin] ", "role.admin", "§c", 3.0, true, true, 2),
     MODERADOR("mod", "§2Moderador", "§2[Moderador] ", "role.mod", "§2", 3.0, true, true, 3),
     AJUDANTE("ajudante", "§eAjudante", "§e[Ajudante] ", "role.ajudante", "§e", 3.0, true, true, 4),
-    CONSTRUTOR("construtor", "§aConstrutor", "§a[Construtor] ", "role.construtor", "§9", 3.0, true, true, 5),
+    CONSTRUTOR("construtor", "§aConstrutor", "§a[Construtor] ", "role.construtor", "§a", 3.0, true, true, 5),
     STREAMER("streamer", "§9Streamer", "§9[Streamer] ", "role.streamer", "§9", 3.0, true, true, 6),
     YOUTUBER("yt", "§cYouTuber", "§c[YouTuber] ", "role.yt", "§c", 3.0, true, true, 7),
     MVPPLUS("mvpplus", "§bMVP§6+§b", "§b[MVP§6+§b] ", "role.mvpplus", "§b", 3.5, true, false, 8),
