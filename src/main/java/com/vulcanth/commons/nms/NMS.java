@@ -10,4 +10,5 @@ public interface NMS {
     void sendCustomTab(Player player, String header, String footer);
     void setValueAndSignature(Player player, String value, String signature);
     IHologramEntity spawnHologramEntity(Location location);
+    void refreshPlayer(Player player);
 }
