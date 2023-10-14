@@ -49,6 +49,7 @@ public class NMS_1_8 implements NMS {
         craftPlayer.getHandle().playerConnection.sendPacket(packet);
     }
 
+    @Override
     public void setValueAndSignature(Player player, String value, String signature) {
         GameProfile profile = ((CraftPlayer) player).getProfile();
         if (value != null && signature != null) {

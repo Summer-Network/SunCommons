@@ -1,11 +1,18 @@
 package com.vulcanth.commons.nms;
 
+import com.mojang.authlib.GameProfile;
+import com.mojang.authlib.properties.Property;
 import com.vulcanth.commons.Main;
 import com.vulcanth.commons.nms.collections.NMS_1_8;
+import com.vulcanth.commons.nms.entity.EntityHologram_1_8;
 import com.vulcanth.commons.nms.hologram.IHologramEntity;
+import net.minecraft.server.v1_8_R3.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_8_R3.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
+import org.bukkit.event.entity.CreatureSpawnEvent;
 
 public class NmsManager {
 
@@ -25,6 +32,10 @@ public class NmsManager {
 
     public static void sendCustomTab(Player player, String header, String footer) {
         nms.sendCustomTab(player, header, footer);
+    }
+
+    public static void refreshPlayer(Player player) {
+        nms.refreshPlayer(player);
     }
 
     public static void setupNMS() {
