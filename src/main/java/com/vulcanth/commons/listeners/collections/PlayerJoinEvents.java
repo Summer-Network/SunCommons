@@ -16,6 +16,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.text.SimpleDateFormat;
@@ -48,8 +49,8 @@ public class PlayerJoinEvents extends ListenersAbstract {
         }
     }
 
-    @EventHandler(priority = EventPriority.LOWEST)
-    public void onPlayerJoin(PlayerJoinEvent event) {
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onPlayerJoin(PlayerLoginEvent event) {
         Player player = event.getPlayer();
         Profile profile = Profile.loadProfile(player.getName());
         if (profile == null || profile.getCache(PlayerInformationsCache.class) == null) {
@@ -57,16 +58,16 @@ public class PlayerJoinEvents extends ListenersAbstract {
             return;
         }
 
-        profile.refreshPlayer();
-        Bukkit.getScheduler().runTaskLater(Main.getInstance(), profile::refreshPlayer, 3L);
-
         PlayerInformationsCache cache = profile.getCache(PlayerInformationsCache.class);
         if (cache.getInformation("firstLogin").isEmpty()) { //Caso ele não tenha a data do primeiro login, ele irá setar automaticamente
             cache.updateInformation("firstLogin", SDF.format(new Date()));
         }
 
         cache.updateInformation("lastLogin", SDF.format(new Date())); //Atualizando a informação do último login no cache, que posteriormente será salvo na DB
+    }
 
+    @EventHandler
+    public void onPlayerJoinEvent(PlayerJoinEvent event) {
         event.setJoinMessage(null);
     }
 }
