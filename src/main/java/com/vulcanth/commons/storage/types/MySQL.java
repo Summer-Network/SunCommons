@@ -6,7 +6,6 @@ import com.vulcanth.commons.storage.tables.collections.ProfileTable;
 import com.vulcanth.commons.storage.tables.collections.SkinTable;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import com.zaxxer.hikari.metrics.dropwizard.CodaHaleMetricsTracker;
 import org.bukkit.Bukkit;
 
 import java.sql.*;
