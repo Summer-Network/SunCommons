@@ -42,7 +42,12 @@ public abstract class CommandsAbstract extends Command {
         try {
             this.executeCommand(sender, args);
         } catch (Exception ex) {
-            new VulcanthBungeeException(sender, ex.getStackTrace()[0].toString());
+            StringBuilder sb = new StringBuilder();
+            for (StackTraceElement stack : ex.getStackTrace()) {
+                sb.append(stack.toString()).append(" ");
+            }
+
+            new VulcanthBungeeException(sender, sb.toString());
         }
     }
 

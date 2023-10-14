@@ -1,8 +1,8 @@
 package com.vulcanth.commons.listeners.collections;
 
 import com.vulcanth.commons.Main;
-import com.vulcanth.commons.library.holograms.Hologram;
-import com.vulcanth.commons.library.holograms.HologramLibrary;
+import com.vulcanth.commons.library.HologramManager;
+import com.vulcanth.commons.library.hologram.Hologram;
 import com.vulcanth.commons.listeners.ListenersAbstract;
 import com.vulcanth.commons.lobby.SpawnManager;
 import com.vulcanth.commons.player.Profile;
@@ -16,6 +16,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -53,20 +54,19 @@ public class PlayerJoinEvents extends ListenersAbstract {
         Profile profile = Profile.loadProfile(player.getName());
         if (profile == null || profile.getCache(PlayerInformationsCache.class) == null) {
             player.kickPlayer("§cOops...\n§cocorreu um erro enquanto carregavamos o seu perfil!");
+            return;
         }
-        if (profile != null) {
-            profile.refreshPlayer();
-            Bukkit.getScheduler().runTaskLater(Main.getInstance(), profile::refreshPlayer, 3L);
 
-            PlayerInformationsCache cache = profile.getCache(PlayerInformationsCache.class);
-            if (cache.getInformation("firstLogin").isEmpty()) { //Caso ele não tenha a data do primeiro login, ele irá setar automaticamente
-                cache.updateInformation("firstLogin", SDF.format(new Date()));
-            }
+        profile.refreshPlayer();
+        Bukkit.getScheduler().runTaskLater(Main.getInstance(), profile::refreshPlayer, 3L);
 
-            cache.updateInformation("lastLogin", SDF.format(new Date())); //Atualizando a informação do último login no cache, que posteriormente será salvo na DB
+        PlayerInformationsCache cache = profile.getCache(PlayerInformationsCache.class);
+        if (cache.getInformation("firstLogin").isEmpty()) { //Caso ele não tenha a data do primeiro login, ele irá setar automaticamente
+            cache.updateInformation("firstLogin", SDF.format(new Date()));
         }
-        HologramLibrary.createHologram(profile.getPlayer(), SpawnManager.getSpawnLocation().clone().add(0, 2, 0), "todo jv é viado");
+
+        cache.updateInformation("lastLogin", SDF.format(new Date())); //Atualizando a informação do último login no cache, que posteriormente será salvo na DB
+
         event.setJoinMessage(null);
     }
-
 }

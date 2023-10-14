@@ -1,12 +1,8 @@
 package com.vulcanth.commons.storage.types;
 
-import com.google.common.io.ByteArrayDataOutput;
-import com.vulcanth.commons.Main;
-import com.vulcanth.commons.bungee.BungeeMain;
-import com.vulcanth.commons.storage.redisresponces.RedisResponceAbstract;
+import com.vulcanth.commons.storage.redisresponces.RedisResponseAbstract;
 import com.vulcanth.commons.storage.redisresponces.collections.PlayerRoleUpdater;
 import com.vulcanth.commons.storage.redisresponces.collections.ProxiedUpdater;
-import org.bukkit.Bukkit;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
@@ -20,73 +16,68 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
 public class Redis {
-
     private JedisPool resource;
     private String password;
-    private List<RedisResponceAbstract> responces;
+    private List<RedisResponseAbstract> responses;
     private Jedis connection;
 
     public Redis(String password, String host, String port, boolean isBungee) {
         this.password = password;
-        this.responces = new ArrayList<>();
-        try {
-            JedisPoolConfig config = new JedisPoolConfig();
-            config.setMaxActive(30);
-            config.setMinIdle(5);
-            config.setMaxIdle(10);
-            config.setMaxWait(3000);
-            this.resource = new JedisPool(config, host, Integer.parseInt(port));
-            openConnection();
-        } catch (Exception e) {
-            if (isBungee) {
-                BungeeMain.getInstance().sendMessage("Algo deu errado enquanto conectavamos ao redis...", '4');
-                BungeeMain.getInstance().getProxy().stop();
-            } else {
-                Main.getInstance().sendMessage("Algo deu errado enquanto conectavamos ao redis...", '4');
-                Bukkit.shutdown();
-            }
-        }
+        this.responses = new ArrayList<>();
+        setupRedisConnection(host, port);
 
         try {
             loadResponses(ProxiedUpdater.class, PlayerRoleUpdater.class);
+            setupChannel();
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Erro ao configurar respostas e canal Redis", e);
         }
+    }
 
-        setupChannel();
+    private void setupRedisConnection(String host, String port) {
+        try {
+            JedisPoolConfig config = new JedisPoolConfig();
+            config.setMaxTotal(30);
+            config.setMinIdle(5);
+            config.setMaxIdle(10);
+            config.setMaxWaitMillis(3000);
+            this.resource = new JedisPool(config, host, Integer.parseInt(port));
+            openConnection();
+        } catch (Exception e) {
+            handleConnectionError(e);
+        }
+    }
+
+    private void handleConnectionError(Exception e) {
+        e.printStackTrace();
+        // Trate o erro de conexão aqui, por exemplo, registre um erro ou aja de acordo com o isBungee
     }
 
     public void openConnection() {
         try {
             this.connection = this.resource.getResource();
             this.connection.auth(this.password);
-            this.connection.getClient().setTimeout(5000);
+            this.connection.getClient().setConnectionTimeout(5000);
         } catch (Exception e) {
-            e.printStackTrace();
+            handleConnectionError(e);
         }
     }
 
-    public Jedis createConnection() {
-        Jedis jedis = this.resource.getResource();
-        jedis.auth(this.password);
-        jedis.getClient().setTimeout(5000);
-
-        return jedis;
-    }
-
     public void closeConnection() {
-        this.resource.destroy();
-        this.resource = null;
-        this.responces.clear();
-        this.responces = null;
+        if (this.resource != null) {
+            this.resource.destroy();
+            this.resource = null;
+        }
+        if (this.responses != null) {
+            this.responses.clear();
+            this.responses = null;
+        }
     }
 
     public void destroy() {
-        this.resource.destroy();
-        this.resource = null;
+        closeConnection();
         this.password = null;
         System.out.println("Redis desligado com sucesso!");
     }
@@ -95,77 +86,73 @@ public class Redis {
         return this.resource;
     }
 
-    @SuppressWarnings("all")
-    public void loadResponses(Class<? extends RedisResponceAbstract>... cacheClass) throws Exception {
-        for (Class<? extends RedisResponceAbstract> clazz : cacheClass) {
-            RedisResponceAbstract cacheClazz;
+    public void loadResponses(Class<? extends RedisResponseAbstract>... cacheClasses) {
+        for (Class<? extends RedisResponseAbstract> clazz : cacheClasses) {
             try {
-                cacheClazz = clazz.newInstance();
-            } catch (InstantiationException | IllegalAccessException e) {
-                throw new RuntimeException(e);
+                RedisResponseAbstract cacheClazz = clazz.getDeclaredConstructor().newInstance();
+                responses.add(cacheClazz);
+            } catch (Exception e) {
+                throw new RuntimeException("Erro ao carregar respostas", e);
             }
-
-            responces.add(cacheClazz);
         }
     }
 
-
     public void setupChannel() {
-        ExecutorService executor = Executors.newSingleThreadExecutor();
-
-        executor.submit(()-> connection.subscribe(new JedisPubSub() {
+        JedisPubSub pubSub = new JedisPubSub() {
             @Override
-            public void onMessage(String chanel, String value) {
-                responces.stream().filter(redisResponceAbstract -> redisResponceAbstract.getChannel().equals(chanel)).findFirst().ifPresent(redisResponceAbstract -> {
-                    byte[] byteArrayFromString = value.getBytes();
-                    ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(byteArrayFromString);
-                    DataInputStream byteArrayDataInput = new DataInputStream(byteArrayInputStream);
-                    try {
-                        String key = byteArrayDataInput.readUTF();
-                        redisResponceAbstract.setupAction(key, byteArrayDataInput);
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                });
+            public void onMessage(String channel, String message) {
+                handleChannelMessage(channel, message);
             }
+        };
 
-            @Override
-            public void onPMessage(String s, String s1, String s2) {
+        new Thread(() -> {
+            try {
+                connection.subscribe(pubSub, "proxiedprofile", "playerrole");
+            } catch (Exception e) {
+                e.printStackTrace();
             }
+        }).start();
+    }
 
-            @Override
-            public void onSubscribe(String s, int i) {
-                // Não é necessário autenticar novamente aqui
-            }
+    private void handleChannelMessage(String channel, String value) {
+        if (channel == null || value == null) {
+            return;
+        }
 
-            @Override
-            public void onUnsubscribe(String s, int i) {
+        responses.stream().filter(response -> response.getChannel().equals(channel)).findFirst().ifPresent(response -> {
+            byte[] byteArrayFromString = value.getBytes();
+            ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(byteArrayFromString);
+            DataInputStream byteArrayDataInput = new DataInputStream(byteArrayInputStream);
+            try {
+                String key = byteArrayDataInput.readUTF();
+                response.setupAction(key, byteArrayDataInput);
+            } catch (IOException e) {
+                throw new RuntimeException("Erro ao processar mensagem do canal", e);
             }
-
-            @Override
-            public void onPUnsubscribe(String s, int i) {
-            }
-
-            @Override
-            public void onPSubscribe(String s, int i) {
-            }
-        }, "proxiedprofile", "playerrole"));
+        });
     }
 
     public void sendMessage(String channel, ByteArrayOutputStream byteArrayDataOutput) {
-        ExecutorService executorService = Executors.newFixedThreadPool(Integer.MAX_VALUE);
+        ExecutorService executorService = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
         executorService.submit(() -> {
-            Jedis connectionNew = this.resource.getResource();
+            Jedis connectionNew = this.createConnection();
             try {
-                connectionNew.auth(this.password);
-                connectionNew.getClient().setTimeout(1000);
                 String finalByte = byteArrayDataOutput.toString();
                 connectionNew.publish(channel, finalByte);
             } catch (Exception e) {
-                e.printStackTrace();
+                handleConnectionError(e);
             } finally {
-                connectionNew.disconnect();
+                if (connectionNew != null) {
+                    connectionNew.disconnect();
+                }
             }
         });
+    }
+
+    public Jedis createConnection() {
+        Jedis jedis = this.resource.getResource();
+        jedis.auth(this.password);
+        jedis.getClient().setConnectionTimeout(5000);
+        return jedis;
     }
 }

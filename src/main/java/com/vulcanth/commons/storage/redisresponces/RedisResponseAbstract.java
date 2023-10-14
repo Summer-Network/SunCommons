@@ -3,11 +3,11 @@ package com.vulcanth.commons.storage.redisresponces;
 import java.io.DataInputStream;
 import java.io.IOException;
 
-public abstract class RedisResponceAbstract {
+public abstract class RedisResponseAbstract {
 
     private final String channel;
 
-    public RedisResponceAbstract(String channel) {
+    public RedisResponseAbstract(String channel) {
         this.channel = channel;
     }
 

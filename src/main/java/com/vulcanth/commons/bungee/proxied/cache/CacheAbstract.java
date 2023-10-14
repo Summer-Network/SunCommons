@@ -25,6 +25,7 @@ public abstract class CacheAbstract {
 
     public void setValueCache(Object value) {
         this.valueCache = value;
+        System.out.println(value);
     }
 
     public Object getValueCache() {

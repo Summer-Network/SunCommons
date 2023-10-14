@@ -16,6 +16,8 @@ import net.md_5.bungee.api.event.PreLoginEvent;
 import net.md_5.bungee.event.EventHandler;
 import net.md_5.bungee.event.EventPriority;
 
+import java.util.concurrent.TimeUnit;
+
 public class ProxiedJoinEvents extends ListenersAbstract {
 
     @EventHandler(priority = EventPriority.HIGHEST)
@@ -25,7 +27,6 @@ public class ProxiedJoinEvents extends ListenersAbstract {
             ProxiedProfile profile = ProxiedProfile.loadProfile(player);
             if (profile == null) {
                 ProxiedProfile.createProfile(player).loadCaches(true, PlayerInformationsCache.class, PlayerPreferencesCache.class);
-                ProxyServer.getInstance().getConsole().sendMessage(TextComponent.fromLegacyText("Usuário: " + player + "\nCriado com sucesso."));
             } else {
                 ProxyServer.getInstance().getConsole().sendMessage(TextComponent.fromLegacyText("Este jogador existe."));
             }
@@ -35,22 +36,23 @@ public class ProxiedJoinEvents extends ListenersAbstract {
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onPlayerPostLogin(PostLoginEvent event) {
         ProxiedPlayer player = event.getPlayer();
         ProxiedProfile profile = ProxiedProfile.loadProfile(player.getName());
 
         if (profile == null) {
             player.disconnect(TextComponent.fromLegacyText("§cOcorreu enquanto carregavamos o seu perfil!"));
+            return;
         }
+
         if (BungeeMain.isIsMaintence()) {
-            //ProxiedRoleEnum role = ProxiedRole.findRoleByID(profile.getCache(PlayerInformationsCache.class).getInformation("role"));
-            ProxiedRoleEnum role = ProxiedRole.findRole(profile);
-            if (role.getId() <= 4) {
-                return;
-            } else {
-                player.disconnect(TextComponent.fromLegacyText("§c§lVULCANTH - MANUTENÇÃO\n\n§cAtualmente estamos em manutenção, aguarde para mais informações\n§cem nosso site: www.vulcanth.com"));
-            }
+            BungeeMain.getInstance().getProxy().getScheduler().schedule(BungeeMain.getInstance(), ()-> {
+                ProxiedRoleEnum role = ProxiedRole.findRoleByID(profile.getCache(PlayerInformationsCache.class).getInformation("role"));
+                if (role.getId() >= 4) {
+                    player.disconnect(TextComponent.fromLegacyText("§c§lVULCANTH - MANUTENÇÃO\n\n§cAtualmente estamos em manutenção, aguarde para mais informações\n§cem nosso site: www.vulcanth.com"));
+                }
+            }, 2L, TimeUnit.SECONDS);
         }
     }
 }

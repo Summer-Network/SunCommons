@@ -93,7 +93,6 @@ public abstract class CacheAbstract {
 
     public void setValueCache(Object value) {
         this.valueCache = value;
-        syncRedis();
     }
 
     public Object getValueCache() {

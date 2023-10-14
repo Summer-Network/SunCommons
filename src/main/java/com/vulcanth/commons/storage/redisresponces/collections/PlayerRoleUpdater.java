@@ -1,11 +1,12 @@
 package com.vulcanth.commons.storage.redisresponces.collections;
 
-import com.vulcanth.commons.storage.redisresponces.RedisResponceAbstract;
+import com.vulcanth.commons.storage.redisresponces.RedisResponseAbstract;
+import org.bukkit.Bukkit;
 
 import java.io.DataInputStream;
 import java.io.IOException;
 
-public class PlayerRoleUpdater extends RedisResponceAbstract {
+public class PlayerRoleUpdater extends RedisResponseAbstract {
 
     private static Updater classInstance = null;
 

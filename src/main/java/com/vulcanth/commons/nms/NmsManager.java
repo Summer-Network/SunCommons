@@ -2,11 +2,10 @@ package com.vulcanth.commons.nms;
 
 import com.vulcanth.commons.Main;
 import com.vulcanth.commons.nms.collections.NMS_1_8;
-import com.vulcanth.commons.library.holograms.HologramLine;
+import com.vulcanth.commons.nms.hologram.IHologramEntity;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 
 public class NmsManager {
 
@@ -37,6 +36,10 @@ public class NmsManager {
             Main.getInstance().sendMessage("O plugin atualmente não possui suporte a versão " + concurrentVersion + ".");
             Bukkit.shutdown();
         }
+    }
+
+    public static IHologramEntity spawnHologram(Location location) {
+        return nms.spawnHologramEntity(location);
     }
 
     private static String getVersion() {

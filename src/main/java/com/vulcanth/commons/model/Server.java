@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 
 public enum Server {
 
-    LOBBY("47 : 1 : nome>&6Lobby Principal : desc>&eClique para conectar", 12, "ca-01.antryhost.com:25567:lobby1"),
+    LOBBY("47 : 1 : nome>&6Lobby Principal : desc>&eClique para conectar", 12, "i7.vulcanth.com:25567:lobby1"),
     SKYWARS("GRASS : 1 : nome>&aSky Wars &b&lV0.1 : desc> \n \n &eConfira a atualização &n0.0\n &bvulcanth.com/skywars\n \n &7Você tem medo de altura? Então este\n &7jogo não é para você! No Sky Wars, você\n &7deverá eliminar os seus adversários com\n &7e ajuda de diversos Kits e Habilidades.\n \n &8• &fSolo\n &8• &fDupla\n \n&aClique para conectar!\n&7{players} jogando.", 28, "ca-01.antryhost.com:25568:skywars-lobby-1"),
     BEDWARS("BED : 1 : nome>&aBed Wars &b&lv0.0 : desc>\n  &eConfira a atualização &n0.0&e:\n  &bvulcanth.com/bedwars\n \n  &7▪ &dReconexão\n  &7▪ &dOrganizador de Hotbar\n  &7▪ &dDistribuição igualitária de drops\n \n  &7Este jogo é de tirar o sono! O objetivo\n  &7é simples e curioso, destruir a cama de\n  &7seus inimigos e proteger a sua. \n  \n  &7▪ &fSolo\n  &7▪ &fDupla\n  &7▪ &fTrio\n  &7▪ &fQuarteto\n \n&aClique para conectar!\n&7{players} jogando.", 29, ""),
     THE_BRIDGE("STAINED_CLAY:11 : 1 : nome>&aThe Bridge : desc>\n  &7Prepare-se para balancear muito bem sua defesa\n  &7com seu ataque! Neste minigame você deve ser o\n  &7mais rápido para alcançar a base do seu inimigo\n  &7e marcar um ponto antes dele!\n \n  &7▪ &f1v1\n  &7▪ &f2v2\n  &7▪ &f3v3\n  &7▪ &f4v4\n  &7▪ &f2v2v2v2\n  &7▪ &f3v3v3v3\n \n&aClique para conectar!\n&7{players} jogando.", 32, ""),

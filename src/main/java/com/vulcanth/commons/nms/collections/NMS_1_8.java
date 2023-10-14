@@ -3,9 +3,15 @@ package com.vulcanth.commons.nms.collections;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import com.vulcanth.commons.nms.NMS;
+import com.vulcanth.commons.nms.entity.EntityHologram_1_8;
+import com.vulcanth.commons.nms.hologram.IHologramEntity;
 import net.minecraft.server.v1_8_R3.*;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
+import org.bukkit.event.entity.CreatureSpawnEvent;
 
 public class NMS_1_8 implements NMS {
     @Override
@@ -47,5 +53,14 @@ public class NMS_1_8 implements NMS {
             profile.getProperties().clear();
             profile.getProperties().put("textures", new Property("textures", value, signature));
         }
+    }
+
+    @Override
+    public IHologramEntity spawnHologramEntity(Location location) {
+        EntityHologram_1_8 entity = new EntityHologram_1_8(location);
+        entity.setLocation(location.getX(), location.getY(), location.getZ());
+        entity.getWorld().addEntity(entity, CreatureSpawnEvent.SpawnReason.CUSTOM);
+        entity.setPosition(location.getX(), location.getY(), location.getZ());
+        return entity;
     }
 }

@@ -87,6 +87,12 @@ public class ServerInfo {
                 }
 
                 String[] data = response.toString().split("§");
+                if (data.length < 1) {
+                    this.online = 0;
+                    this.maxPlayers = 0;
+                    this.motd = "";
+                    return;
+                }
                 this.online = Integer.parseInt(data[1]);
                 this.maxPlayers = Integer.parseInt(data[2]);
                 this.motd = data[0].substring(2);
