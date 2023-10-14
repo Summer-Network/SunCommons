@@ -6,7 +6,7 @@
 
     <groupId>com.vulcanth.commons</groupId>
     <artifactId>VulcanthCommons</artifactId>
-    <version>0.7.7.2</version>
+    <version>0.7.8</version>
     <description>Plugin API dos demais plugins da VulcanthNetwork, sendo o manager dos demais</description>
 
     <properties>
