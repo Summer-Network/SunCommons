@@ -2,6 +2,7 @@ package com.vulcanth.commons;
 
 import com.vulcanth.commons.commands.CommandsAbstract;
 import com.vulcanth.commons.commands.collections.CashCommand;
+import com.vulcanth.commons.commands.collections.NPCCommand;
 import com.vulcanth.commons.commands.collections.SpawnCommand;
 import com.vulcanth.commons.commands.collections.VoarCommand;
 import com.vulcanth.commons.hook.VulcanthHook;
@@ -37,7 +38,7 @@ public class Main extends VulcanthPlugins {
     public void enablePlugin() {
         Database.setupDatabase(false);
 
-        CommandsAbstract.setupComands(SpawnCommand.class, VoarCommand.class, CashCommand.class);
+        CommandsAbstract.setupComands(SpawnCommand.class, VoarCommand.class, CashCommand.class, NPCCommand.class);
         ListenersAbstract.setupListeners(PlayerJoinEvents.class, PlayerQuitEvents.class, PlayerInteractEvents.class); //Um simples sistema para registrar as classes de eventos sem precisar repitir o código diversas vezes
 
         VulcanthHook.setupHooks();

@@ -3,6 +3,7 @@ package com.vulcanth.commons.commands.collections;
 import com.vulcanth.commons.commands.CommandsAbstract;
 import com.vulcanth.commons.player.Profile;
 import com.vulcanth.commons.player.cash.CashManager;
+import com.vulcanth.commons.player.role.Role;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -18,7 +19,8 @@ public class CashCommand extends CommandsAbstract {
     @Override
     public void executeCommand(CommandSender sender, String label, String[] args) {
         if (sender instanceof Player) {
-            if (!sender.hasPermission("vulcanthcommons.cmd.cash") || args.length < 1) {
+            Player player = (Player) sender;
+            if (Role.findRole(player).getId() > 1 || args.length < 1) {
                 sender.sendMessage("§eSeu cash: §b" + new CashManager(Objects.requireNonNull(Profile.loadProfile(sender.getName()))).getCash());
                 return;
             }
