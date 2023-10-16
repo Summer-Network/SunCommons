@@ -37,11 +37,9 @@ public class NPCManager {
     public static void removeNPC(NPC npc) {
         if (npc != null) {
             NPCs.remove(npc);
-
             npc.destroy();
         }
     }
-
 
     public static NPC findByID(String id) {
         return NPCs.stream().filter(npc -> npc.getId().equals(id)).findFirst().orElse(null);

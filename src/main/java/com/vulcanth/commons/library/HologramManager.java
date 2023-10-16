@@ -1,6 +1,7 @@
 package com.vulcanth.commons.library;
 
 import com.vulcanth.commons.library.hologram.Hologram;
+import com.vulcanth.commons.library.npc.NPC;
 import org.bukkit.Location;
 
 import java.util.ArrayList;
@@ -32,6 +33,13 @@ public class HologramManager {
         Hologram hologram = new Hologram(id, location, lines);
         HOLOGRAMS.add(hologram);
         return hologram;
+    }
+
+    public static void removeNPC(Hologram hologram) {
+        if (hologram != null) {
+            HOLOGRAMS.remove(hologram);
+            hologram.destroy();
+        }
     }
 
     public static Hologram findByID(String id) {

@@ -1,23 +1,16 @@
 package com.vulcanth.commons.listeners.collections;
 
-import com.vulcanth.commons.Main;
-import com.vulcanth.commons.library.HologramManager;
-import com.vulcanth.commons.library.hologram.Hologram;
 import com.vulcanth.commons.listeners.ListenersAbstract;
-import com.vulcanth.commons.lobby.SpawnManager;
 import com.vulcanth.commons.player.Profile;
 import com.vulcanth.commons.player.cache.collections.PlayerDeliveryCache;
 import com.vulcanth.commons.player.cache.collections.PlayerInformationsCache;
 import com.vulcanth.commons.player.cache.collections.PlayerPreferencesCache;
-import com.vulcanth.commons.player.role.Role;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

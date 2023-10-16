@@ -5,7 +5,9 @@ import com.mojang.authlib.properties.Property;
 import com.vulcanth.commons.Main;
 import com.vulcanth.commons.nms.NMS;
 import com.vulcanth.commons.nms.entity.EntityHologram_1_8;
+import com.vulcanth.commons.nms.entity.EntityNPC_1_8;
 import com.vulcanth.commons.nms.hologram.IHologramEntity;
+import com.vulcanth.commons.nms.npcs.INPCEntity;
 import net.minecraft.server.v1_8_R3.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -66,6 +68,16 @@ public class NMS_1_8 implements NMS {
         entity.setPosition(location.getX(), location.getY(), location.getZ());
         return entity;
     }
+    @Override
+    public INPCEntity spawnNPCEntity(Location location, String name) {
+        EntityNPC_1_8 entity = new EntityNPC_1_8(location, name);
+        entity.setLocation(location.getX(), location.getY(), location.getZ());
+        entity.setPosition(location.getX(), location.getY(), location.getZ());
+        WorldServer worldServer = ((CraftWorld) location.getWorld()).getHandle();
+        worldServer.addEntity(entity, CreatureSpawnEvent.SpawnReason.CUSTOM);
+        return entity;
+    }
+
 
     @Override
     public void refreshPlayer(Player player) {

@@ -1,17 +1,16 @@
 package com.vulcanth.commons.commands.collections;
 
 import com.vulcanth.commons.commands.CommandsAbstract;
-import com.vulcanth.commons.library.NPCManager;
-import com.vulcanth.commons.library.npc.NPC;
-import com.vulcanth.commons.library.npc.NPCLine;
+import com.vulcanth.commons.library.HologramManager;
+import com.vulcanth.commons.library.hologram.Hologram;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class NPCCommand extends CommandsAbstract {
+public class HologramCommand extends CommandsAbstract {
 
-    public NPCCommand() {
-        super("npc", true);
+    public HologramCommand() {
+        super("hologram", true);
     }
 
     @Override
@@ -24,46 +23,45 @@ public class NPCCommand extends CommandsAbstract {
         Player player = (Player) sender;
 
         if (args.length < 1) {
-            player.sendMessage("§cUtilize \"/npc <create/remove> <id> [nome do NPC]\".");
+            player.sendMessage("§cUtilize \"/hologram [create/remove] [TEXTO]\".");
             return;
         }
 
         if (args[0].equalsIgnoreCase("create") || args[0].equalsIgnoreCase("criar")) {
             if (args.length < 3) {
-                player.sendMessage("§cUtilize \"/npc create <id> [nome do NPC]\" para criar um NPC.");
+                player.sendMessage("§cUtilize \"/hologram create <id> [TEXTO]\" para criar um holograma.");
                 return;
             }
             String id = args[1];
-            String npcName = args[2];
+            String holograma = args[2];
 
-            if (npcName != null) {
+            if (id != null) {
                 Location location = player.getLocation().getBlock().getLocation().add(0.5, 0, 0.5);
                 location.setYaw(player.getLocation().getYaw());
                 location.setPitch(player.getLocation().getPitch());
 
-                //NPC npc = NPCManager.createNPC(id, location, npcName);
-                NPCManager.createNPC(id, location, npcName);
+                HologramManager.createHologram(id, location, holograma);
 
-                player.sendMessage("§aNPC criado com sucesso: " + npcName);
+                player.sendMessage("§aHolograma criado com sucesso: " + id);
             } else {
-                player.sendMessage("§cEste NPC não existe");
+                player.sendMessage("§cEste Holograma já existe");
             }
 
         } else if (args[0].equalsIgnoreCase("remove") || args[0].equalsIgnoreCase("remover")) {
             if (args.length < 2) {
-                player.sendMessage("§cUtilize \"/npc remove <ID>\" para remover um NPC.");
+                player.sendMessage("§cUtilize \"/hologram remove <ID>\" para remover um holograma.");
                 return;
             }
             String id = args[1];
-            NPC npc = NPCManager.findByID(id);
+            Hologram npc = HologramManager.findByID(id);
             if (npc != null) {
-                NPCManager.removeNPC(npc);
-                player.sendMessage("§cNPC removido com sucesso: " + id);
+                HologramManager.removeNPC(npc);
+                player.sendMessage("§cHolograma removido com sucesso: " + id);
             } else {
-                player.sendMessage("§cEste NPC não existe");
+                player.sendMessage("§cEste holograma não existe");
             }
         } else {
-            player.sendMessage("§cUtilize \"/npc <create/remove> <id> [nome do NPC]\".");
+            player.sendMessage("§cUtilize \"/hologram [create/remove] [TEXTO]\".");
         }
     }
 }
