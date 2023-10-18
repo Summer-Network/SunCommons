@@ -15,7 +15,7 @@ public class NPCLine {
         this.name = text;
         this.index = index;
         this.location = location;
-        this.entity = NmsManager.spawnNPC(this.location, text);
+        NmsManager.spawnNPC(this.location, text);
         this.entity.setName(this.name);
     }
 

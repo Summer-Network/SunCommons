@@ -1,6 +1,6 @@
 name: ${project.artifactId}
 version: ${project.version}
-authors: [oJVzinn]
+authors: [oJVzinn, oNyell]
 depend: [PlaceholderAPI]
 
 main: ${main}

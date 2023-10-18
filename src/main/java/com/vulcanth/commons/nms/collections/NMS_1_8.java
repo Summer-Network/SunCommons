@@ -17,6 +17,8 @@ import org.bukkit.craftbukkit.v1_8_R3.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 
+import java.util.UUID;
+
 public class NMS_1_8 implements NMS {
     @Override
     public void sendAction(Player player, String message) {
@@ -68,17 +70,15 @@ public class NMS_1_8 implements NMS {
         entity.setPosition(location.getX(), location.getY(), location.getZ());
         return entity;
     }
-    @Override
-    public INPCEntity spawnNPCEntity(Location location, String name) {
-        EntityNPC_1_8 entity = new EntityNPC_1_8(location, name);
-        entity.setLocation(location.getX(), location.getY(), location.getZ());
-        entity.setPosition(location.getX(), location.getY(), location.getZ());
-        WorldServer worldServer = ((CraftWorld) location.getWorld()).getHandle();
-        worldServer.addEntity(entity, CreatureSpawnEvent.SpawnReason.CUSTOM);
-        return entity;
+    public void spawnNPCEntity(Location location, String name) {
+        WorldServer nmsWorld = ((CraftWorld) location.getWorld()).getHandle();
+        GameProfile profile = new GameProfile(UUID.randomUUID(), name); // create game profile
+        EntityNPC_1_8 ep = new EntityNPC_1_8(nmsWorld, profile, location);
+        ep.playerConnection = new PlayerConnection(ep.server, new NetworkManager(EnumProtocolDirection.CLIENTBOUND), ep);
+
+        nmsWorld.addEntity(ep);
+        ep.spawn();
     }
-
-
     @Override
     public void refreshPlayer(Player player) {
         EntityPlayer ep = ((CraftPlayer) player).getHandle();

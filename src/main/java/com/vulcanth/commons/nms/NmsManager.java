@@ -33,7 +33,6 @@ public class NmsManager {
     }
 
     public static void setupNMS() {
-        // Load no NMS reconrrente a versão do plugin
         String concurrentVersion = getVersion();
         if (concurrentVersion.contains("1.8")) {
             nms = new NMS_1_8();
@@ -46,12 +45,11 @@ public class NmsManager {
     public static IHologramEntity spawnHologram(Location location) {
         return nms.spawnHologramEntity(location);
     }
-    public static INPCEntity spawnNPC(Location location, String name) {
-        return nms.spawnNPCEntity(location, name);
+    public static void spawnNPC(Location location, String name) {
+        nms.spawnNPCEntity(location, name);
     }
 
     private static String getVersion() {
         return Bukkit.getServer().getVersion().split("MC: ")[1].split("\\)")[0];
     }
-
 }

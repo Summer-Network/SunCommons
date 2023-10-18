@@ -1,6 +1,8 @@
 package com.vulcanth.commons.listeners.collections;
 
 import com.vulcanth.commons.listeners.ListenersAbstract;
+import com.vulcanth.commons.nms.NMS;
+import com.vulcanth.commons.nms.collections.NMS_1_8;
 import com.vulcanth.commons.player.Profile;
 import com.vulcanth.commons.player.cache.collections.PlayerDeliveryCache;
 import com.vulcanth.commons.player.cache.collections.PlayerInformationsCache;
