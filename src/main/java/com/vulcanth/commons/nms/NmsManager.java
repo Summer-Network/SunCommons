@@ -12,6 +12,16 @@ public class NmsManager {
 
     private static NMS nms;
 
+    public static void setupNMS() {
+        String concurrentVersion = getVersion();
+        if (concurrentVersion.contains("1.8")) {
+            nms = new NMS_1_8();
+        } else {
+            Main.getInstance().sendMessage("O plugin atualmente não possui suporte a versão " + concurrentVersion + ".");
+            Bukkit.shutdown();
+        }
+    }
+
     public static void setValueAndSignature(Player player, String value, String signature) {
         nms.setValueAndSignature(player, value, signature);
     }
@@ -32,23 +42,17 @@ public class NmsManager {
         nms.refreshPlayer(player);
     }
 
-    public static void setupNMS() {
-        String concurrentVersion = getVersion();
-        if (concurrentVersion.contains("1.8")) {
-            nms = new NMS_1_8();
-        } else {
-            Main.getInstance().sendMessage("O plugin atualmente não possui suporte a versão " + concurrentVersion + ".");
-            Bukkit.shutdown();
-        }
-    }
-
     public static IHologramEntity spawnHologram(Location location) {
         return nms.spawnHologramEntity(location);
     }
-    public static void spawnNPC(Location location, String name) {
-        nms.spawnNPCEntity(location, name);
+
+    public static INPCEntity spawnNPC(Location location, String name, String value, String signature) {
+        return nms.spawnNPCEntity(location, name, value, signature);
     }
 
+    public static INPCEntity spawnNPCEntity(Location location, String npcName) {
+        return nms.spawnNPCEntity(location, npcName);
+    }
     private static String getVersion() {
         return Bukkit.getServer().getVersion().split("MC: ")[1].split("\\)")[0];
     }

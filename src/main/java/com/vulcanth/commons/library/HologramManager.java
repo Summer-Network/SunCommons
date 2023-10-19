@@ -1,7 +1,6 @@
 package com.vulcanth.commons.library;
 
 import com.vulcanth.commons.library.hologram.Hologram;
-import com.vulcanth.commons.library.npc.NPC;
 import org.bukkit.Location;
 
 import java.util.ArrayList;

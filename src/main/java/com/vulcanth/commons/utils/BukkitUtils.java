@@ -6,7 +6,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -59,8 +61,15 @@ public class BukkitUtils {
                 }
             } else if (option.startsWith("dono>")) {
                 SkullMeta skullMeta = (SkullMeta) itemMeta;
-                assert skullMeta != null;
-                skullMeta.setOwner(option.split(">")[1]);
+                try {
+                    Player player = Bukkit.getPlayer(option.split(">")[1]);
+                    GameProfile profile = ((CraftPlayer) player).getProfile();
+                    Field profileField = skullMeta.getClass().getDeclaredField("profile");
+                    profileField.setAccessible(true);
+                    profileField.set(skullMeta, profile);
+                } catch (Exception e) {
+                    skullMeta.setOwner(option.split(">")[1]);
+                }
             } else if (option.startsWith("skin>")) {
                 GameProfile gameProfile = new GameProfile(UUID.randomUUID(), "PERSONALITED");
                 gameProfile.getProperties().put("textures", new Property("textures", option.split(">")[1]));

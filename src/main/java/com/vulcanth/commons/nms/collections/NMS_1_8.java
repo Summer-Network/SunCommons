@@ -70,15 +70,29 @@ public class NMS_1_8 implements NMS {
         entity.setPosition(location.getX(), location.getY(), location.getZ());
         return entity;
     }
-    public void spawnNPCEntity(Location location, String name) {
-        WorldServer nmsWorld = ((CraftWorld) location.getWorld()).getHandle();
-        GameProfile profile = new GameProfile(UUID.randomUUID(), name); // create game profile
-        EntityNPC_1_8 ep = new EntityNPC_1_8(nmsWorld, profile, location);
-        ep.playerConnection = new PlayerConnection(ep.server, new NetworkManager(EnumProtocolDirection.CLIENTBOUND), ep);
 
-        nmsWorld.addEntity(ep);
-        ep.spawn();
+    @Override
+    public INPCEntity spawnNPCEntity(Location location, String npcName) {
+        WorldServer nmsWorld = ((CraftWorld) location.getWorld()).getHandle();
+        GameProfile profile = new GameProfile(UUID.randomUUID(), npcName);
+        EntityNPC_1_8 ep = new EntityNPC_1_8(nmsWorld, profile);
+        ep.setLocation(location.getX(), location.getY(), location.getZ(), location.getWorld());
+        ep.playerConnection = new PlayerConnection(ep.server, new NetworkManager(EnumProtocolDirection.CLIENTBOUND), ep);
+        return ep;
     }
+
+    @Override
+    public INPCEntity spawnNPCEntity(Location location, String npcName, String value, String signature) {
+        WorldServer nmsWorld = ((CraftWorld) location.getWorld()).getHandle();
+        GameProfile profile = new GameProfile(UUID.randomUUID(), npcName);
+        profile.getProperties().clear();
+        profile.getProperties().put("textures", new Property("textures", value, signature));
+        EntityNPC_1_8 ep = new EntityNPC_1_8(nmsWorld, profile);
+        ep.setLocation(location.getX(), location.getY(), location.getZ(), location.getWorld());
+        ep.playerConnection = new PlayerConnection(ep.server, new NetworkManager(EnumProtocolDirection.CLIENTBOUND), ep);
+        return ep;
+    }
+
     @Override
     public void refreshPlayer(Player player) {
         EntityPlayer ep = ((CraftPlayer) player).getHandle();

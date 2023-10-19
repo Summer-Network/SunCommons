@@ -1,72 +1,110 @@
 package com.vulcanth.commons.library.npc;
 
+import com.vulcanth.commons.nms.NmsManager;
+import com.vulcanth.commons.nms.npcs.INPCEntity;
 import org.bukkit.Location;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class NPC {
 
     private String id;
     private Location location;
-    private List<NPCLine> lines;
+    private INPCEntity entity;
+    private String value;
+    private String signature;
+    private String npcName;
 
-    public NPC(String id, Location location) {
+    public NPC(String id, String name, Location location) {
         this.id = id;
+        this.npcName = name;
         this.location = location;
-        this.lines = new ArrayList<>();
+        this.entity = null;
+        this.value = null;
+        this.signature = null;
     }
 
-    public NPC(Location location) {
+    public NPC(Location location, String name) {
         this.id = "";
+        this.npcName = name;
         this.location = location;
-        this.lines = new ArrayList<>();
+        this.entity = null;
+        this.value = null;
+        this.signature = null;
     }
 
-    public NPC(Location location, String... names) {
-        this.id = "";
-        this.location = location;
-        this.lines = new ArrayList<>();
-
-        for (String name : names) {
-            addNPC(name);
-        }
-    }
-
-    public NPC(String id, Location location, String... names) {
+    public NPC(String id, String name, Location location, String value, String signature) {
         this.id = id;
+        this.npcName = name;
         this.location = location;
-        this.lines = new ArrayList<>();
+        this.entity = null;
+        this.value = value;
+        this.signature = signature;
+    }
 
-        for (String name : names) {
-            addNPC(name);
-        }
+    public NPC(Location location, String name, String value, String signature) {
+        this.id = "";
+        this.npcName = name;
+        this.location = location;
+        this.entity = null;
+        this.value = value;
+        this.signature = signature;
     }
 
     public void destroy() {
-        this.location = null;
+        this.entity.kill();
+        this.entity = null;
+        this.npcName = null;
         this.id = null;
-        this.lines.forEach(NPCLine::destroy);
-        this.lines = null;
+        this.value = null;
+        this.signature = null;
+        this.location = null;
     }
 
-    public NPCLine findByIndex(int index) {
-        return lines.stream().filter(npcLine -> npcLine.getIndex() == index).findFirst().orElse(null);
+    public void createEntity() {
+        if (this.value == null || this.signature == null) {
+            this.entity = NmsManager.spawnNPCEntity(this.location, this.npcName);
+            return;
+        }
+
+        this.entity = NmsManager.spawnNPC(this.location, this.npcName, this.value , this.signature);
     }
 
-    public void addNPC(String name) {
-        this.lines.add(new NPCLine(name, this.lines.size(), this.location));
+    public void setValue(String value) {
+        this.value = value;
+    }
+
+    public void setSignature(String signature) {
+        this.signature = signature;
+    }
+
+    public void setNpcName(String name) {
+        this.npcName = name;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
     }
 
     public String getId() {
         return this.id;
     }
 
-    public List<NPCLine> getLines() {
-        return this.lines;
-    }
-
     public Location getLocation() {
         return this.location;
+    }
+
+    public String getValue() {
+        return this.value;
+    }
+
+    public String getSignature() {
+        return this.signature;
+    }
+
+    public INPCEntity getEntity() {
+        return this.entity;
+    }
+
+    public String getNpcName() {
+        return this.npcName;
     }
 }

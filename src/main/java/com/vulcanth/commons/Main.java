@@ -35,7 +35,7 @@ public class Main extends VulcanthPlugins {
     public void enablePlugin() {
         Database.setupDatabase(false);
 
-        CommandsAbstract.setupComands(SpawnCommand.class, VoarCommand.class, CashCommand.class, NPCCommand.class, HologramCommand.class);
+        CommandsAbstract.setupComands(SpawnCommand.class, VoarCommand.class, CashCommand.class, HologramCommand.class);
         ListenersAbstract.setupListeners(PlayerJoinEvents.class, PlayerQuitEvents.class, PlayerInteractEvents.class);
         VulcanthHook.setupHooks();
         SpawnManager.setupLocation();
