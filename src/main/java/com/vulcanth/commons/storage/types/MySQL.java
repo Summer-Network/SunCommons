@@ -25,7 +25,7 @@ public class MySQL {
             config.setPassword(password);
             config.setMinimumIdle(20);
             config.setMaximumPoolSize(100);
-            config.setConnectionTimeout(20000);
+            config.setConnectionTimeout(2000);
             config.setIdleTimeout(1000);
             config.setValidationTimeout(3000);
             config.setAutoCommit(true);
@@ -69,13 +69,10 @@ public class MySQL {
             resultSet = statement.executeQuery("SELECT * FROM " + table);
             while (resultSet.next()) {
                 if (resultSet.getString(colunm).equals(value)) {
-                    statement.close();
-                    resultSet.close();
                     return true;
                 }
             }
         } catch (SQLException e) {
-            System.out.println("Problema na DB");
             throw new RuntimeException(e);
         } finally {
             try {
@@ -163,9 +160,10 @@ public class MySQL {
 
     public Connection openConnection() {
         try {
-            if(connection == null || connection.isClosed()){
+            if (connection == null || connection.isClosed()){
                 this.connection = resource.getConnection();
             }
+
             return connection;
         } catch (SQLException e) {
             throw new RuntimeException(e);

@@ -193,7 +193,6 @@ public class Profile {
         this.cashManager = null;
         this.hotbarKey = null;
         PROFILES.remove(this.name);
-        this.name = null;
     }
 
     public String getName() {

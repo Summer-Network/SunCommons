@@ -6,6 +6,7 @@ import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class NPCManager {
 
@@ -53,5 +54,13 @@ public class NPCManager {
 
     public static boolean isNPC(Player player) {
         return NPC_CACHE.stream().anyMatch(npc -> npc.getEntity().getPlayer().equals(player));
+    }
+
+    public static List<NPC> listNPC() {
+        return NPC_CACHE;
+    }
+
+    public static List<NPC> listNPC(boolean onlyCanSee, Player player) {
+        return NPC_CACHE.stream().filter(npc -> npc.canSee(player)).collect(Collectors.toList());
     }
 }

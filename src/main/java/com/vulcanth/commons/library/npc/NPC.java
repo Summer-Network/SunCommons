@@ -1,8 +1,11 @@
 package com.vulcanth.commons.library.npc;
 
+import com.vulcanth.commons.library.NPCManager;
 import com.vulcanth.commons.nms.NmsManager;
 import com.vulcanth.commons.nms.npcs.INPCEntity;
+import com.vulcanth.commons.utils.Utils;
 import org.bukkit.Location;
+import org.bukkit.entity.Player;
 
 public class NPC {
 
@@ -20,6 +23,10 @@ public class NPC {
         this.entity = null;
         this.value = null;
         this.signature = null;
+
+        if (!Utils.isLoaded(this.location)) {
+            this.location.getChunk().load(true);
+        }
     }
 
     public NPC(Location location, String name) {
@@ -29,6 +36,10 @@ public class NPC {
         this.entity = null;
         this.value = null;
         this.signature = null;
+
+        if (!Utils.isLoaded(this.location)) {
+            this.location.getChunk().load();
+        }
     }
 
     public NPC(String id, String name, Location location, String value, String signature) {
@@ -38,6 +49,10 @@ public class NPC {
         this.entity = null;
         this.value = value;
         this.signature = signature;
+
+        if (!Utils.isLoaded(this.location)) {
+            this.location.getChunk().load(true);
+        }
     }
 
     public NPC(Location location, String name, String value, String signature) {
@@ -47,6 +62,10 @@ public class NPC {
         this.entity = null;
         this.value = value;
         this.signature = signature;
+
+        if (!Utils.isLoaded(this.location)) {
+            this.location.getChunk().load(true);
+        }
     }
 
     public void destroy() {
@@ -106,5 +125,9 @@ public class NPC {
 
     public String getNpcName() {
         return this.npcName;
+    }
+
+    public boolean canSee(Player player) {
+        return entity.packetsPlayer().isEmpty() || entity.packetsPlayer().contains(player);
     }
 }
