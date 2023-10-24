@@ -8,10 +8,12 @@ import com.vulcanth.commons.nms.entity.EntityHologram_1_8;
 import com.vulcanth.commons.nms.entity.EntityNPC_1_8;
 import com.vulcanth.commons.nms.hologram.IHologramEntity;
 import com.vulcanth.commons.nms.npcs.INPCEntity;
+import com.vulcanth.commons.utils.Utils;
 import net.minecraft.server.v1_8_R3.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftEntity;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.craftbukkit.v1_8_R3.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
@@ -159,6 +161,29 @@ public class NMS_1_8 implements NMS {
                     con.sendPacket(addInfo);
                 }
             }
+        }
+    }
+
+    public void look(org.bukkit.entity.Entity entity, float yaw, float pitch) {
+        net.minecraft.server.v1_8_R3.Entity nmsEntity = ((CraftEntity) entity).getHandle();
+        if (nmsEntity != null) {
+            yaw = Utils.clampYaw(yaw);
+            nmsEntity.yaw = yaw;
+            setHeadYaw(entity, yaw);
+            nmsEntity.pitch = pitch;
+        }
+    }
+
+    public void setHeadYaw(org.bukkit.entity.Entity entity, float yaw) {
+        net.minecraft.server.v1_8_R3.Entity nmsEntity = ((CraftEntity) entity).getHandle();
+        if (nmsEntity instanceof EntityLiving) {
+            EntityLiving living = (EntityLiving) nmsEntity;
+            yaw = Utils.clampYaw(yaw);
+            living.aK = yaw;
+            if (living instanceof EntityHuman) {
+                living.aI = yaw;
+            }
+            living.aL = yaw;
         }
     }
 }

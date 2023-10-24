@@ -1,6 +1,7 @@
 package com.vulcanth.commons.nms.entity;
 
 import com.mojang.authlib.GameProfile;
+import com.vulcanth.commons.nms.NmsManager;
 import com.vulcanth.commons.nms.npcs.INPCEntity;
 import net.minecraft.server.v1_8_R3.*;
 import org.bukkit.Bukkit;
@@ -20,6 +21,7 @@ import java.util.List;
 public class EntityNPC_1_8 extends EntityPlayer implements INPCEntity {
     private Location location;
     private final List<Player> playerPackets;
+    private boolean showNick = true;
 
     public EntityNPC_1_8(WorldServer ws, GameProfile gp) {
         super(MinecraftServer.getServer(), ws, gp, new PlayerInteractManager(ws));
@@ -36,6 +38,23 @@ public class EntityNPC_1_8 extends EntityPlayer implements INPCEntity {
     @Override
     public void kill() {
         super.die();
+        PacketPlayOutPlayerInfo pack = new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.REMOVE_PLAYER, getBukkitEntity().getHandle());
+        if (playerPackets.isEmpty()) {
+            for (Player online : Bukkit.getOnlinePlayers()) {
+                if (online.isOnline()) {
+                    ((CraftPlayer) online).getHandle().playerConnection.sendPacket(pack);
+                }
+            }
+
+            return;
+        }
+
+        for (Player online : playerPackets) {
+            if (online.isOnline()) {
+                ((CraftPlayer) online).getHandle().playerConnection.sendPacket(pack);
+            }
+        }
+
     }
 
     @Override
@@ -50,17 +69,21 @@ public class EntityNPC_1_8 extends EntityPlayer implements INPCEntity {
 
         if (this.playerPackets.isEmpty()) {
             for (Player online : Bukkit.getOnlinePlayers()) {
-                sendPacket((CraftPlayer) online);
-                online.hidePlayer(this.getPlayer());
-                online.showPlayer(this.getPlayer());
+                if (online.isOnline()) {
+                    sendPacket((CraftPlayer) online);
+                    online.hidePlayer(this.getPlayer());
+                    online.showPlayer(this.getPlayer());
+                }
             }
             return;
         }
 
         for (Player online : this.playerPackets) {
-            sendPacket((CraftPlayer) online);
-            online.hidePlayer(this.getPlayer());
-            online.showPlayer(this.getPlayer());
+            if (online.isOnline()) {
+                sendPacket((CraftPlayer) online);
+                online.hidePlayer(this.getPlayer());
+                online.showPlayer(this.getPlayer());
+            }
         }
     }
 
@@ -68,8 +91,21 @@ public class EntityNPC_1_8 extends EntityPlayer implements INPCEntity {
         PlayerConnection connection = online.getHandle().playerConnection;
         connection.sendPacket(new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.ADD_PLAYER, this));
         connection.sendPacket(new PacketPlayOutNamedEntitySpawn(this));
-        connection.sendPacket(new PacketPlayOutEntityHeadRotation(this, (byte) ((this.location.getYaw() * 256f) / 360f)));
+        connection.sendPacket(new PacketPlayOutEntityHeadRotation(this, (byte) this.location.getYaw()));
         connection.sendPacket(new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.REMOVE_PLAYER, this));
+        if (!showNick) {
+            Player p = getPlayer();
+            ScoreboardTeam team = new ScoreboardTeam(((CraftScoreboard) Bukkit.getScoreboardManager().getMainScoreboard()).getHandle(), p.getName());
+            team.setNameTagVisibility(ScoreboardTeamBase.EnumNameTagVisibility.NEVER);
+
+            ArrayList<String> playerToAdd = new ArrayList<>();
+            connection.sendPacket(new PacketPlayOutScoreboardTeam(team, 1));
+            connection.sendPacket(new PacketPlayOutScoreboardTeam(team, 0));
+            playerToAdd.add(p.getName());
+            connection.sendPacket(new PacketPlayOutScoreboardTeam(team, playerToAdd, 3));
+        }
+
+        NmsManager.look(this.getBukkitEntity(), location.getYaw(), location.getPitch());
     }
 
     @Override
@@ -109,6 +145,8 @@ public class EntityNPC_1_8 extends EntityPlayer implements INPCEntity {
                 connection.sendPacket(new PacketPlayOutScoreboardTeam(team, playerToAdd, 3));
             }
         }
+
+        this.showNick = showNick;
     }
 
     @Override
@@ -120,14 +158,18 @@ public class EntityNPC_1_8 extends EntityPlayer implements INPCEntity {
     public void update() {
         if (playerPackets.isEmpty()) {
             for (Player online : Bukkit.getOnlinePlayers()) {
-                sendPacket((CraftPlayer) online);
+                if (online.isOnline()) {
+                    sendPacket((CraftPlayer) online);
+                }
             }
 
             return;
         }
 
         for (Player online : playerPackets) {
-            sendPacket((CraftPlayer) online);
+            if (online.isOnline()) {
+                sendPacket((CraftPlayer) online);
+            }
         }
     }
 
@@ -145,6 +187,5 @@ public class EntityNPC_1_8 extends EntityPlayer implements INPCEntity {
 
     @Override
     public void t_() {
-        super.t_();
     }
 }

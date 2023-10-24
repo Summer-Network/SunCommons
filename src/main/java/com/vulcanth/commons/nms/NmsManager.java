@@ -53,6 +53,15 @@ public class NmsManager {
     public static INPCEntity spawnNPCEntity(Location location, String npcName) {
         return nms.spawnNPCEntity(location, npcName);
     }
+
+    public static void look(org.bukkit.entity.Entity entity, float yaw, float pitch) {
+        nms.look(entity, yaw, pitch);
+    }
+
+    public static void setHeadYaw(org.bukkit.entity.Entity entity, float yaw) {
+        nms.setHeadYaw(entity, yaw);
+    }
+
     private static String getVersion() {
         return Bukkit.getServer().getVersion().split("MC: ")[1].split("\\)")[0];
     }

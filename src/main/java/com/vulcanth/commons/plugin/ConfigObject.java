@@ -17,17 +17,17 @@ public class ConfigObject {
     private final File file;
     private YamlConfiguration yamlConfig;
 
-    public ConfigObject(String fileLink, File file, VulcanthConfig vulcanthConfig) {
+    public ConfigObject(String fileLink, File file, VulcanthPlugins plugin) {
         this.yamlConfig = YamlConfiguration.loadConfiguration(file);
         this.file = file;
         this.fileLink = fileLink;
-        this.checkIfHasNewPatch(vulcanthConfig);
+        this.checkIfHasNewPatch(plugin);
     }
 
     @Deprecated
-    private void checkIfHasNewPatch(VulcanthConfig vulcanthConfig) {
+    private void checkIfHasNewPatch(VulcanthPlugins plugin) {
         Set<String> patch = this.yamlConfig.getKeys(false);
-        YamlConfiguration tempConfig = YamlConfiguration.loadConfiguration(Objects.requireNonNull(vulcanthConfig.getClass().getResourceAsStream("/" + file.getName())));
+        YamlConfiguration tempConfig = YamlConfiguration.loadConfiguration(Objects.requireNonNull(plugin.getClass().getResourceAsStream("/" + file.getName())));
         for (String patchAdd : tempConfig.getKeys(false).stream().filter(s -> !patch.contains(s)).collect(Collectors.toList())) {
             Object value = tempConfig.get(patchAdd);
             this.yamlConfig.set(patchAdd, value);

@@ -33,7 +33,7 @@ public class VulcanthConfig {
                 }
             }
 
-            this.configObjectList.add(new ConfigObject(fileLink, file, this));
+            this.configObjectList.add(new ConfigObject(fileLink, file, plugin));
         }
 
         this.plugin.sendMessage("Todos os arquivos de configuração foi carregado com sucesso!", 'e');
