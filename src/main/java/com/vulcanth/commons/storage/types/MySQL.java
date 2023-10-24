@@ -3,6 +3,7 @@ package com.vulcanth.commons.storage.types;
 import com.vulcanth.commons.Main;
 import com.vulcanth.commons.bungee.BungeeMain;
 import com.vulcanth.commons.storage.tables.collections.ProfileTable;
+import com.vulcanth.commons.storage.tables.collections.PunishTable;
 import com.vulcanth.commons.storage.tables.collections.SkinTable;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -45,6 +46,7 @@ public class MySQL {
     public void setupTables() {
         new ProfileTable();
         new SkinTable();
+        new PunishTable();
     }
 
     public void insert(PreparedStatement preparedStatement) {
