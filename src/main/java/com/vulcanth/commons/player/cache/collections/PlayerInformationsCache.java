@@ -2,7 +2,6 @@ package com.vulcanth.commons.player.cache.collections;
 
 import com.vulcanth.commons.player.Profile;
 import com.vulcanth.commons.player.cache.CacheAbstract;
-import com.vulcanth.commons.player.role.Role;
 import com.vulcanth.commons.player.role.RoleEnum;
 import simple.JSONObject;
 

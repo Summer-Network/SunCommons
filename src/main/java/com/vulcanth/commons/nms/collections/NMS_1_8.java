@@ -109,7 +109,7 @@ public class NMS_1_8 implements NMS {
         PacketPlayOutEntityEquipment chestplate = new PacketPlayOutEntityEquipment(entId, 3, CraftItemStack.asNMSCopy(player.getInventory().getChestplate()));
         PacketPlayOutEntityEquipment leggings = new PacketPlayOutEntityEquipment(entId, 2, CraftItemStack.asNMSCopy(player.getInventory().getLeggings()));
         PacketPlayOutEntityEquipment boots = new PacketPlayOutEntityEquipment(entId, 1, CraftItemStack.asNMSCopy(player.getInventory().getBoots()));
-        PacketPlayOutHeldItemSlot slot = new PacketPlayOutHeldItemSlot(player.getInventory().getHeldItemSlot());
+        new PacketPlayOutHeldItemSlot(player.getInventory().getHeldItemSlot());
 
         for (Player players : Bukkit.getOnlinePlayers()) {
             EntityPlayer epOn = ((CraftPlayer) players).getHandle();

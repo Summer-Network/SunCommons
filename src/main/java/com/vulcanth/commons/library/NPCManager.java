@@ -2,6 +2,7 @@ package com.vulcanth.commons.library;
 
 import com.vulcanth.commons.library.npc.NPC;
 import org.bukkit.Location;
+import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,5 +49,9 @@ public class NPCManager {
 
     public static NPC findByLocation(Location location) {
         return NPC_CACHE.stream().filter(hologram -> hologram.getLocation().equals(location)).findFirst().orElse(null);
+    }
+
+    public static boolean isNPC(Player player) {
+        return NPC_CACHE.stream().anyMatch(npc -> npc.getEntity().getPlayer().equals(player));
     }
 }

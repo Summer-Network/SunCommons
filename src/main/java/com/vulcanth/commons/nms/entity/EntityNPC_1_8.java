@@ -1,19 +1,33 @@
 package com.vulcanth.commons.nms.entity;
 
+import com.comphenix.protocol.PacketType;
+import com.comphenix.protocol.ProtocolLibrary;
+import com.comphenix.protocol.events.PacketContainer;
+import com.comphenix.protocol.wrappers.WrappedGameProfile;
+import com.comphenix.protocol.wrappers.WrappedSignedProperty;
 import com.mojang.authlib.GameProfile;
+import com.vulcanth.commons.Main;
+import com.vulcanth.commons.library.NPCManager;
 import com.vulcanth.commons.nms.npcs.INPCEntity;
 import net.minecraft.server.v1_8_R3.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.craftbukkit.v1_8_R3.CraftServer;
+import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.craftbukkit.v1_8_R3.inventory.CraftItemStack;
+import org.bukkit.craftbukkit.v1_8_R3.scoreboard.CraftScoreboard;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scoreboard.NameTagVisibility;
+import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.scoreboard.Team;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 
 public class EntityNPC_1_8 extends EntityPlayer implements INPCEntity {
@@ -83,5 +97,29 @@ public class EntityNPC_1_8 extends EntityPlayer implements INPCEntity {
                 this.playerPackets.add(player);
             }
         }
+    }
+
+    @Override
+    public void setShowNick(boolean showNick) {
+        Player p = this.getBukkitEntity(); //Player to hide name
+
+        ScoreboardTeam team = new ScoreboardTeam(((CraftScoreboard) Bukkit.getScoreboardManager().getMainScoreboard()).getHandle(), p.getName());
+
+        team.setNameTagVisibility(ScoreboardTeamBase.EnumNameTagVisibility.NEVER);
+
+        ArrayList<String> playerToAdd = new ArrayList<>();
+
+        for (Player online : Bukkit.getOnlinePlayers()) {
+            PlayerConnection connection = ((CraftPlayer) online).getHandle().playerConnection;
+            connection.sendPacket(new PacketPlayOutScoreboardTeam(team, 1));
+            connection.sendPacket(new PacketPlayOutScoreboardTeam(team, 0));
+            playerToAdd.add(p.getName());
+            connection.sendPacket(new PacketPlayOutScoreboardTeam(team, playerToAdd, 3));
+        }
+    }
+
+    @Override
+    public Player getPlayer() {
+        return (Player) this.bukkitEntity;
     }
 }

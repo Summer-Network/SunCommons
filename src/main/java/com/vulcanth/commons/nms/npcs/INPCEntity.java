@@ -12,4 +12,7 @@ public interface INPCEntity {
     void spawn();
     void setItemInHand(ItemStack item);
     void sendPackets(Player... player);
+    void setShowNick(boolean showNick);
+    Player getPlayer();
+
 }

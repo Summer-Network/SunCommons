@@ -8,7 +8,6 @@ import com.vulcanth.commons.player.cache.CacheAbstract;
 import com.vulcanth.commons.player.cache.collections.PlayerPreferencesCache;
 import com.vulcanth.commons.player.cash.CashManager;
 import com.vulcanth.commons.player.hotbar.HotbarItemObject;
-import com.vulcanth.commons.player.hotbar.HotbarManager;
 import com.vulcanth.commons.player.preferences.PreferencesEnum;
 import com.vulcanth.commons.player.role.Role;
 import com.vulcanth.commons.player.role.RoleEnum;
@@ -19,7 +18,10 @@ import org.bukkit.entity.Player;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
@@ -191,6 +193,7 @@ public class Profile {
         this.cashManager = null;
         this.hotbarKey = null;
         PROFILES.remove(this.name);
+        this.name = null;
     }
 
     public String getName() {

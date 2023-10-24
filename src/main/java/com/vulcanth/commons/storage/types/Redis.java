@@ -22,10 +22,12 @@ public class Redis {
     private String password;
     private List<RedisResponseAbstract> responses;
     private Jedis connection;
+    private List<String> codesSafes;
 
     public Redis(String password, String host, String port, boolean isBungee) {
         this.password = password;
         this.responses = new ArrayList<>();
+        this.codesSafes = new ArrayList<>();
         setupRedisConnection(host, port);
 
         try {
@@ -52,7 +54,6 @@ public class Redis {
 
     private void handleConnectionError(Exception e) {
         e.printStackTrace();
-        // Trate o erro de conexão aqui, por exemplo, registre um erro ou aja de acordo com o isBungee
     }
 
     public void openConnection() {
@@ -124,6 +125,12 @@ public class Redis {
             ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(byteArrayFromString);
             DataInputStream byteArrayDataInput = new DataInputStream(byteArrayInputStream);
             try {
+                String codeSafe = byteArrayDataInput.readUTF();
+                if (this.codesSafes.contains(codeSafe)) {
+                    this.codesSafes.remove(codeSafe);
+                    return;
+                }
+
                 String key = byteArrayDataInput.readUTF();
                 response.setupAction(key, byteArrayDataInput);
             } catch (IOException e) {
@@ -132,10 +139,11 @@ public class Redis {
         });
     }
 
-    public void sendMessage(String channel, ByteArrayOutputStream byteArrayDataOutput) {
+    public void sendMessage(String codeSafe, String channel, ByteArrayOutputStream byteArrayDataOutput) {
         ExecutorService executorService = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
         executorService.submit(() -> {
             Jedis connectionNew = this.createConnection();
+            this.codesSafes.add(codeSafe);
             try {
                 String finalByte = byteArrayDataOutput.toString();
                 connectionNew.publish(channel, finalByte);

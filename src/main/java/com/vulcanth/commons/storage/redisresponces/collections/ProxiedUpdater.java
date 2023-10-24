@@ -5,7 +5,6 @@ import com.vulcanth.commons.bungee.proxied.cache.CacheAbstract;
 import com.vulcanth.commons.storage.redisresponces.RedisResponseAbstract;
 
 import java.io.DataInputStream;
-import java.io.IOException;
 
 public class ProxiedUpdater extends RedisResponseAbstract {
 
@@ -14,13 +13,15 @@ public class ProxiedUpdater extends RedisResponseAbstract {
     }
 
     @Override
-    public void setupAction(String key, DataInputStream value) throws IOException {
-        ProxiedProfile profile = ProxiedProfile.loadProfile(key);
-        if (profile != null) {
-            CacheAbstract cacheAbstract = profile.getCache(value.readUTF());
-            if (cacheAbstract != null) {
-                cacheAbstract.setValueCache(value.readUTF());
+    public void setupAction(String key, DataInputStream value) {
+        try {
+            ProxiedProfile profile = ProxiedProfile.loadProfile(key);
+            if (profile != null) {
+                CacheAbstract cacheAbstract = profile.getCache(value.readUTF());
+                if (cacheAbstract != null) {
+                    cacheAbstract.setValueCache(value.readUTF());
+                }
             }
-        }
+        } catch (Exception ignored) {}
     }
 }
