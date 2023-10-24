@@ -101,7 +101,7 @@ public class EntityNPC_1_8 extends EntityPlayer implements INPCEntity {
 
     @Override
     public void setShowNick(boolean showNick) {
-        Player p = this.getBukkitEntity(); //Player to hide name
+        Player p = this.getBukkitEntity();
 
         ScoreboardTeam team = new ScoreboardTeam(((CraftScoreboard) Bukkit.getScoreboardManager().getMainScoreboard()).getHandle(), p.getName());
 

@@ -76,15 +76,13 @@ public abstract class CacheAbstract {
 
     public void syncRedis() {
         try {
-            String codeSafe = StringUtils.getRandomCode(6);
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
             DataOutputStream byteArrayDataOutput = new DataOutputStream(byteArrayOutputStream);
-            byteArrayDataOutput.writeUTF(codeSafe);
             byteArrayDataOutput.writeUTF(this.profile.getName());
             byteArrayDataOutput.writeUTF(this.column);
             byteArrayDataOutput.writeUTF(this.getAsString());
             byteArrayDataOutput.writeUTF(this.getAsString());
-            Database.getRedis().sendMessage(codeSafe, "proxiedprofile", byteArrayOutputStream);
+            Database.getRedis().sendMessage("proxiedprofile", byteArrayOutputStream);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

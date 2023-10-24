@@ -72,7 +72,7 @@ public class PlayerJoinEvents extends ListenersAbstract {
 
     @EventHandler
     public void onPlayerJoinEvent(PlayerJoinEvent event) {
-        Location location = event.getPlayer().getLocation();
+        /*Location location = event.getPlayer().getLocation();
         Hologram hologram = HologramManager.createHologram(location.clone().add(0, 1.5, 0));
         hologram.addNewLine("NYEL VIADO");
         Bukkit.getScheduler().runTaskLater(Main.getInstance(), ()-> {
@@ -80,10 +80,9 @@ public class PlayerJoinEvents extends ListenersAbstract {
                     npc.createEntity();
                     npc.getEntity().spawn();
                     npc.getEntity().setShowNick(false);
-                    Bukkit.getScheduler().runTaskLater(Main.getInstance(), ()-> {
-                        npc.getEntity().setShowNick(false);
-                    }, 20);
-                }, 20);
+                    Bukkit.getScheduler().runTaskLater(Main.getInstance(), ()-> npc.getEntity().setShowNick(false), 20);
+                }, 20);*/
+
         event.setJoinMessage(null);
     }
 }

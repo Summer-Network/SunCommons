@@ -13,6 +13,7 @@ import com.vulcanth.commons.nms.NmsManager;
 import com.vulcanth.commons.player.Profile;
 import com.vulcanth.commons.plugin.VulcanthPlugins;
 import com.vulcanth.commons.storage.Database;
+import com.vulcanth.commons.manager.Manager;
 import org.bukkit.Bukkit;
 
 public class Main extends VulcanthPlugins {
@@ -41,6 +42,7 @@ public class Main extends VulcanthPlugins {
         SpawnManager.setupLocation();
         NmsManager.setupNMS();
         ServerManager.setupServers();
+        Manager.isBungeePlugin = false;
 
         this.sendMessage("O plugin iniciou com sucesso!");
     }
