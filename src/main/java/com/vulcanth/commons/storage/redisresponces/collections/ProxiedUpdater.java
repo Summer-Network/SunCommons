@@ -26,5 +26,4 @@ public class ProxiedUpdater extends RedisResponseAbstract {
             }
         }
     }
-
 }

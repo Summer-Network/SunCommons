@@ -86,12 +86,11 @@ public class EntityNPC_1_8 extends EntityPlayer implements INPCEntity {
             }
         }
     }
-
-    private void sendPacket(CraftPlayer online) {
-        PlayerConnection connection = online.getHandle().playerConnection;
+    private void sendPackets(Player online) {
+        PlayerConnection connection = ((CraftPlayer)online).getHandle().playerConnection;
         connection.sendPacket(new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.ADD_PLAYER, this));
         connection.sendPacket(new PacketPlayOutNamedEntitySpawn(this));
-        connection.sendPacket(new PacketPlayOutEntityHeadRotation(this, (byte) this.location.getYaw()));
+        connection.sendPacket(new PacketPlayOutEntityHeadRotation(this, (byte) ((this.location.getYaw() * 256.0F) / 360.0F)));
         connection.sendPacket(new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.REMOVE_PLAYER, this));
         if (!showNick) {
             Player p = getPlayer();
@@ -107,6 +106,29 @@ public class EntityNPC_1_8 extends EntityPlayer implements INPCEntity {
 
         NmsManager.look(this.getBukkitEntity(), location.getYaw(), location.getPitch());
     }
+
+
+    private void sendPacket(CraftPlayer online) {
+        PlayerConnection connection = online.getHandle().playerConnection;
+        connection.sendPacket(new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.ADD_PLAYER, this));
+        connection.sendPacket(new PacketPlayOutNamedEntitySpawn(this));
+        connection.sendPacket(new PacketPlayOutEntityHeadRotation(this, (byte) ((this.location.getYaw() * 256.0F) / 360.0F)));
+        connection.sendPacket(new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.REMOVE_PLAYER, this));
+        if (!showNick) {
+            Player p = getPlayer();
+            ScoreboardTeam team = new ScoreboardTeam(((CraftScoreboard) Bukkit.getScoreboardManager().getMainScoreboard()).getHandle(), p.getName());
+            team.setNameTagVisibility(ScoreboardTeamBase.EnumNameTagVisibility.NEVER);
+
+            ArrayList<String> playerToAdd = new ArrayList<>();
+            connection.sendPacket(new PacketPlayOutScoreboardTeam(team, 1));
+            connection.sendPacket(new PacketPlayOutScoreboardTeam(team, 0));
+            playerToAdd.add(p.getName());
+            connection.sendPacket(new PacketPlayOutScoreboardTeam(team, playerToAdd, 3));
+        }
+
+        NmsManager.look(this.getBukkitEntity(), location.getYaw(), location.getPitch());
+    }
+
 
     @Override
     public void setItemInHand(ItemStack item) {
