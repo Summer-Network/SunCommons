@@ -10,7 +10,7 @@ public interface INPCEntity {
 
     void setName(String text);
     void kill();
-    void setLocation(double x, double y, double z, World world);
+    void setLocation(double x, double y, double z, World world, float yam, float pitch);
     void spawn();
     void setItemInHand(ItemStack item);
     void sendPackets(Player... player);

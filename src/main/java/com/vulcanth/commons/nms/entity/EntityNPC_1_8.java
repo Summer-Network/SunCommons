@@ -58,7 +58,7 @@ public class EntityNPC_1_8 extends EntityPlayer implements INPCEntity {
     }
 
     @Override
-    public void setLocation(double x, double y, double z, World world) {
+    public void setLocation(double x, double y, double z, World world, float yam, float pitch) {
         this.location = new Location(world, x, y, z);
         this.setLocation(location.getX(), location.getY(), location.getZ(), location.getYaw(), location.getPitch());
     }
@@ -86,7 +86,7 @@ public class EntityNPC_1_8 extends EntityPlayer implements INPCEntity {
             }
         }
     }
-    private void sendPackets(Player online) {
+    private void sendPacket(Player online) {
         PlayerConnection connection = ((CraftPlayer)online).getHandle().playerConnection;
         connection.sendPacket(new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.ADD_PLAYER, this));
         connection.sendPacket(new PacketPlayOutNamedEntitySpawn(this));
@@ -108,7 +108,7 @@ public class EntityNPC_1_8 extends EntityPlayer implements INPCEntity {
     }
 
 
-    private void sendPacket(CraftPlayer online) {
+    public void sendPackets(CraftPlayer online) {
         PlayerConnection connection = online.getHandle().playerConnection;
         connection.sendPacket(new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.ADD_PLAYER, this));
         connection.sendPacket(new PacketPlayOutNamedEntitySpawn(this));
