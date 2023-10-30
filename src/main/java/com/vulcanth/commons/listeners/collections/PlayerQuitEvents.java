@@ -1,6 +1,7 @@
 package com.vulcanth.commons.listeners.collections;
 
 import com.vulcanth.commons.listeners.ListenersAbstract;
+import com.vulcanth.commons.model.SkinCacheCommand;
 import com.vulcanth.commons.player.Profile;
 import com.vulcanth.commons.player.cache.collections.PlayerInformationsCache;
 import com.vulcanth.commons.player.role.Role;
@@ -20,6 +21,7 @@ public class PlayerQuitEvents extends ListenersAbstract {
             profile.destroy(true);
         }
 
+        SkinCacheCommand.removeSkinProgress(player.getName());
         Role.reset(player);
         event.setQuitMessage(null);
     }

@@ -6,6 +6,7 @@ import com.vulcanth.commons.library.NPCManager;
 import com.vulcanth.commons.library.hologram.Hologram;
 import com.vulcanth.commons.library.npc.NPC;
 import com.vulcanth.commons.listeners.ListenersAbstract;
+import com.vulcanth.commons.model.Skin;
 import com.vulcanth.commons.nms.NMS;
 import com.vulcanth.commons.nms.NmsManager;
 import com.vulcanth.commons.nms.collections.NMS_1_8;
@@ -15,6 +16,7 @@ import com.vulcanth.commons.player.Profile;
 import com.vulcanth.commons.player.cache.collections.PlayerDeliveryCache;
 import com.vulcanth.commons.player.cache.collections.PlayerInformationsCache;
 import com.vulcanth.commons.player.cache.collections.PlayerPreferencesCache;
+import com.vulcanth.commons.player.cache.collections.PlayerSkinCache;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -47,7 +49,7 @@ public class PlayerJoinEvents extends ListenersAbstract {
     public void onPlayerPreLogin(AsyncPlayerPreLoginEvent event) {
         String name = event.getName();
         try {
-            Profile.createProfile(name).loadCaches(false, PlayerInformationsCache.class, PlayerPreferencesCache.class, PlayerDeliveryCache.class);
+            Profile.createProfile(name).loadCaches(false, PlayerInformationsCache.class, PlayerPreferencesCache.class, PlayerDeliveryCache.class, PlayerSkinCache.class);
         } catch (Exception e) {
             event.setKickMessage("§cOcorreu enquanto carregavamos o seu perfil!");
             event.setLoginResult(AsyncPlayerPreLoginEvent.Result.KICK_OTHER);
@@ -73,7 +75,13 @@ public class PlayerJoinEvents extends ListenersAbstract {
 
     @EventHandler
     public void onPlayerJoinEvent(PlayerJoinEvent event) {
-        event.getPlayer().getLocation().getChunk().load();
+        Player player = event.getPlayer();
+        Profile profile = Profile.loadProfile(player.getName());
+        if (profile != null) {
+            profile.setSkins(Skin.listSkins(profile));
+        }
+
+        player.sendMessage(profile.getCache(PlayerSkinCache.class).getAsString());
         event.setJoinMessage(null);
     }
 }

@@ -3,6 +3,7 @@ package com.vulcanth.commons.player;
 import com.vulcanth.commons.Main;
 import com.vulcanth.commons.game.Game;
 import com.vulcanth.commons.lobby.SpawnManager;
+import com.vulcanth.commons.model.Skin;
 import com.vulcanth.commons.nms.NmsManager;
 import com.vulcanth.commons.player.cache.CacheAbstract;
 import com.vulcanth.commons.player.cache.collections.PlayerPreferencesCache;
@@ -59,6 +60,7 @@ public class Profile {
     private String hotbarKey;
     private List<HotbarItemObject> hotbarItens;
     private CashManager cashManager;
+    private List<Skin> skins;
 
     public Profile(String name) {
         this.name = name;
@@ -67,6 +69,7 @@ public class Profile {
         this.scoreboard = null;
         this.hotbarKey = null;
         this.hotbarItens = null;
+        this.skins = new ArrayList<>();
     }
 
     public void refreshPlayer() {
@@ -97,7 +100,7 @@ public class Profile {
 
     @Deprecated
     public void refreshPlayers() {
-        Bukkit.getScheduler().scheduleAsyncDelayedTask(Main.getInstance(), ()-> {
+        Bukkit.getScheduler().scheduleAsyncDelayedTask(Main.getInstance(), () -> {
             Player player = getPlayer();
             for (Player online : Bukkit.getOnlinePlayers().stream().filter(player1 -> !player1.equals(player)).collect(Collectors.toList())) {
                 Profile profile = Profile.loadProfile(online.getName());
@@ -141,11 +144,11 @@ public class Profile {
     }
 
     private void showPlayer(Player player, Player online) {
-        Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getInstance(), ()-> player.showPlayer(online));
+        Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getInstance(), () -> player.showPlayer(online));
     }
 
     private void hidePlayer(Player player, Player online) {
-        Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getInstance(), ()-> player.hidePlayer(online));
+        Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getInstance(), () -> player.hidePlayer(online));
     }
 
     @SuppressWarnings("all")
@@ -245,5 +248,13 @@ public class Profile {
         if (hotbarItens != null) {
             hotbarItens.forEach(hotbarItemObject -> hotbarItemObject.updateItem(this.getPlayer()));
         }
+    }
+
+    public List<Skin> getSkins() {
+        return this.skins;
+    }
+
+    public void setSkins(List<Skin> skins) {
+        this.skins = skins;
     }
 }

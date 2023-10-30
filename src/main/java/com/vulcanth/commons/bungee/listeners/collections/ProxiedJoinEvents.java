@@ -18,17 +18,8 @@ import net.md_5.bungee.connection.LoginResult;
 import net.md_5.bungee.event.EventHandler;
 import net.md_5.bungee.event.EventPriority;
 import net.md_5.bungee.protocol.Property;
-import net.md_5.bungee.protocol.packet.LoginRequest;
-import net.md_5.bungee.protocol.packet.LoginSuccess;
-import net.md_5.bungee.protocol.packet.PlayerListItem;
 
-import javax.net.ssl.HttpsURLConnection;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.lang.reflect.Field;
-import java.net.URL;
-import java.util.concurrent.TimeUnit;
 
 public class ProxiedJoinEvents extends ListenersAbstract {
 
@@ -59,12 +50,10 @@ public class ProxiedJoinEvents extends ListenersAbstract {
         }
 
         if (BungeeMain.isIsMaintence()) {
-            BungeeMain.getInstance().getProxy().getScheduler().schedule(BungeeMain.getInstance(), () -> {
-                ProxiedRoleEnum role = ProxiedRole.findRoleByID(profile.getCache(PlayerInformationsCache.class).getInformation("role"));
-                if (role.getId() >= 4) {
-                    player.disconnect(TextComponent.fromLegacyText("§c§lVULCANTH - MANUTENÇÃO\n\n§cAtualmente estamos em manutenção, aguarde para mais informações\n§cem nosso site: www.vulcanth.com"));
-                }
-            }, 2L, TimeUnit.SECONDS);
+            ProxiedRoleEnum role = ProxiedRole.findRoleByID(profile.getCache(PlayerInformationsCache.class).getInformation("role"));
+            if (role.getId() >= 4) {
+                player.disconnect(TextComponent.fromLegacyText("§c§lVULCANTH - MANUTENÇÃO\n\n§cAtualmente estamos em manutenção, aguarde para mais informações\n§cem nosso site: www.vulcanth.com"));
+            }
         }
     }
 

@@ -5,6 +5,7 @@ import com.vulcanth.commons.commands.collections.*;
 import com.vulcanth.commons.hook.VulcanthHook;
 import com.vulcanth.commons.library.npc.listeners.NPCListeners;
 import com.vulcanth.commons.listeners.ListenersAbstract;
+import com.vulcanth.commons.listeners.collections.PlayerChatEvents;
 import com.vulcanth.commons.listeners.collections.PlayerInteractEvents;
 import com.vulcanth.commons.listeners.collections.PlayerJoinEvents;
 import com.vulcanth.commons.listeners.collections.PlayerQuitEvents;
@@ -37,8 +38,8 @@ public class Main extends VulcanthPlugins {
     public void enablePlugin() {
         Database.setupDatabase(false);
 
-        CommandsAbstract.setupComands(SpawnCommand.class, VoarCommand.class, CashCommand.class, HologramCommand.class);
-        ListenersAbstract.setupListeners(PlayerJoinEvents.class, PlayerQuitEvents.class, PlayerInteractEvents.class, NPCListeners.class);
+        CommandsAbstract.setupComands(SpawnCommand.class, VoarCommand.class, CashCommand.class, HologramCommand.class, SkinCommand.class);
+        ListenersAbstract.setupListeners(PlayerJoinEvents.class, PlayerQuitEvents.class, PlayerInteractEvents.class, NPCListeners.class, PlayerChatEvents.class);
         VulcanthHook.setupHooks();
         SpawnManager.setupLocation();
         NmsManager.setupNMS();

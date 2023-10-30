@@ -63,10 +63,8 @@ public class PlayerSkinCache extends CacheAbstract {
 
     public JSONObject findSkinInfo(String key) {
         JSONArray array = (JSONArray) this.getAsJSONObject().get("skins_used");
-        AtomicReference<JSONObject> object = null;
-        array.stream().filter(o -> ((JSONObject) o).containsKey(key)).findFirst().ifPresent(o -> {
-            object.set((JSONObject) o);
-        });
+        AtomicReference<JSONObject> object = new AtomicReference<>(null);
+        array.stream().filter(o -> ((JSONObject) o).containsKey(key)).findFirst().ifPresent(o -> object.set((JSONObject) o));
 
         return object.get();
     }
@@ -92,7 +90,13 @@ public class PlayerSkinCache extends CacheAbstract {
         JSONObject json = getDefaultJSON();
         JSONObject newJson = this.getAsJSONObject();
         List<String> keys = (List<String>) json.keySet().stream().filter(key -> !newJson.containsKey(key)).collect(Collectors.toList());
-        keys.forEach(key -> newJson.put(key, true));
+        keys.forEach(key -> {
+            if (key.equals("skin_selected")) {
+                newJson.put(key, "");
+            } else {
+                newJson.put(key, new JSONArray());
+            }
+        });
         this.setValueCache(newJson.toJSONString());
     }
 

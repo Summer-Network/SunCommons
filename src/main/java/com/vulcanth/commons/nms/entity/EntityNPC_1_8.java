@@ -70,7 +70,7 @@ public class EntityNPC_1_8 extends EntityPlayer implements INPCEntity {
         if (this.playerPackets.isEmpty()) {
             for (Player online : Bukkit.getOnlinePlayers()) {
                 if (online.isOnline()) {
-                    sendPacket((CraftPlayer) online);
+                    sendPacket(online);
                     online.hidePlayer(this.getPlayer());
                     online.showPlayer(this.getPlayer());
                 }
@@ -80,7 +80,7 @@ public class EntityNPC_1_8 extends EntityPlayer implements INPCEntity {
 
         for (Player online : this.playerPackets) {
             if (online.isOnline()) {
-                sendPacket((CraftPlayer) online);
+                sendPacket(online);
                 online.hidePlayer(this.getPlayer());
                 online.showPlayer(this.getPlayer());
             }
@@ -181,7 +181,7 @@ public class EntityNPC_1_8 extends EntityPlayer implements INPCEntity {
         if (playerPackets.isEmpty()) {
             for (Player online : Bukkit.getOnlinePlayers()) {
                 if (online.isOnline()) {
-                    sendPacket((CraftPlayer) online);
+                    sendPacket(online);
                 }
             }
 
@@ -190,14 +190,14 @@ public class EntityNPC_1_8 extends EntityPlayer implements INPCEntity {
 
         for (Player online : playerPackets) {
             if (online.isOnline()) {
-                sendPacket((CraftPlayer) online);
+                sendPacket(online);
             }
         }
     }
 
     @Override
     public void update(Player player) {
-        sendPacket((CraftPlayer) player);
+        sendPacket(player);
         player.hidePlayer(getPlayer());
         player.showPlayer(getPlayer());
     }
