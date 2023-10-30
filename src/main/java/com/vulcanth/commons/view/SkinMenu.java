@@ -18,10 +18,7 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class SkinMenu extends PlayerCollectionMenu {
 
@@ -64,12 +61,12 @@ public class SkinMenu extends PlayerCollectionMenu {
 
                             TextComponent principal = new TextComponent(" \n§aDigite o nick da skin que você deseja no chat\n§7Ou clique ");
 
-                            TextComponent aqui = new TextComponent("AQUI");
-                            aqui.setColor(ChatColor.GREEN);
-                            aqui.setBold(true);
-                            aqui.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "SKIN.CANCEL"));
+                            TextComponent here = new TextComponent("AQUI");
+                            here.setColor(ChatColor.GREEN);
+                            here.setBold(true);
+                            here.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "SKIN.CANCEL"));
 
-                            principal.addExtra(aqui);
+                            principal.addExtra(here);
                             principal.addExtra(" §7para cancelar essa operação\n ");
 
                             player.spigot().sendMessage(principal);
@@ -126,6 +123,21 @@ public class SkinMenu extends PlayerCollectionMenu {
         this.setItem(BukkitUtils.getItemStackFromString("SKULL_ITEM:3 : 1 : nome>§aAjuda : desc>§7As ações disponíveis neste menu também\n§7podem ser realizadas por comando.\n \n§fComando: §7/skin ajuda\n \n§eClique para listar os comandos. : skin>eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYmFkYzA0OGE3Y2U3OGY3ZGFkNzJhMDdkYTI3ZDg1YzA5MTY4ODFlNTUyMmVlZWQxZTNkYWYyMTdhMzhjMWEifX19"), 50);
 
         List<Skin> skins = profile.getSkins();
+        skins.sort((skin1, skin2) -> {
+            String name1 = skin1.getName();
+            String name2 = skin2.getName();
+
+            boolean containsName1 = name1.equals(profile.getCache(PlayerSkinCache.class).getSkinSelected());
+            boolean containsName2 = name2.equals(profile.getCache(PlayerSkinCache.class).getSkinSelected());
+            if (containsName1 && !containsName2) {
+                return -1;
+            } else if (!containsName1 && containsName2) {
+                return 1;
+            } else {
+                return 0;
+            }
+        });
+
         if (skins.isEmpty()) {
             this.setItem(BukkitUtils.getItemStackFromString("WEB : 1 : nome>§aVazio! : desc>§7Você não possui skins salvas no momento!"), 22);
         } else {

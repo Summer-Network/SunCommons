@@ -4,6 +4,7 @@ import com.vulcanth.commons.Main;
 import com.vulcanth.commons.player.Profile;
 import com.vulcanth.commons.storage.Database;
 import com.vulcanth.commons.storage.tables.collections.ProfileTable;
+import com.vulcanth.commons.storage.tables.collections.SkinTable;
 import com.vulcanth.commons.utils.StringUtils;
 import org.bukkit.Bukkit;
 import simple.JSONArray;
@@ -38,7 +39,8 @@ public abstract class CacheAbstract {
                     ProfileTable.update(profile.getName(), this.column, this.valueCache);
                     break;
                 }
-                case "VulcanthSkin": {
+                case "VulcanthSkins": {
+                    SkinTable.update(profile.getName(), this.column, this.valueCache);
                     break;
                 }
             }
@@ -61,11 +63,21 @@ public abstract class CacheAbstract {
                     ProfileTable.setDefault(profile.getName());
                     break;
                 }
+
+                case "VulcanthSkins": {
+                    SkinTable.setDefault(profile.getName());
+                    break;
+                }
             }
         } else {
             switch (this.table) {
                 case "VulcanthProfiles": {
                     this.valueCache = ProfileTable.getInformation(profile.getName(), this.column);
+                    break;
+                }
+
+                case "VulcanthSkins": {
+                    this.valueCache = SkinTable.getInformation(profile.getName(), this.column);
                     break;
                 }
             }

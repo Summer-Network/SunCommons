@@ -2,6 +2,7 @@ package com.vulcanth.commons.listeners.collections;
 
 import com.vulcanth.commons.library.MojangAPI;
 import com.vulcanth.commons.listeners.ListenersAbstract;
+import com.vulcanth.commons.model.Skin;
 import com.vulcanth.commons.model.SkinCacheCommand;
 import com.vulcanth.commons.player.Profile;
 import com.vulcanth.commons.player.cache.collections.PlayerSkinCache;
@@ -68,7 +69,9 @@ public class PlayerChatEvents extends ListenersAbstract {
                 player.sendMessage("§aSua skin foi alterada com sucesso, relogue para visualisar.");
             }
 
+            player.sendMessage(profile.getCache(PlayerSkinCache.class).getAsString());
             SkinCacheCommand.removeSkinProgress(player.getName());
+            profile.setSkins(Skin.listSkins(profile));
         }
     }
 

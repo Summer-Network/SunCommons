@@ -41,10 +41,10 @@ public class Skin {
 
     public ItemStack buildSkinIcon(Profile profile) {
         if (profile.getCache(PlayerSkinCache.class).getSkinSelected().equals(this.name)) {
-            return BukkitUtils.getItemStackFromString("SKULL_ITEM:3 : 1 : nome>&6" + this.name + " : desc>§fUsada pela última vez em: §7" + StringUtils.transformTimeFormated(this.lastUse) + "\n \n§eClique shift + clique direito para deletar!\n§aClique para utilizar essa skin!");
+            return BukkitUtils.getItemStackFromString("SKULL_ITEM:3 : 1 : nome>&6" + this.name + " : desc>§fUsada pela última vez em: §7" + StringUtils.transformTimeFormated((double) (System.currentTimeMillis() - this.lastUse) / 1000) + "atrás\n \n§6Skin selecionada! : skin>" + this.value);
         }
 
-        return BukkitUtils.getItemStackFromString("SKULL_ITEM:3 : 1 : nome>&6" + this.name + " : desc>§fUsada pela última vez em: §7" + StringUtils.transformTimeFormated(this.lastUse) + "\n \n§6Skin selecionada!");
+        return BukkitUtils.getItemStackFromString("SKULL_ITEM:3 : 1 : nome>&a" + this.name + " : desc>§fUsada pela última vez em: §7" + StringUtils.transformTimeFormated((double) (System.currentTimeMillis() - this.lastUse) / 1000) + "atrás\n \n§eClique shift + clique direito para deletar!\n§aClique para utilizar essa skin! : skin>" + this.value);
     }
 
     public GameProfile buildGameProfile() {

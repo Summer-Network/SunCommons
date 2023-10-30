@@ -80,8 +80,7 @@ public class PlayerJoinEvents extends ListenersAbstract {
         if (profile != null) {
             profile.setSkins(Skin.listSkins(profile));
         }
-
-        player.sendMessage(profile.getCache(PlayerSkinCache.class).getAsString());
+        
         event.setJoinMessage(null);
     }
 }

@@ -13,7 +13,7 @@ public class SkinTable extends TableAbstract {
     public static void setDefault(String name) {
         Connection connection = Database.getMySQL().openConnection();
         try {
-            PreparedStatement ps = connection.prepareStatement("INSERT INTO VulcanthSkins VALUES(?, ?, ?, ?)");
+            PreparedStatement ps = connection.prepareStatement("INSERT INTO VulcanthSkins VALUES(?, ?)");
             ps.setString(1, name);
             ps.setString(2, "{}");
             Database.getMySQL().insert(ps);
