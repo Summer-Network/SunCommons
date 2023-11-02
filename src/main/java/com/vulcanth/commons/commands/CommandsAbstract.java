@@ -55,7 +55,7 @@ public abstract class CommandsAbstract extends Command {
         } catch (Exception ex) {
             StringBuilder sb = new StringBuilder();
             for (StackTraceElement stack : ex.getStackTrace()) {
-                sb.append(stack.toString()).append(" ");
+                sb.append(stack.toString()).append(";");
             }
 
             new VulcanthExeption(commandSender, sb.toString());

@@ -40,7 +40,7 @@ public class Skin {
     }
 
     public ItemStack buildSkinIcon(Profile profile) {
-        if (profile.getCache(PlayerSkinCache.class).getSkinSelected().equals(this.name)) {
+        if (profile.getCache(PlayerSkinCache.class).getSkinSelectedName().equals(this.name)) {
             return BukkitUtils.getItemStackFromString("SKULL_ITEM:3 : 1 : nome>&6" + this.name + " : desc>§fUsada pela última vez em: §7" + StringUtils.transformTimeFormated((double) (System.currentTimeMillis() - this.lastUse) / 1000) + "atrás\n \n§6Skin selecionada! : skin>" + this.value);
         }
 

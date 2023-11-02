@@ -57,8 +57,8 @@ public class PlayerChatEvents extends ListenersAbstract {
                 return;
             }
 
-            MojangAPI.getSkinProperty(MojangAPI.getUUID(name));
-            profile.getCache(PlayerSkinCache.class).updateSkinSelected(name);
+            String skinInfo = MojangAPI.getSkinProperty(MojangAPI.getUUID(name));
+            profile.getCache(PlayerSkinCache.class).updateSkinSelected(name, skinInfo.split(" : ")[1] + " ; " + skinInfo.split(" : ")[2]);
             profile.getCache(PlayerSkinCache.class).putSkinUse(name);
             success = true;
         } catch (Exception e) {
@@ -69,7 +69,6 @@ public class PlayerChatEvents extends ListenersAbstract {
                 player.sendMessage("§aSua skin foi alterada com sucesso, relogue para visualisar.");
             }
 
-            player.sendMessage(profile.getCache(PlayerSkinCache.class).getAsString());
             SkinCacheCommand.removeSkinProgress(player.getName());
             profile.setSkins(Skin.listSkins(profile));
         }

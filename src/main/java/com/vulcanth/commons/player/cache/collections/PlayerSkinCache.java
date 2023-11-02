@@ -25,6 +25,15 @@ public class PlayerSkinCache extends CacheAbstract {
         return (String) this.getAsJSONObject().get("skin_selected");
     }
 
+    public String getSkinSelectedName() {
+        String info = (String) this.getAsJSONObject().get("skin_selected");
+        if (info.equals("")) {
+            return "";
+        }
+
+        return info.split(" ; ")[0];
+    }
+
     public List<String> listSkinsUsed() {
         JSONArray array = (JSONArray) this.getAsJSONObject().get("skins_used");
         List<String> skinsInfo = new ArrayList<>();
@@ -38,9 +47,14 @@ public class PlayerSkinCache extends CacheAbstract {
         return skinsInfo;
     }
 
-    public void updateSkinSelected(String skin) {
+    public void updateSkinSelected(String skin, String texture) {
         JSONObject object = this.getAsJSONObject();
-        object.replace("skin_selected", skin);
+        if (skin.equals("") || texture.equals("")) {
+            object.replace("skin_selected", "");
+        } else {
+            object.replace("skin_selected", skin + " ; " + texture);
+        }
+
         this.setValueCache(object.toJSONString());
     }
 

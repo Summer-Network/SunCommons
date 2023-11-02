@@ -76,7 +76,7 @@ public class SkinMenu extends PlayerCollectionMenu {
                         }
 
                         case 49: {
-                            profile.getCache(PlayerSkinCache.class).updateSkinSelected("");
+                            profile.getCache(PlayerSkinCache.class).updateSkinSelected("", "");
                             player.sendMessage("§aSua skin foi atualizada com sucesso, relogue para visualisar.");
                             break;
                         }
@@ -90,7 +90,7 @@ public class SkinMenu extends PlayerCollectionMenu {
                         default: {
                             Skin skin = (Skin) this.getValueForItem(slot, event.getCurrentItem());
                             if (skin != null) {
-                                profile.getCache(PlayerSkinCache.class).updateSkinSelected(skin.getName());
+                                profile.getCache(PlayerSkinCache.class).updateSkinSelected(skin.getName(), skin.getValue() + " ; " + skin.getSignature());
                                 profile.getCache(PlayerSkinCache.class).putSkinUse(skin.getName());
                                 player.sendMessage("§aSua skin foi atualizada com sucesso, relogue para visualisar.");
                                 new SkinMenu(profile).open();
