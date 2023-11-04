@@ -3,6 +3,8 @@ package com.vulcanth.commons.storage.types;
 import com.vulcanth.commons.storage.redisresponces.RedisResponseAbstract;
 import com.vulcanth.commons.storage.redisresponces.collections.PlayerRoleUpdater;
 import com.vulcanth.commons.storage.redisresponces.collections.ProxiedUpdater;
+import com.vulcanth.commons.storage.redisupdater.RedisUpdaterAbstract;
+import com.vulcanth.commons.storage.redisupdater.collections.ProfileInformationsUpdater;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
@@ -21,11 +23,13 @@ public class Redis {
     private JedisPool resource;
     private String password;
     private List<RedisResponseAbstract> responses;
+    private List<RedisUpdaterAbstract> updaters;
     private Jedis connection;
 
     public Redis(String password, String host, String port, boolean isBungee) {
         this.password = password;
         this.responses = new ArrayList<>();
+        this.updaters = new ArrayList<>();
         setupRedisConnection(host, port);
 
         try {
@@ -73,7 +77,12 @@ public class Redis {
             this.responses.clear();
             this.responses = null;
         }
-    }
+
+        if (this.updaters != null) {
+            this.updaters.clear();
+            this.updaters = null;
+        }
+     }
 
     public void destroy() {
         closeConnection();
@@ -146,6 +155,10 @@ public class Redis {
                 }
             }
         });
+    }
+
+    public RedisUpdaterAbstract findUpdater(String key) {
+        return this.updaters.stream().filter(redisUpdaterAbstract -> redisUpdaterAbstract.getKey().equals(key)).findFirst().orElse(null);
     }
 
     public Jedis createConnection() {

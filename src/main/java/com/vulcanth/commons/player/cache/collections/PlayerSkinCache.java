@@ -2,6 +2,7 @@ package com.vulcanth.commons.player.cache.collections;
 
 import com.vulcanth.commons.player.Profile;
 import com.vulcanth.commons.player.cache.CacheAbstract;
+import com.vulcanth.commons.storage.redisupdater.collections.ProfileSkinUpdater;
 import simple.JSONArray;
 import simple.JSONObject;
 
@@ -13,7 +14,7 @@ import java.util.stream.Collectors;
 public class PlayerSkinCache extends CacheAbstract {
 
     public PlayerSkinCache(Profile profile) {
-        super("VulcanthSkins", "SKININFO", "{}", profile);
+        super("VulcanthSkins", "SKININFO", "{}", new ProfileSkinUpdater("SKININFO"), profile);
         if (this.getAsString().equals("{}")) {
             buildDefaultJSON();
         } else {

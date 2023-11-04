@@ -2,6 +2,7 @@ package com.vulcanth.commons.player.cache.collections;
 
 import com.vulcanth.commons.player.Profile;
 import com.vulcanth.commons.player.cache.CacheAbstract;
+import com.vulcanth.commons.storage.redisupdater.collections.ProfileInformationsUpdater;
 import simple.JSONObject;
 
 import java.util.concurrent.TimeUnit;
@@ -10,7 +11,7 @@ import java.util.concurrent.TimeUnit;
 public class PlayerDeliveryCache extends CacheAbstract {
 
     public PlayerDeliveryCache(Profile profile) {
-        super("VulcanthProfiles", "REWARDS", "{}", profile);
+        super("VulcanthProfiles", "REWARDS", "{}", new ProfileInformationsUpdater("REWARDS"), profile);
         if (this.getAsString().equals("{}")) {
             buildDefaultJSON();
         }

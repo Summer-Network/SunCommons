@@ -3,6 +3,7 @@ package com.vulcanth.commons.bungee.proxied.cache.collections;
 import com.vulcanth.commons.bungee.proxied.ProxiedProfile;
 import com.vulcanth.commons.bungee.proxied.cache.CacheAbstract;
 import com.vulcanth.commons.player.preferences.PreferencesEnum;
+import com.vulcanth.commons.storage.redisupdater.collections.ProfileInformationsUpdater;
 import simple.JSONObject;
 
 import java.util.List;
@@ -12,7 +13,7 @@ import java.util.stream.Collectors;
 public class PlayerPreferencesCache extends CacheAbstract {
 
     public PlayerPreferencesCache(ProxiedProfile profile) {
-        super("PREFERENCES", "{}", profile);
+        super("PREFERENCES", "{}", new ProfileInformationsUpdater("PREFERENCES"), profile);
         if (this.getAsString().equals("{}")) {
             buildDefaultJSON();
         } else {

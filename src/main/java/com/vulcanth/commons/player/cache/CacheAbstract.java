@@ -3,6 +3,7 @@ package com.vulcanth.commons.player.cache;
 import com.vulcanth.commons.Main;
 import com.vulcanth.commons.player.Profile;
 import com.vulcanth.commons.storage.Database;
+import com.vulcanth.commons.storage.redisupdater.RedisUpdaterAbstract;
 import com.vulcanth.commons.storage.tables.collections.ProfileTable;
 import com.vulcanth.commons.storage.tables.collections.SkinTable;
 import com.vulcanth.commons.utils.StringUtils;
@@ -21,12 +22,14 @@ public abstract class CacheAbstract {
     private final String table;
     private final String column;
     private final Profile profile;
+    private final RedisUpdaterAbstract redisUpdater;
     private Object valueCache;
 
-    public CacheAbstract(String table, String column, Object defaultValue, Profile profile) {
+    public CacheAbstract(String table, String column, Object defaultValue, RedisUpdaterAbstract redisUpdater, Profile profile) {
         this.table = table;
         this.column = column;
         this.profile = profile;
+        this.redisUpdater = redisUpdater;
         this.load(defaultValue);
     }
 
@@ -82,8 +85,6 @@ public abstract class CacheAbstract {
                 }
             }
         }
-
-        syncRedis();
     }
 
     public void syncRedis() {
@@ -102,6 +103,7 @@ public abstract class CacheAbstract {
 
     public void setValueCache(Object value) {
         this.valueCache = value;
+        syncRedis();
     }
 
     public Object getValueCache() {

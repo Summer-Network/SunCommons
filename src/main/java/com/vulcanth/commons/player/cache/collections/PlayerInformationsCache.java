@@ -3,6 +3,7 @@ package com.vulcanth.commons.player.cache.collections;
 import com.vulcanth.commons.player.Profile;
 import com.vulcanth.commons.player.cache.CacheAbstract;
 import com.vulcanth.commons.player.role.RoleEnum;
+import com.vulcanth.commons.storage.redisupdater.collections.ProfileInformationsUpdater;
 import simple.JSONObject;
 
 import java.util.List;
@@ -12,7 +13,7 @@ import java.util.stream.Collectors;
 public class PlayerInformationsCache extends CacheAbstract {
 
     public PlayerInformationsCache(Profile profile) {
-        super("VulcanthProfiles", "INFORMATIONS", "{}", profile);
+        super("VulcanthProfiles", "INFORMATIONS", "{}", new ProfileInformationsUpdater("INFORMATIONS"), profile);
         if (this.getAsString().equals("{}")) {
             buildDefaultJSON();
         } else {

@@ -76,8 +76,8 @@ public class ProxiedProfile {
         return this.cache.stream().filter(cacheAbstract -> cacheAbstract.getKey().equals(column)).findFirst().orElse(null);
     }
     public void destroy() {
+        this.cache.forEach(CacheAbstract::saveRedis);
         PROFILES.remove(this.name);
-        this.name = null;
         this.cache = null;
     }
 

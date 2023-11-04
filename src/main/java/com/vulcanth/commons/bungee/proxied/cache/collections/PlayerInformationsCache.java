@@ -4,6 +4,7 @@ import com.vulcanth.commons.bungee.proxied.ProxiedProfile;
 import com.vulcanth.commons.bungee.proxied.cache.CacheAbstract;
 import com.vulcanth.commons.bungee.proxied.role.ProxiedRoleEnum;
 import com.vulcanth.commons.player.role.RoleEnum;
+import com.vulcanth.commons.storage.redisupdater.collections.ProfileInformationsUpdater;
 import simple.JSONObject;
 
 import java.util.List;
@@ -13,7 +14,7 @@ import java.util.stream.Collectors;
 public class PlayerInformationsCache extends CacheAbstract {
 
     public PlayerInformationsCache(ProxiedProfile profile) {
-        super("INFORMATIONS", "{}", profile);
+        super("INFORMATIONS", "{}", new ProfileInformationsUpdater("INFORMATIONS"), profile);
         if (this.getAsString().equals("{}")) {
             buildDefaultJSON();
         } else {

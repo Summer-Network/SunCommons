@@ -8,7 +8,6 @@ import com.vulcanth.commons.bungee.proxied.cache.collections.PlayerInformationsC
 import com.vulcanth.commons.bungee.proxied.cache.collections.PlayerPreferencesCache;
 import com.vulcanth.commons.bungee.proxied.role.ProxiedRole;
 import com.vulcanth.commons.bungee.proxied.role.ProxiedRoleEnum;
-import com.vulcanth.commons.library.MojangAPI;
 import com.vulcanth.commons.storage.tables.collections.SkinTable;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -27,9 +26,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Field;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class ProxiedJoinEvents extends ListenersAbstract {
@@ -40,7 +37,7 @@ public class ProxiedJoinEvents extends ListenersAbstract {
         try {
             ProxiedProfile profile = ProxiedProfile.loadProfile(player);
             if (profile == null) {
-                ProxiedProfile.createProfile(player).loadCaches(true, PlayerInformationsCache.class, PlayerPreferencesCache.class);
+                ProxiedProfile.createProfile(player).loadCaches(false, PlayerInformationsCache.class, PlayerPreferencesCache.class);
             } else {
                 ProxyServer.getInstance().getConsole().sendMessage(TextComponent.fromLegacyText("Este jogador existe."));
             }
@@ -63,7 +60,7 @@ public class ProxiedJoinEvents extends ListenersAbstract {
         if (BungeeMain.isIsMaintence()) {
             ProxiedRoleEnum role = ProxiedRole.findRoleByID(profile.getCache(PlayerInformationsCache.class).getInformation("role"));
             if (role.getId() >= 4) {
-                //player.disconnect(TextComponent.fromLegacyText("§c§lVULCANTH - MANUTENÇÃO\n\n§cAtualmente estamos em manutenção, aguarde para mais informações\n§cem nosso site: www.vulcanth.com"));
+                player.disconnect(TextComponent.fromLegacyText("§c§lVULCANTH - MANUTENÇÃO\n\n§cAtualmente estamos em manutenção, aguarde para mais informações\n§cem nosso site: www.vulcanth.com"));
             }
         }
     }

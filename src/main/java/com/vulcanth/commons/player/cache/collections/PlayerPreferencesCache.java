@@ -3,7 +3,7 @@ package com.vulcanth.commons.player.cache.collections;
 import com.vulcanth.commons.player.Profile;
 import com.vulcanth.commons.player.cache.CacheAbstract;
 import com.vulcanth.commons.player.preferences.PreferencesEnum;
-import org.bukkit.Bukkit;
+import com.vulcanth.commons.storage.redisupdater.collections.ProfileInformationsUpdater;
 import simple.JSONObject;
 
 import java.util.List;
@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 public class PlayerPreferencesCache extends CacheAbstract {
 
     public PlayerPreferencesCache(Profile profile) {
-        super("VulcanthProfiles", "PREFERENCES", "{}", profile);
+        super("VulcanthProfiles", "PREFERENCES", "{}", new ProfileInformationsUpdater("PREFERENCES"), profile);
         if (this.getAsString().equals("{}")) {
             buildDefaultJSON();
         } else {

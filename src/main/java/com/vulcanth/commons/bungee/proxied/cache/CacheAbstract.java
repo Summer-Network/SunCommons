@@ -1,6 +1,7 @@
 package com.vulcanth.commons.bungee.proxied.cache;
 
 import com.vulcanth.commons.bungee.proxied.ProxiedProfile;
+import com.vulcanth.commons.storage.redisupdater.RedisUpdaterAbstract;
 import simple.JSONArray;
 import simple.JSONObject;
 import simple.parser.JSONParser;
@@ -9,18 +10,26 @@ import simple.parser.ParseException;
 public abstract class CacheAbstract {
 
     private final ProxiedProfile profile;
+    private final String key;
+    private final RedisUpdaterAbstract updater;
     private Object valueCache;
-    private String key;
 
-    public CacheAbstract(String key, Object defaultValue, ProxiedProfile profile) {
+
+    public CacheAbstract(String key, Object defaultValue, RedisUpdaterAbstract updater, ProxiedProfile profile) {
         this.profile = profile;
         this.key = key;
+        this.updater = updater;
         this.load(defaultValue);
     }
 
     //Ele carrega as informações de acordo com o que foi estabelecido no objeto
     private void load(Object defaultValue) {
-        this.valueCache = defaultValue;
+        Object value = updater.getValue(profile.getName());
+        if (value == null) {
+            this.valueCache = defaultValue;
+        } else {
+            this.valueCache = value;
+        }
     }
 
     public void setValueCache(Object value) {
@@ -66,5 +75,13 @@ public abstract class CacheAbstract {
 
     public String getKey() {
         return this.key;
+    }
+
+    public RedisUpdaterAbstract getUpdater() {
+        return this.updater;
+    }
+
+    public void saveRedis() {
+        this.updater.saveContent(this.profile.getName(), this.valueCache);
     }
 }
