@@ -208,7 +208,7 @@ public abstract class PlayerCollectionUpdapleMenu extends MenuAbstract {
     }
 
     private boolean isDifferent(ItemStack item1, ItemStack item2) {
-        if (item1 == null || item2 == null || item1.getType().equals(Material.AIR) || item2.getType().equals(Material.AIR)) {
+        if (item1 == null || item2 == null || item1.getType().equals(Material.AIR) || item2.getType().equals(Material.AIR) || !item1.getItemMeta().equals(item2.getItemMeta())) {
             return true;
         }
 
