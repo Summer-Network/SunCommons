@@ -16,7 +16,11 @@ import java.util.stream.Collectors;
 public class Skin {
 
     public static List<Skin> listSkins(Profile profile) {
-        return profile.getCache(PlayerSkinCache.class).listSkinsUsed().stream().map(s -> new Skin(s.split(" ; ")[0], Long.parseLong(s.split(" ; ")[1]))).collect(Collectors.toList());
+        try {
+            return profile.getCache(PlayerSkinCache.class).listSkinsUsed().stream().map(s -> new Skin(s.split(" ; ")[0], Long.parseLong(s.split(" ; ")[1]))).collect(Collectors.toList());
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     private final String name;

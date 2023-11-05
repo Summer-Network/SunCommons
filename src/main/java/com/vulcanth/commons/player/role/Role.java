@@ -15,7 +15,11 @@ public class Role {
     public static RoleEnum findRole(Player player) {
         Profile profile = Profile.loadProfile(player.getName());
         if (profile != null) {
-            return findRoleByID(profile.getCache(PlayerInformationsCache.class).getInformation("role"));
+            try {
+                return findRoleByID(profile.getCache(PlayerInformationsCache.class).getInformation("role"));
+            } catch (Exception e) {
+                return RoleEnum.MEMBRO;
+            }
         }
 
         return Arrays.stream(RoleEnum.values()).filter(roleEnum -> roleEnum.getPermission() != null && player.hasPermission(roleEnum.getPermission())).findFirst().orElse(RoleEnum.MEMBRO);

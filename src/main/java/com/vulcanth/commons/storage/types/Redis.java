@@ -26,7 +26,7 @@ public class Redis {
     private List<RedisUpdaterAbstract> updaters;
     private Jedis connection;
 
-    public Redis(String password, String host, String port, boolean isBungee) {
+    public Redis(String password, String host, String port) {
         this.password = password;
         this.responses = new ArrayList<>();
         this.updaters = new ArrayList<>();
@@ -43,10 +43,10 @@ public class Redis {
     private void setupRedisConnection(String host, String port) {
         try {
             JedisPoolConfig config = new JedisPoolConfig();
-            config.setMaxTotal(30);
+            config.setMaxTotal(200);
             config.setMinIdle(5);
             config.setMaxIdle(10);
-            config.setMaxWaitMillis(3000);
+            config.setMaxWaitMillis(5000);
             this.resource = new JedisPool(config, host, Integer.parseInt(port));
             openConnection();
         } catch (Exception e) {

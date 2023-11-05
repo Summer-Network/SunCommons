@@ -101,9 +101,11 @@ public abstract class CacheAbstract {
         }
     }
 
-    public void setValueCache(Object value) {
+    public void setValueCache(Object value, boolean syncRedis) {
         this.valueCache = value;
-        syncRedis();
+        if (syncRedis) {
+            syncRedis();
+        }
     }
 
     public Object getValueCache() {

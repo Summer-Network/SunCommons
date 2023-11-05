@@ -24,10 +24,10 @@ public class MySQL {
             config.setJdbcUrl("jdbc:mysql://" + host + ":" + port + "/" + databaseName);
             config.setUsername(username);
             config.setPassword(password);
-            config.setMinimumIdle(20);
+            config.setMinimumIdle(5);
             config.setMaximumPoolSize(100);
-            config.setConnectionTimeout(2000);
-            config.setIdleTimeout(1000);
+            config.setConnectionTimeout(10000);
+            config.setIdleTimeout(600000);
             config.setValidationTimeout(3000);
             config.setAutoCommit(true);
             config.setMaxLifetime(1800000);

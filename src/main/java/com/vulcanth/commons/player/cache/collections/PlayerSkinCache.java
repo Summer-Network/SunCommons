@@ -56,7 +56,7 @@ public class PlayerSkinCache extends CacheAbstract {
             object.replace("skin_selected", skin + " ; " + texture);
         }
 
-        this.setValueCache(object.toJSONString());
+        this.setValueCache(object.toJSONString(), true);
     }
 
     public void putSkinUse(String skinUse) {
@@ -73,7 +73,7 @@ public class PlayerSkinCache extends CacheAbstract {
         array.add(object);
         JSONObject jsonObject = this.getAsJSONObject();
         jsonObject.replace("skins_used", array);
-        this.setValueCache(jsonObject.toJSONString());
+        this.setValueCache(jsonObject.toJSONString(), false);
     }
 
     public JSONObject findSkinInfo(String key) {
@@ -94,11 +94,11 @@ public class PlayerSkinCache extends CacheAbstract {
 
         JSONObject jsonObject = this.getAsJSONObject();
         jsonObject.replace("skins_used", array);
-        this.setValueCache(jsonObject.toJSONString());
+        this.setValueCache(jsonObject.toJSONString(), false);
     }
 
     private void buildDefaultJSON() {
-        this.setValueCache(getDefaultJSON().toJSONString()); //Caso utilize JSON, sempre o salve como JSON String
+        this.setValueCache(getDefaultJSON().toJSONString(), false); //Caso utilize JSON, sempre o salve como JSON String
     }
 
     private void checkIfHasNew() {
@@ -112,7 +112,7 @@ public class PlayerSkinCache extends CacheAbstract {
                 newJson.put(key, new JSONArray());
             }
         });
-        this.setValueCache(newJson.toJSONString());
+        this.setValueCache(newJson.toJSONString(), false);
     }
 
     private JSONObject getDefaultJSON() {

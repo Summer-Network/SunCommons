@@ -39,9 +39,10 @@ public class RedisUpdaterAbstract {
             }
 
             connection.set(keyInformation, object.toJSONString());
-            connection.close();
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            connection.close();
         }
     }
 
@@ -53,10 +54,11 @@ public class RedisUpdaterAbstract {
             }
 
             JSONObject object = (JSONObject) new JSONParser().parse(connection.get(keyInformation));
-            connection.close();
             return object.get(this.key);
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            connection.close();
         }
 
         return null;

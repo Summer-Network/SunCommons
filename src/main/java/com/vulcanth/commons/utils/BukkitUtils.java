@@ -2,16 +2,17 @@ package com.vulcanth.commons.utils;
 
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.World;
+import org.bukkit.*;
+import org.bukkit.block.banner.Pattern;
+import org.bukkit.block.banner.PatternType;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.BannerMeta;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
 import java.lang.reflect.Field;
@@ -79,7 +80,22 @@ public class BukkitUtils {
                     profileField.setAccessible(true);
                     profileField.set(skullMeta, gameProfile);
                 } catch (IllegalArgumentException | IllegalAccessException | SecurityException | NoSuchFieldException e) {e.printStackTrace();}
+            } else if (option.startsWith("pattern>")) {
+                String colorPattern = option.split(">")[1].split(":")[0];
+                String patternType = option.split(">")[1].split(":")[1];
+                BannerMeta bannerMeta = (BannerMeta) itemMeta;
+                bannerMeta.addPattern(new Pattern(DyeColor.valueOf(colorPattern.toUpperCase()), PatternType.valueOf(patternType.toUpperCase())));
+            } else if (option.startsWith("bannerBaseColor>")) {
+                BannerMeta bannerMeta = (BannerMeta) itemMeta;
+                bannerMeta.setBaseColor(DyeColor.valueOf(option.split(">")[1].toUpperCase()));
+            } else if (option.startsWith("paint>")) {
+                LeatherArmorMeta meta = (LeatherArmorMeta) itemMeta;
+                int r = Integer.parseInt(option.split(">")[1].split(":")[0]);
+                int g = Integer.parseInt(option.split(">")[1].split(":")[1]);
+                int b = Integer.parseInt(option.split(">")[1].split(":")[2]);
+                meta.setColor(Color.fromRGB(r, g, b));
             }
+
             finalItem.setItemMeta(itemMeta);
         }
         return finalItem;

@@ -20,7 +20,7 @@ public class PlayerDeliveryCache extends CacheAbstract {
     public void setDeliveryClaim(String deliveryClaim, Long systemClaimStart, int totalCooldown) {
         JSONObject deliveryObject = this.getAsJSONObject();
         deliveryObject.put(deliveryClaim, systemClaimStart + TimeUnit.SECONDS.toMillis(86400L * totalCooldown));
-        this.setValueCache(deliveryObject.toJSONString());
+        this.setValueCache(deliveryObject.toJSONString(), true);
     }
 
     public boolean hasColletedDelivery(String deliveryID) {
@@ -33,7 +33,7 @@ public class PlayerDeliveryCache extends CacheAbstract {
 
     //Aqui ele constroi um JSON que armazena informações básicas do jogador
     private void buildDefaultJSON() {
-        this.setValueCache(new JSONObject().toJSONString()); //Caso utilize JSON, sempre o salve como JSON String
+        this.setValueCache(new JSONObject().toJSONString(), false); //Caso utilize JSON, sempre o salve como JSON String
     }
 
     public JSONObject getObject() {

@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
@@ -100,55 +101,53 @@ public class Profile {
 
     @Deprecated
     public void refreshPlayers() {
-        Bukkit.getScheduler().scheduleAsyncDelayedTask(Main.getInstance(), () -> {
-            Player player = getPlayer();
-            for (Player online : Bukkit.getOnlinePlayers().stream().filter(player1 -> !player1.equals(player)).collect(Collectors.toList())) {
-                Profile profile = Profile.loadProfile(online.getName());
-                if (profile != null) {
-                    if (profile.getGame() == null) { //Significa que o jogador está no lobby
-                        RoleEnum role = Role.findRole(online);
-                        RoleEnum roleP = Role.findRole(player);
-                        PlayerPreferencesCache cache = getCache(PlayerPreferencesCache.class);
-                        if (cache.getPreference(PreferencesEnum.SHOW_PLAYERS)) {
+        Player player = getPlayer();
+        for (Player online : Bukkit.getOnlinePlayers().stream().filter(player1 -> !player1.equals(player)).collect(Collectors.toList())) {
+            Profile profile = Profile.loadProfile(online.getName());
+            if (profile != null) {
+                if (profile.getGame() == null) { //Significa que o jogador está no lobby
+                    RoleEnum role = Role.findRole(online);
+                    RoleEnum roleP = Role.findRole(player);
+                    PlayerPreferencesCache cache = getCache(PlayerPreferencesCache.class);
+                    if (cache.getPreference(PreferencesEnum.SHOW_PLAYERS)) {
+                        showPlayer(player, online);
+                    } else {
+                        if (role.isAlwaysVisible()) {
                             showPlayer(player, online);
-                        } else {
-                            if (role.isAlwaysVisible()) {
-                                showPlayer(player, online);
-                            } else {
-                                hidePlayer(player, online);
-                            }
-
-                        }
-
-                        if (roleP.isAlwaysVisible()) {
-                            showPlayer(online, player);
-                        } else {
-                            if (!profile.getCache(PlayerPreferencesCache.class).getPreference(PreferencesEnum.SHOW_PLAYERS)) {
-                                hidePlayer(online, player);
-                            } else {
-                                showPlayer(online, player);
-                            }
-                        }
-                    } else { //Jogadores em partida
-                        if (online.getWorld().equals(player.getWorld()) && Objects.requireNonNull(Profile.loadProfile(online.getName())).getGame().equals(this.game)) { //Significa que está na mesma partida
-                            showPlayer(player, online);
-                            showPlayer(online, player);
                         } else {
                             hidePlayer(player, online);
-                            hidePlayer(online, player);
                         }
+
+                    }
+
+                    if (roleP.isAlwaysVisible()) {
+                        showPlayer(online, player);
+                    } else {
+                        if (!profile.getCache(PlayerPreferencesCache.class).getPreference(PreferencesEnum.SHOW_PLAYERS)) {
+                            hidePlayer(online, player);
+                        } else {
+                            showPlayer(online, player);
+                        }
+                    }
+                } else { //Jogadores em partida
+                    if (online.getWorld().equals(player.getWorld()) && Objects.requireNonNull(Profile.loadProfile(online.getName())).getGame().equals(this.game)) { //Significa que está na mesma partida
+                        showPlayer(player, online);
+                        showPlayer(online, player);
+                    } else {
+                        hidePlayer(player, online);
+                        hidePlayer(online, player);
                     }
                 }
             }
-        });
+        }
     }
 
     private void showPlayer(Player player, Player online) {
-        Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getInstance(), () -> player.showPlayer(online));
+        player.showPlayer(online);
     }
 
     private void hidePlayer(Player player, Player online) {
-        Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getInstance(), () -> player.hidePlayer(online));
+        player.hidePlayer(online);
     }
 
     @SuppressWarnings("all")
@@ -191,6 +190,7 @@ public class Profile {
         if (this.scoreboard != null) {
             this.scoreboard.destroy();
         }
+
         this.cache = null;
         this.scoreboard = null;
         this.cashManager = null;

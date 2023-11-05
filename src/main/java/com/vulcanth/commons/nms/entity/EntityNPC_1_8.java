@@ -206,8 +206,4 @@ public class EntityNPC_1_8 extends EntityPlayer implements INPCEntity {
     public List<Player> packetsPlayer() {
         return this.playerPackets;
     }
-
-    @Override
-    public void t_() {
-    }
 }

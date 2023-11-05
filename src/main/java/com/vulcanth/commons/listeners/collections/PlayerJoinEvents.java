@@ -1,24 +1,12 @@
 package com.vulcanth.commons.listeners.collections;
 
-import com.vulcanth.commons.Main;
-import com.vulcanth.commons.library.HologramManager;
-import com.vulcanth.commons.library.NPCManager;
-import com.vulcanth.commons.library.hologram.Hologram;
-import com.vulcanth.commons.library.npc.NPC;
 import com.vulcanth.commons.listeners.ListenersAbstract;
 import com.vulcanth.commons.model.Skin;
-import com.vulcanth.commons.nms.NMS;
-import com.vulcanth.commons.nms.NmsManager;
-import com.vulcanth.commons.nms.collections.NMS_1_8;
-import com.vulcanth.commons.nms.entity.EntityNPC_1_8;
-import com.vulcanth.commons.nms.npcs.INPCEntity;
 import com.vulcanth.commons.player.Profile;
 import com.vulcanth.commons.player.cache.collections.PlayerDeliveryCache;
 import com.vulcanth.commons.player.cache.collections.PlayerInformationsCache;
 import com.vulcanth.commons.player.cache.collections.PlayerPreferencesCache;
 import com.vulcanth.commons.player.cache.collections.PlayerSkinCache;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -78,7 +66,9 @@ public class PlayerJoinEvents extends ListenersAbstract {
         Player player = event.getPlayer();
         Profile profile = Profile.loadProfile(player.getName());
         if (profile != null) {
-            profile.setSkins(Skin.listSkins(profile));
+            if (Skin.listSkins(profile) != null) {
+                profile.setSkins(Skin.listSkins(profile));
+            }
         }
         
         event.setJoinMessage(null);

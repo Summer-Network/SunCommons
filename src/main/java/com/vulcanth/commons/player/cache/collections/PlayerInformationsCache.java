@@ -29,12 +29,12 @@ public class PlayerInformationsCache extends CacheAbstract {
         JSONObject json = this.getAsJSONObject();
         json.replace(key, information);
 
-        this.setValueCache(json.toJSONString());
+        this.setValueCache(json.toJSONString(), true);
     }
 
     //Aqui ele constroi um JSON que armazena informações básicas do jogador
     private void buildDefaultJSON() {
-        this.setValueCache(getDefaultJSON().toJSONString()); //Caso utilize JSON, sempre o salve como JSON String
+        this.setValueCache(getDefaultJSON().toJSONString(), false); //Caso utilize JSON, sempre o salve como JSON String
     }
 
     private void checkIfHasNew() {
@@ -42,7 +42,7 @@ public class PlayerInformationsCache extends CacheAbstract {
         JSONObject newJson = this.getAsJSONObject();
         List<String> keys = (List<String>) json.keySet().stream().filter(key -> !newJson.containsKey(key)).collect(Collectors.toList());
         keys.forEach(key -> newJson.put(key, ""));
-        this.setValueCache(newJson.toJSONString());
+        this.setValueCache(newJson.toJSONString(), false);
     }
 
     private JSONObject getDefaultJSON() {
