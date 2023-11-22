@@ -1,6 +1,10 @@
 package com.vulcanth.commons.nms.entity;
 
+import com.comphenix.protocol.PacketType;
+import com.comphenix.protocol.ProtocolLibrary;
+import com.comphenix.protocol.events.PacketContainer;
 import com.mojang.authlib.GameProfile;
+import com.vulcanth.commons.nms.NMS;
 import com.vulcanth.commons.nms.NmsManager;
 import com.vulcanth.commons.nms.npcs.INPCEntity;
 import net.minecraft.server.v1_8_R3.*;
@@ -13,10 +17,11 @@ import org.bukkit.craftbukkit.v1_8_R3.scoreboard.CraftScoreboard;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.util.Vector;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
-
 
 public class EntityNPC_1_8 extends EntityPlayer implements INPCEntity {
     private Location location;
@@ -58,7 +63,7 @@ public class EntityNPC_1_8 extends EntityPlayer implements INPCEntity {
     }
 
     @Override
-    public void setLocation(double x, double y, double z, World world, float yam, float pitch) {
+    public void setLocation(World world, double x, double y, double z) {
         this.location = new Location(world, x, y, z);
         this.setLocation(location.getX(), location.getY(), location.getZ(), location.getYaw(), location.getPitch());
     }
@@ -66,7 +71,6 @@ public class EntityNPC_1_8 extends EntityPlayer implements INPCEntity {
     @Override
     public void spawn() {
         this.world.addEntity(this, CreatureSpawnEvent.SpawnReason.CUSTOM);
-
         if (this.playerPackets.isEmpty()) {
             for (Player online : Bukkit.getOnlinePlayers()) {
                 if (online.isOnline()) {
@@ -89,11 +93,18 @@ public class EntityNPC_1_8 extends EntityPlayer implements INPCEntity {
     private void sendPacket(Player online) {
         PlayerConnection connection = ((CraftPlayer)online).getHandle().playerConnection;
         connection.sendPacket(new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.ADD_PLAYER, this));
+        float yaw = location.getYaw();
+        float pitch = location.getPitch();
+        connection.sendPacket(new PacketPlayOutEntity.PacketPlayOutEntityLook(this.getId(), (byte) ((yaw%360.)*256/360), (byte) ((pitch%360.)*256/360), false));
+        connection.sendPacket(new PacketPlayOutEntityHeadRotation(this, (byte) ((yaw%360.)*256/360)));
         connection.sendPacket(new PacketPlayOutNamedEntitySpawn(this));
-        connection.sendPacket(new PacketPlayOutEntityHeadRotation(this, (byte) ((this.location.getYaw() * 256.0F) / 360.0F)));
+        DataWatcher dw = new DataWatcher(null);
+        dw.a(10, (byte) (0x01 | 0x02 | 0x04 | 0x08 | 0x10 | 0x20 | 0x40));
+        connection.sendPacket(new PacketPlayOutEntityMetadata(this.getId(), dw, true));
         connection.sendPacket(new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.REMOVE_PLAYER, this));
+        Player p = getPlayer();
+        p.sendMessage("yam: " + (byte) ((yaw%360.)*256/360) + "\npitch: " + (byte) ((pitch%360.)*256/360));
         if (!showNick) {
-            Player p = getPlayer();
             ScoreboardTeam team = new ScoreboardTeam(((CraftScoreboard) Bukkit.getScoreboardManager().getMainScoreboard()).getHandle(), p.getName());
             team.setNameTagVisibility(ScoreboardTeamBase.EnumNameTagVisibility.NEVER);
 
@@ -103,8 +114,8 @@ public class EntityNPC_1_8 extends EntityPlayer implements INPCEntity {
             playerToAdd.add(p.getName());
             connection.sendPacket(new PacketPlayOutScoreboardTeam(team, playerToAdd, 3));
         }
-
-        NmsManager.look(this.getBukkitEntity(), location.getYaw(), location.getPitch());
+        NMS.setHeadYaw(this.getBukkitEntity(), yaw);
+        NmsManager.look(this.getBukkitEntity(), this.getPlayer().getLocation().getYaw(), this.getPlayer().getLocation().getPitch());
     }
 
 

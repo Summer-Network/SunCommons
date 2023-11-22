@@ -6,6 +6,7 @@ import com.vulcanth.commons.model.Skin;
 import com.vulcanth.commons.model.SkinCacheCommand;
 import com.vulcanth.commons.player.Profile;
 import com.vulcanth.commons.player.cache.collections.PlayerSkinCache;
+import com.vulcanth.commons.player.role.Role;
 import com.vulcanth.commons.utils.BukkitUtils;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ClickEvent;
@@ -17,6 +18,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
@@ -25,7 +27,7 @@ public class SkinMenu extends PlayerCollectionMenu {
     private Profile profile;
 
     public SkinMenu(Profile profile) {
-        super(profile.getPlayer(), 6, "Modos de jogo");
+        super(profile.getPlayer(), 6, "Menu de Skins");
         this.profile = profile;
         this.setOnlySlots(Arrays.asList(10, 11, 12, 13, 14, 15, 16, 19, 20, 21, 22, 23, 24, 25, 28, 29, 30, 31, 32, 33, 34, 37));
         this.setNextItem(BukkitUtils.getItemStackFromString("ARROW : 1 : nome>&aPróxima Página"));
@@ -53,8 +55,8 @@ public class SkinMenu extends PlayerCollectionMenu {
                     int slot = event.getSlot();
                     switch (slot) {
                         case 48: {
-                            if (!player.hasPermission("skin.change")) {
-                                player.sendMessage(" \n&eDesculpe você não possui permissão para alterar sua skin\n&bCompre VIPs nossa loja para desbloquear esta função!");
+                            if (Role.findRole(profile.getPlayer()).getId() > 10) {
+                                player.sendMessage(" \n§eDesculpe você não possui permissão para alterar sua skin\n§bCompre VIPs nossa loja para desbloquear esta função!");
                                 player.closeInventory();
                                 return;
                             }
@@ -120,35 +122,40 @@ public class SkinMenu extends PlayerCollectionMenu {
     public void setupItens(Player player) {
         this.setItem(BukkitUtils.getItemStackFromString("BOOK_AND_QUILL : 1 : nome>§aEscolher : desc>§7Você pode escolher uma nova skin\n§7para ser utilizada em sua conta.\n \n§fComando: §7/skin [jogador]\n \n§eClique para escolher uma skin."), 48);
         this.setItem(BukkitUtils.getItemStackFromString("ITEM_FRAME : 1 : nome>§aAtualizar : desc>&7Altere a sua skin para a mais recente\n&7utilizada em sua conta original!\n \n&8Caso você utilize minecraft pirata\n&8sua skin será padronizada!\n \n&fComando:&7 /skin atualizar\n \n&eClique para atualizar sua skin!"), 49);
-        this.setItem(BukkitUtils.getItemStackFromString("SKULL_ITEM:3 : 1 : nome>§aAjuda : desc>§7As ações disponíveis neste menu também\n§7podem ser realizadas por comando.\n \n§fComando: §7/skin ajuda\n \n§eClique para listar os comandos. : skin>eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYmFkYzA0OGE3Y2U3OGY3ZGFkNzJhMDdkYTI3ZDg1YzA5MTY4ODFlNTUyMmVlZWQxZTNkYWYyMTdhMzhjMWEifX19"), 50);
+        this.setItem(BukkitUtils.getItemStackFromString("SKULL_ITEM:3 : 1 : nome>§aAjuda : desc>§7As ações disponíveis neste menu também\n§7podem ser realizadas por comando.\n \n§fComando: §7/skin ajuda\n \n§eClique para listar os comandos. : skin>eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3Rlehr1cmUvYmFkYzA0OGE3Y2U3OGFkNzJhMDdkYTI3ZDg1YzA5MTY4ODFlNTUyMmVlZWQxZTNkYWYyMTdhMzhjMWEifX19"), 50);
 
-        List<Skin> skins = profile.getSkins();
-        skins.sort((skin1, skin2) -> {
-            String name1 = skin1.getName();
-            String name2 = skin2.getName();
-
-            boolean containsName1 = name1.equals(profile.getCache(PlayerSkinCache.class).getSkinSelected());
-            boolean containsName2 = name2.equals(profile.getCache(PlayerSkinCache.class).getSkinSelected());
-            if (containsName1 && !containsName2) {
-                return -1;
-            } else if (!containsName1 && containsName2) {
-                return 1;
-            } else {
-                return 0;
-            }
-        });
+        List<Skin> skins = getSkins();
 
         if (skins.isEmpty()) {
             this.setItem(BukkitUtils.getItemStackFromString("WEB : 1 : nome>§aVazio! : desc>§7Você não possui skins salvas no momento!"), 22);
         } else {
             Map<ItemStack, Object> actions = new HashMap<>();
+
+            // A skin selecionada será a primeira da lista
+            String selectedSkin = profile.getCache(PlayerSkinCache.class).getSkinSelected();
             for (Skin skin : skins) {
-                actions.put(skin.buildSkinIcon(this.profile), skin);
+                if (skin.getName().equals(selectedSkin)) {
+                    actions.put(skin.buildSkinIcon(this.profile), skin);
+                }
+            }
+
+            // Adicione as outras skins na ordem em que estão
+            for (Skin skin : skins) {
+                if (!skin.getName().equals(selectedSkin)) {
+                    actions.put(skin.buildSkinIcon(this.profile), skin);
+                }
             }
 
             this.setItens(actions);
         }
     }
+
+    @NotNull
+    private List<Skin> getSkins() {
+        List<Skin> skins = profile.getSkins();
+        return skins;
+    }
+
 
     @Override
     public void destroy() {

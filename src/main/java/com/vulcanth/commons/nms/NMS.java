@@ -15,5 +15,7 @@ public interface NMS {
     INPCEntity spawnNPCEntity(Location location, String npcName, String value, String signature);
     void refreshPlayer(Player player);
     void look(org.bukkit.entity.Entity entity, float yaw, float pitch);
-    void setHeadYaw(org.bukkit.entity.Entity entity, float yaw);
+    static void setHeadYaw(org.bukkit.entity.Entity entity, float yaw) {
+        return;
+    }
 }

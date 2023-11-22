@@ -59,7 +59,7 @@ public class NmsManager {
     }
 
     public static void setHeadYaw(org.bukkit.entity.Entity entity, float yaw) {
-        nms.setHeadYaw(entity, yaw);
+        NMS.setHeadYaw(entity, yaw);
     }
 
     private static String getVersion() {

@@ -78,7 +78,7 @@ public class NMS_1_8 implements NMS {
         WorldServer nmsWorld = ((CraftWorld) location.getWorld()).getHandle();
         GameProfile profile = new GameProfile(UUID.randomUUID(), npcName);
         EntityNPC_1_8 ep = new EntityNPC_1_8(nmsWorld, profile);
-        ep.setLocation(location.getX(), location.getY(), location.getZ(), location.getWorld(), location.getYaw(), location.getPitch());
+        ep.setLocation(location.getWorld(), location.getX(), location.getY(), location.getZ());
         ep.playerConnection = new PlayerConnection(ep.server, new NetworkManager(EnumProtocolDirection.CLIENTBOUND), ep);
         return ep;
     }
@@ -90,7 +90,7 @@ public class NMS_1_8 implements NMS {
         profile.getProperties().clear();
         profile.getProperties().put("textures", new Property("textures", value, signature));
         EntityNPC_1_8 ep = new EntityNPC_1_8(nmsWorld, profile);
-        ep.setLocation(location.getX(), location.getY(), location.getZ(), location.getWorld(), location.getYaw(), location.getPitch());
+        ep.setLocation(location.getWorld(), location.getX(), location.getY(), location.getZ());
         ep.playerConnection = new PlayerConnection(ep.server, new NetworkManager(EnumProtocolDirection.CLIENTBOUND), ep);
         return ep;
     }
