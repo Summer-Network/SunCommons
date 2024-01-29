@@ -1,4 +1,4 @@
-name: 'VulcanthCommons'
+name: 'SunCommons'
 version: ${project.version}
 authors: [oJVzinn, oNyell]
 main: ${main-bungee}

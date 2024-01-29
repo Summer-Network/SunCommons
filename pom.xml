@@ -4,14 +4,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.vulcanth.commons</groupId>
-    <artifactId>VulcanthCommons</artifactId>
+    <groupId>com.summer.commons</groupId>
+    <artifactId>SunCommons</artifactId>
     <version>0.8.0</version>
-    <description>Plugin API dos demais plugins da VulcanthNetwork, sendo o manager dos demais</description>
 
     <properties>
-        <main> com.vulcanth.commons.Main</main>
-        <main-bungee> com.vulcanth.commons.bungee.BungeeMain</main-bungee>
+        <main>com.summer.commons.Main</main>
+        <main-bungee>com.summer.commons.bungee.BungeeMain</main-bungee>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -129,7 +128,7 @@
                         </goals>
 
                         <configuration>
-                            <finalName>VulcanthCommons</finalName>
+                            <finalName>SunCommons</finalName>
                             <!-- não criar dependency reduced -->
                             <createDependencyReducedPom>false</createDependencyReducedPom>
 
