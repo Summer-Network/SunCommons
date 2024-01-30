@@ -12,7 +12,7 @@ public class Database {
 
   public static void setupDatabase(boolean bungee) {
     mySQL = new MySQL("142.44.135.166", "3306", "s2941_sun", "u2941_kQvoPpQVXM", "OAm+@zDwcp1I73orkMdfjHcy", bungee);
-    redis = new Redis("P@55w0rd", "ca-01.bed.ovh", "7777");
+    redis = new Redis("penesgrandenoiado", "144.217.153.90", "7777");
 
     mySQL.setupTables();
 

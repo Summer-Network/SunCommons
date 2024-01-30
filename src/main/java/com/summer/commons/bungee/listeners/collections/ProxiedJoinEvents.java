@@ -60,7 +60,7 @@ public class ProxiedJoinEvents extends ListenersAbstract {
         if (BungeeMain.isIsMaintence()) {
             ProxiedRoleEnum role = ProxiedRole.findRoleByID(profile.getCache(PlayerInformationsCache.class).getInformation("role"));
             if (role.getId() >= 4) {
-                player.disconnect(TextComponent.fromLegacyText("§c§lVULCANTH - MANUTENÇÃO\n\n§cAtualmente estamos em manutenção, aguarde para mais informações\n§cem nosso site: www.vulcanth.com"));
+                player.disconnect(TextComponent.fromLegacyText("§c§lSUMMER - MANUTENÇÃO\n\n§cAtualmente estamos em manutenção, aguarde para mais informações\n§cem nosso site: summer.gg"));
             }
         }
     }

@@ -45,7 +45,7 @@ public class BungeeMain extends VulcanthBungee {
     public void enablePlugin() {
         Database.setupDatabase(true);
 
-        CommandsAbstract.setupComands(ManutencaoCommand.class, TestandoCommand.class);
+        CommandsAbstract.setupComands(ManutencaoCommand.class);
         ListenersAbstract.setupListeners(ProxiedJoinEvents.class, ServerEvents.class, ProxiedQuitEvents.class);
         Manager.isBungeePlugin = true;
 

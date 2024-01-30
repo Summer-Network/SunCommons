@@ -18,7 +18,7 @@ public class ServerEvents extends ListenersAbstract {
         }
 
         serverPing.setFavicon(event.getResponse().getFavicon());
-        serverPing.setDescription("§b§lVulcanth§b.com §7[1.8 - 1.20]\n§ewww.vulcanth.com");
+        serverPing.setDescription("§b§lSummer§b.gg §7[1.8 - 1.20]\n§eNovidades de lançamento!");
         event.setResponse(serverPing);
     }
 }

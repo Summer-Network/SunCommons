@@ -2,14 +2,15 @@ package com.summer.commons.player.role;
 
 public enum RoleEnum {
 
-    MASTER("master", "§6Master", "§6[Master] ", "role.master", "§6", 5.0, true, true, 0, 20),
-    GERENTE("gerente", "§4Gerente", "§4[Gerente] ", "role.gerente", "§4", 3.0, true, true, 1, 20),
-    ADMIN("admin", "§cAdmin", "§c[Admin] ", "role.admin", "§c", 3.0, true, true, 2, 20),
-    MODERADOR("mod", "§2Moderador", "§2[Moderador] ", "role.mod", "§2", 3.0, true, true, 3, 20),
-    AJUDANTE("ajudante", "§eAjudante", "§e[Ajudante] ", "role.ajudante", "§e", 3.0, true, true, 4, 20),
-    CONSTRUTOR("construtor", "§aConstrutor", "§a[Construtor] ", "role.construtor", "§a", 3.0, true, true, 5, 20),
-    STREAMER("streamer", "§9Streamer", "§9[Streamer] ", "role.streamer", "§9", 3.0, true, true, 6, 20),
-    YOUTUBER("yt", "§cYouTuber", "§c[YouTuber] ", "role.yt", "§c", 3.0, true, true, 7, 20),
+    ADMIN("admin", "§eAdministrador", "§e[ADM]$f ", "role.admin", "§e", 5.0, true, true, 0, 20),
+    GER("gerente", "§4Gerente", "§4[GER]$f ", "role.gerente", "§4", 3.0, true, true, 1, 20),
+    COORD("coordenador", "§9Coordenador", "§9[COD]$f ", "role.coordenador", "§9", 3.0, true, true, 1, 20),
+    STUDIO("estudio", "§dEstudio", "§d[STD]$f ", "role.studio", "§d", 3.0, true, true, 3, 20),
+    MODERADOR("mod", "§aModerador", "§a[MOD]$f ", "role.mod", "§2", 3.0, true, true, 3, 20),
+    AJUDANTE("ajudante", "§eAjudante", "§e[AJD]$f ", "role.ajudante", "§e", 3.0, true, true, 4, 20),
+    CONSTRUTOR("construtor", "§aConstrutor", "§a[CNT]$f ", "role.construtor", "§a", 3.0, true, true, 5, 20),
+    STREAMER("streamer", "§9Streamer", "§9[STR]$f ", "role.streamer", "§9", 3.0, true, true, 6, 20),
+    YOUTUBER("yt", "§cYouTuber", "§c[YT]$f ", "role.yt", "§c", 3.0, true, true, 7, 20),
     MVPPLUS("mvpplus", "§bMVP§6+§b", "§b[MVP§6+§b] ", "role.mvpplus", "§b", 3.5, true, false, 8, 20),
     MVP("mvp", "§6MVP", "§6[MVP] ", "role.mvp", "§6", 3.0, true, false, 9, 15),
     VIP("vip", "§aVIP", "§a[VIP] ", "role.vip", "§a", 2.0, true, false, 10, 10),
