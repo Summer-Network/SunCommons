@@ -2,18 +2,18 @@ package com.summer.commons.player.role;
 
 public enum RoleEnum {
 
-    ADMIN("admin", "§eAdministrador", "§e[ADM]$f ", "role.admin", "§e", 5.0, true, true, 0, 20),
-    GER("gerente", "§4Gerente", "§4[GER]$f ", "role.gerente", "§4", 3.0, true, true, 1, 20),
-    COORD("coordenador", "§9Coordenador", "§9[COD]$f ", "role.coordenador", "§9", 3.0, true, true, 1, 20),
-    STUDIO("estudio", "§dEstudio", "§d[STD]$f ", "role.studio", "§d", 3.0, true, true, 3, 20),
-    MODERADOR("mod", "§aModerador", "§a[MOD]$f ", "role.mod", "§2", 3.0, true, true, 3, 20),
-    AJUDANTE("ajudante", "§eAjudante", "§e[AJD]$f ", "role.ajudante", "§e", 3.0, true, true, 4, 20),
-    CONSTRUTOR("construtor", "§aConstrutor", "§a[CNT]$f ", "role.construtor", "§a", 3.0, true, true, 5, 20),
-    STREAMER("streamer", "§9Streamer", "§9[STR]$f ", "role.streamer", "§9", 3.0, true, true, 6, 20),
-    YOUTUBER("yt", "§cYouTuber", "§c[YT]$f ", "role.yt", "§c", 3.0, true, true, 7, 20),
-    MVPPLUS("mvpplus", "§bMVP§6+§b", "§b[MVP§6+§b] ", "role.mvpplus", "§b", 3.5, true, false, 8, 20),
-    MVP("mvp", "§6MVP", "§6[MVP] ", "role.mvp", "§6", 3.0, true, false, 9, 15),
-    VIP("vip", "§aVIP", "§a[VIP] ", "role.vip", "§a", 2.0, true, false, 10, 10),
+    ADMIN("admin", "§4Admin", "§4§lADMIN§4 ", "role.admin", "§4", 5.0, true, true, 0, 20),
+    GER("coo", "§3Gerente", "§3§lGER§3 ", "role.gerente", "§3", 3.0, true, true, 1, 20),
+    COORD("coordenador", "§9Coordenador", "§9§lCOORD§9 ", "role.coordenador", "§9", 3.0, true, true, 1, 20),
+    STUDIO("studio", "§dStudio", "§d§lSTUDIO§d ", "role.studio", "§d", 3.0, true, true, 3, 20),
+    MODERADOR("mod", "§2Moderador", "§2§lMOD§2 ", "role.mod", "§2", 3.0, true, true, 3, 20),
+    AJUDANTE("ajudante", "§eAjudante", "§e§lAJD§e ", "role.ajudante", "§e", 3.0, true, true, 4, 20),
+    CONSTRUTOR("construtor", "§aConstrutor", "§a§lBUILDER§a ", "role.construtor", "§a", 3.0, true, true, 5, 20),
+    STREAMER("streamer", "§9Streamer", "§9§lSTREAMER§9 ", "role.streamer", "§9", 3.0, true, true, 6, 20),
+    YOUTUBER("yt", "§cYouTuber", "§c§lYT§c ", "role.yt", "§c", 3.0, true, true, 7, 20),
+    PLUS("mvpplus", "§bPLUS", "§b§lPLUS§b ", "role.plus", "§b", 3.5, true, false, 8, 20),
+    MVP("mvp", "§6MVP", "§6§lMVP§6 ", "role.mvp", "§6", 3.0, true, false, 9, 15),
+    VIP("vip", "§aVIP", "§a§lVIP§a ", "role.vip", "§a", 2.0, true, false, 10, 10),
     MEMBRO("default", "§7Membro", "§7", null, "§7", 1.0, false, false, 11, 5);
 
     private final String groupName;

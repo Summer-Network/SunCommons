@@ -11,7 +11,7 @@ public class VulcanthExeption {
 
     private final String code = StringUtils.getRandomCode(6);
     private final String cause;
-    private final String webhookURL = "https://discord.com/api/webhooks/1147334310173618236/YHcVJj0w-QfUJ35Hb-HXWliE5cR2x4TMvsOyB6aHDOxEY-oR8joBDJIiraF1M9FLhrgI";
+    private final String webhookURL = "https://discord.com/api/webhooks/1202071637261029498/lSXfXxBf-KgheRZGdMVgjY0-xOMNryu4zXlQ-XJGAhHVQOZWwl23yPV3F4bRlI8RDJas";
     DiscordWebHook webhook = new DiscordWebHook(webhookURL);
 
     public VulcanthExeption(Player player, String throwable) {

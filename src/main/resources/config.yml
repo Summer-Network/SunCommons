@@ -1,1 +1,4 @@
 spawn-location: ''
+
+#  Ao está ativo o plugin desativará a scoreboard, tags e a hotbar no lobby
+login: false

@@ -8,12 +8,15 @@ import net.minecraft.server.v1_8_R3.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.craftbukkit.v1_8_R3.CraftServer;
+import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.craftbukkit.v1_8_R3.inventory.CraftItemStack;
 import org.bukkit.craftbukkit.v1_8_R3.scoreboard.CraftScoreboard;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -110,7 +113,7 @@ public class EntityNPC_1_8 extends EntityPlayer implements INPCEntity {
             connection.sendPacket(new PacketPlayOutScoreboardTeam(team, playerToAdd, 3));
         }
         NMS.setHeadYaw(this.getBukkitEntity(), yaw);
-        NmsManager.look(this.getBukkitEntity(), this.getPlayer().getLocation().getYaw(), this.getPlayer().getLocation().getPitch());
+        NmsManager.look(this.getBukkitEntity(), -90, this.getPlayer().getLocation().getPitch());
     }
 
 
@@ -145,6 +148,53 @@ public class EntityNPC_1_8 extends EntityPlayer implements INPCEntity {
             }
         }
     }
+
+//    public void updateNpcHeadRotation(EntityLiving npc, double radius) {
+//        // Certifique-se de que a entidade é uma instância de EntityLiving (um NPC é uma subclasse de EntityLiving)
+//        if (!(npc instanceof EntityLiving)) {
+//            return;
+//        }
+//
+//        EntityLiving livingEntity = (EntityLiving) npc;
+//
+//        // Obtenha a localização do NPC
+//        Location npcLocation = new Location(livingEntity.getWorld().getWorld(), livingEntity.locX, livingEntity.locY, livingEntity.locZ);
+//
+//        // Encontre jogadores na área
+//        for (Player player : Bukkit.getOnlinePlayers()) {
+//            Location playerLocation = player.getLocation();
+//
+//            // Verifique se o jogador está dentro do raio
+//            if (npcLocation.distanceSquared(playerLocation) <= radius * radius) {
+//                // Obtenha a direção para o jogador
+//                Vector direction = playerLocation.toVector().subtract(npcLocation.toVector()).normalize();
+//
+//                // Converta a direção para ângulos de rotação
+//                float yaw = (float) Math.toDegrees(Math.atan2(direction.getZ(), direction.getX()));
+//                float pitch = (float) Math.toDegrees(Math.asin(direction.getY()));
+//
+//                // Ajuste a rotação da cabeça do NPC
+//                livingEntity.yaw = yaw - 90;  // -90 para ajustar a orientação
+//                livingEntity.pitch = pitch;
+//
+//                // Se necessário, envie um pacote para atualizar a visão do NPC
+//                PacketPlayOutEntity.PacketPlayOutEntityLook packet = new PacketPlayOutEntity.PacketPlayOutEntityLook(
+//                        livingEntity.getId(), (byte) MathHelper.d(yaw * 256.0F / 360.0F),
+//                        (byte) MathHelper.d(pitch * 256.0F / 360.0F), true
+//                );
+//
+//                // Envie o pacote para todos os jogadores na vizinhança do NPC
+//                ((CraftServer) Bukkit.getServer()).getHandle().sendPacketNearby(
+//                        livingEntity, ((CraftWorld) livingEntity.getWorld()).getHandle(), packet
+//                );
+//
+//                // Apenas ajuste para o jogador mais próximo e, em seguida, saia do loop
+//                break;
+//            }
+//        }
+//    }
+
+
 
     @Override
     public void sendPackets(Player... players) {
