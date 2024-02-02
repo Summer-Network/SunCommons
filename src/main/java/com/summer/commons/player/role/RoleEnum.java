@@ -3,7 +3,7 @@ package com.summer.commons.player.role;
 public enum RoleEnum {
 
     ADMIN("admin", "§4Admin", "§4§lADMIN§4 ", "role.admin", "§4", 5.0, true, true, 0, 20),
-    GER("coo", "§3Gerente", "§3§lGER§3 ", "role.gerente", "§3", 3.0, true, true, 1, 20),
+    GER("gerente", "§3Gerente", "§3§lGER§3 ", "role.gerente", "§3", 3.0, true, true, 1, 20),
     COORD("coordenador", "§9Coordenador", "§9§lCOORD§9 ", "role.coordenador", "§9", 3.0, true, true, 1, 20),
     STUDIO("studio", "§dStudio", "§d§lSTUDIO§d ", "role.studio", "§d", 3.0, true, true, 3, 20),
     MODERADOR("mod", "§2Moderador", "§2§lMOD§2 ", "role.mod", "§2", 3.0, true, true, 3, 20),

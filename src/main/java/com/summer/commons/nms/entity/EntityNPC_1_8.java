@@ -113,7 +113,7 @@ public class EntityNPC_1_8 extends EntityPlayer implements INPCEntity {
             connection.sendPacket(new PacketPlayOutScoreboardTeam(team, playerToAdd, 3));
         }
         NMS.setHeadYaw(this.getBukkitEntity(), yaw);
-        NmsManager.look(this.getBukkitEntity(), -90, this.getPlayer().getLocation().getPitch());
+        NmsManager.look(this.getBukkitEntity(), this.getPlayer().getLocation().getYaw(), this.getPlayer().getLocation().getPitch());
     }
 
 
