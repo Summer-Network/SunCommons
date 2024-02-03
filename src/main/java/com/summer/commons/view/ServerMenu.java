@@ -16,7 +16,7 @@ public class ServerMenu extends PlayerUpdapleMenu {
     private Profile profile;
 
     public ServerMenu(Profile profile) {
-        super(profile.getPlayer(), 5, "Modos de jogo");
+        super(profile.getPlayer(), 3, "Modos de jogo");
         this.profile = profile;
 
         this.setDelay(10);
@@ -61,7 +61,7 @@ public class ServerMenu extends PlayerUpdapleMenu {
 
     @Override
     public void setupItens(Player player) {
-        this.setItem(BukkitUtils.getItemStackFromString("DIAMOND : 1 : nome>&bContribua com a Vulcanth : desc>  \n  &7Você pode ajudar a Vulcanth  \n  &7tornando-se &fVIP &7e adquirindo  \n  &7pacotes de &fCash&7!  \n \n  &7Além de ajudar a manter a rede  \n  &7online, você ainda terá acesso  \n  &7a vários &fbenefícios&7!"), 14);
+        this.setItem(BukkitUtils.getItemStackFromString("DIAMOND : 1 : nome>&bContribua com a Rede Summer : desc>  \n &7Você pode ajudar a Summer  \n &7tornando-se &fVIP &7e adquirindo  \n &7pacotes de &fCash&7!  \n \n &7Além de ajudar a manter a rede \n &7online, você ainda terá acesso  \n &7a vários &fbenefícios&7! \n \n§eCLique para ir a loja!"), 11);
         for (Server server : Server.values()) {
             this.setItem(server.getIcon(), server.getSlot());
         }

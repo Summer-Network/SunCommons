@@ -30,7 +30,7 @@ public class ProfileMenu extends PlayerMenu {
     private Profile profile;
 
     public ProfileMenu(Profile profile) {
-        super(profile.getPlayer(), 3, "Meu Perfil");
+        super(profile.getPlayer(), 5, "Meu Perfil");
         this.profile = profile;
 
         setupItens(profile.getPlayer());
@@ -57,19 +57,19 @@ public class ProfileMenu extends PlayerMenu {
                             break;
                         }
 
-                        case 10: {
+                        case 29: {
                             new PreferenceMenu(profile).open();
                             player.playSound(player.getLocation(), Sound.CLICK, 0.5F, 2.0F);
                             break;
                         }
 
-                        case 15: {
+                        case 31: {
                             new DeliveryMenu(profile).open();
                             player.playSound(player.getLocation(), Sound.CLICK, 0.5F, 2.0F);
                             break;
                         }
 
-                        case 16: {
+                        case 32: {
                             UpgradeVIP upgrade = UpgradeVIP.findUpgradeVIP(Role.findRole(player));
                             if (upgrade != null) {
                                 long cash = upgrade.getPrice();
@@ -119,10 +119,10 @@ public class ProfileMenu extends PlayerMenu {
         this.setItem(BukkitUtils.getItemStackFromString("397:3 : 1 : nome>&aInformações pessoais : desc>&fRank: " + Role.findRole(player).getName() + "\n&fCash: &6" + new CashManager(profile).getCash() + "\n \n&fCadastrado: &7" + profile.getCache(PlayerInformationsCache.class).getInformation("firstLogin") + "\n&fPrimeiro Login: &7" + profile.getCache(PlayerInformationsCache.class).getInformation("firstLogin") + "\n&fÚltimo acesso: &7" + profile.getCache(PlayerInformationsCache.class).getInformation("lastLogin") + "\n \n&fCelular: &cEm Breve\n&fDiscord: " + discord + "\n&fEmail: " + email + " : dono>" + player.getName()), 13);
 
         //Preferences
-        this.setItem(BukkitUtils.getItemStackFromString("404 : 1 : nome>&aPreferências : desc>&7Em nosso servidor você pode personalizar\n&7sua experiência de jogo por completo.\n&7Personalize várias opções únicas como\n&7você desejar!\n \n&8As opções incluem ativar ou desativar as\n&8mensagens privadas, os jogadores e outros.\n \n&eClique para personalizar as opções!"), 10);
+        this.setItem(BukkitUtils.getItemStackFromString("404 : 1 : nome>&aPreferências : desc>&7Em nosso servidor você pode personalizar\n&7sua experiência de jogo por completo.\n&7Personalize várias opções únicas como\n&7você desejar!\n \n&8As opções incluem ativar ou desativar as\n&8mensagens privadas, os jogadores e outros.\n \n&eClique para personalizar as opções!"), 29);
 
         //Statistics
-        this.setItem(BukkitUtils.getItemStackFromString("PAPER : 1 : nome>&aEstatísticas : desc>&7Visualize as suas estatísticas de\n&7cada minigame do nosso servidor.\n \n&eClique para ver as estatísticas!"), 11);
+        this.setItem(BukkitUtils.getItemStackFromString("PAPER : 1 : nome>&aEstatísticas : desc>&7Visualize as suas estatísticas de\n&7cada minigame do nosso servidor.\n \n&eClique para ver as estatísticas!"), 30);
 
         boolean has;
         //Delivery
@@ -130,11 +130,13 @@ public class ProfileMenu extends PlayerMenu {
         StringBuilder stringBuilder = new StringBuilder();
         Arrays.stream(Delivery.values()).filter(delivery -> delivery.canCollect(player) && !cache.hasColletedDelivery(delivery.getId())).forEach(delivery -> stringBuilder.append("\n &7• &f").append(StringUtils.stripColors(delivery.getItem(profile).getItemMeta().getDisplayName())));
         has = Delivery.listAllDeliveryNotClaim(profile).size() > 1;
-        this.setItem(BukkitUtils.getItemStackFromString(has ? "342 : 1 : nome>&aEntregas : desc>&7Colete mensalmente itens exclusivos.\n&7Atualmente, você pode coletar &n" + Delivery.listAllDeliveryNotClaim(profile).size() + " entregas!\n" + stringBuilder + "\n \n&eClique para ver!" : "328 : 1 : nome>&aEntregas : desc>&7Você não possui entregas para coletar."), 15);
+        this.setItem(BukkitUtils.getItemStackFromString(has ? "342 : 1 : nome>&aEntregas : desc>&7Colete mensalmente itens exclusivos.\n&7Atualmente, você pode coletar &n" + Delivery.listAllDeliveryNotClaim(profile).size() + " entregas!\n" + stringBuilder + "\n \n&eClique para ver!" : "328 : 1 : nome>&aEntregas : desc>&7Você não possui entregas para coletar."), 31);
 
         //Upgrade Vip
         has = UpgradeVIP.findUpgradeVIP(Role.findRole(player)) != null;
-        this.setItem(BukkitUtils.getItemStackFromString("384 : 1 : nome>&aEvolua seu VIP : desc>" + (has ? "\n§7Você já possui " + Role.findRole(player.getPlayer()).getName() + "§7.\n \n§7Evolua agora mesmo o seu " + Role.findRole(player.getPlayer()).getName() + "\n§7para " + UpgradeVIP.findUpgradeVIP(Role.findRole(player)).getRole().getName() + "§7 por apenas §6" + UpgradeVIP.findUpgradeVIP(Role.findRole(player)).getPrice() + " §6Cash§7.\n\n§eClique para upar seu VIP." : "§7Você não possui evoluções disponíveis.")), 16);
+        this.setItem(BukkitUtils.getItemStackFromString("384 : 1 : nome>&aEvolua seu VIP : desc>" + (has ? "\n§7Você já possui " + Role.findRole(player.getPlayer()).getName() + "§7.\n \n§7Evolua agora mesmo o seu " + Role.findRole(player.getPlayer()).getName() + "\n§7para " + UpgradeVIP.findUpgradeVIP(Role.findRole(player)).getRole().getName() + "§7 por apenas §6" + UpgradeVIP.findUpgradeVIP(Role.findRole(player)).getPrice() + " §6Cash§7.\n\n§eClique para upar seu VIP." : "§7Você não possui evoluções disponíveis.")), 32);
+
+        this.setItem(BukkitUtils.getItemStackFromString("389 : 1 : nome>&aSua skin : desc>&7Altere a sua skin atual.\n \n&eClique para saber mais!"), 33);
     }
 
     @Override
@@ -147,7 +149,7 @@ public class ProfileMenu extends PlayerMenu {
         TextComponent click = new TextComponent("AQUI");
         click.setColor(ChatColor.GOLD);
         click.setBold(true);
-        click.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://vulcanth.com"));
+        click.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://redesummer.com.br"));
         click.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, TextComponent.fromLegacyText("§7Clique para ir a nossa loja.")));
         component.addExtra(click);
         for (BaseComponent components : TextComponent.fromLegacyText(" §cpara ir a nossa loja.\n")) {
