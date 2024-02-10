@@ -13,13 +13,11 @@ public class RankUPTable extends TableAbstract {
     public static void setDefault(String name) {
         Connection connection = Database.getMySQL().openConnection();
         try {
-            PreparedStatement ps = connection.prepareStatement("INSERT INTO SunRank VALUES(?, ?, ?, ?, ?, ?)");
+            PreparedStatement ps = connection.prepareStatement("INSERT INTO SunRank VALUES(?, ?, ?, ?)");
             ps.setString(1, name);
             ps.setString(2, "{}");
             ps.setString(3, "{}");
-            ps.setString(3, "{}");
             ps.setLong(4, 0L);
-            ps.setLong(5, 0L);
             Database.getMySQL().insert(ps);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -38,7 +36,7 @@ public class RankUPTable extends TableAbstract {
     public void setupTable() {
         try {
             Statement statement = getConnection().createStatement();
-            statement.execute("CREATE TABLE IF NOT EXISTS SunRank(`NAME` TEXT NOT NULL, `RANK` TEXT, `HIERARCHY` TEXT, `CLAN` TEXT,`MONEY` LONG, `YEN` LONG) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;");
+            statement.execute("CREATE TABLE IF NOT EXISTS SunRank(`NAME` TEXT NOT NULL, `CLAN` TEXT, `MONEY` LONG, `INFORMATIONS` TEXT) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;");
         } catch (SQLException e) {
             e.printStackTrace();
         }

@@ -4,7 +4,7 @@ import com.summer.commons.storage.Database;
 
 import java.sql.Connection;
 
-public abstract class TableAbstract {
+public abstract class  TableAbstract {
 
     public TableAbstract() {
         setupTable();

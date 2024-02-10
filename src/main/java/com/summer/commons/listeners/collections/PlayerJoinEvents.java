@@ -3,10 +3,7 @@ package com.summer.commons.listeners.collections;
 import com.summer.commons.listeners.ListenersAbstract;
 import com.summer.commons.model.Skin;
 import com.summer.commons.player.Profile;
-import com.summer.commons.player.cache.collections.PlayerDeliveryCache;
-import com.summer.commons.player.cache.collections.PlayerInformationsCache;
-import com.summer.commons.player.cache.collections.PlayerPreferencesCache;
-import com.summer.commons.player.cache.collections.PlayerSkinCache;
+import com.summer.commons.player.cache.collections.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -37,7 +34,7 @@ public class PlayerJoinEvents extends ListenersAbstract {
     public void onPlayerPreLogin(AsyncPlayerPreLoginEvent event) {
         String name = event.getName();
         try {
-            Profile.createProfile(name).loadCaches(false, PlayerInformationsCache.class, PlayerPreferencesCache.class, PlayerDeliveryCache.class, PlayerSkinCache.class);
+            Profile.createProfile(name).loadCaches(false, PlayerInformationsCache.class, PlayerPreferencesCache.class, PlayerDeliveryCache.class, PlayerSkinCache.class, RankUPInformationCache.class);
         } catch (Exception e) {
             event.setKickMessage("§cOcorreu enquanto carregavamos o seu perfil!");
             event.setLoginResult(AsyncPlayerPreLoginEvent.Result.KICK_OTHER);
