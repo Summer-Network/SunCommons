@@ -4,6 +4,7 @@ import com.summer.commons.Main;
 import com.summer.commons.storage.Database;
 import com.summer.commons.storage.redisupdater.RedisUpdaterAbstract;
 import com.summer.commons.storage.tables.collections.ProfileTable;
+import com.summer.commons.storage.tables.collections.RankUPTable;
 import com.summer.commons.storage.tables.collections.SkinTable;
 import com.summer.commons.player.Profile;
 import org.bukkit.Bukkit;
@@ -45,6 +46,10 @@ public abstract class CacheAbstract {
                     SkinTable.update(profile.getName(), this.column, this.valueCache);
                     break;
                 }
+                case "SunRank": {
+                    RankUPTable.update(profile.getName(), this.column, this.valueCache);
+                    break;
+                }
             }
         };
 
@@ -70,6 +75,10 @@ public abstract class CacheAbstract {
                     SkinTable.setDefault(profile.getName());
                     break;
                 }
+                case "SunRank": {
+                    RankUPTable.setDefault(profile.getName());
+                    break;
+                }
             }
         } else {
             switch (this.table) {
@@ -80,6 +89,10 @@ public abstract class CacheAbstract {
 
                 case "VulcanthSkins": {
                     this.valueCache = SkinTable.getInformation(profile.getName(), this.column);
+                    break;
+                }
+                case "SunRank": {
+                    this.valueCache = RankUPTable.getInformation(profile.getName(), this.column);
                     break;
                 }
             }

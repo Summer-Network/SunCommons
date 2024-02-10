@@ -1,6 +1,7 @@
 package com.summer.commons.bungee;
 
 import com.summer.commons.bungee.commands.CommandsAbstract;
+import com.summer.commons.bungee.commands.collections.FindCommand;
 import com.summer.commons.bungee.commands.collections.ManutencaoCommand;
 import com.summer.commons.bungee.commands.collections.TestandoCommand;
 import com.summer.commons.bungee.listeners.ListenersAbstract;
@@ -45,7 +46,7 @@ public class BungeeMain extends VulcanthBungee {
     public void enablePlugin() {
         Database.setupDatabase(true);
 
-        CommandsAbstract.setupComands(ManutencaoCommand.class);
+        CommandsAbstract.setupComands(ManutencaoCommand.class, FindCommand.class);
         ListenersAbstract.setupListeners(ProxiedJoinEvents.class, ServerEvents.class, ProxiedQuitEvents.class);
         Manager.isBungeePlugin = true;
 

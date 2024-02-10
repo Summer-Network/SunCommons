@@ -3,6 +3,7 @@ package com.summer.commons.storage.types;
 import com.summer.commons.Main;
 import com.summer.commons.storage.tables.collections.ProfileTable;
 import com.summer.commons.storage.tables.collections.PunishTable;
+import com.summer.commons.storage.tables.collections.RankUPTable;
 import com.summer.commons.storage.tables.collections.SkinTable;
 import com.summer.commons.bungee.BungeeMain;
 import com.zaxxer.hikari.HikariConfig;
@@ -47,6 +48,7 @@ public class MySQL {
         new ProfileTable();
         new SkinTable();
         new PunishTable();
+        new RankUPTable();
     }
 
     public void insert(PreparedStatement preparedStatement) {
